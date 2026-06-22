@@ -7,68 +7,95 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
+    <ImageButton
+        android:id="@+id/imageButton10"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:onClick="tornaIndietro"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_revert" />
+
     <TextView
         android:id="@+id/textTitoloLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         android:text="Accedi"
         android:textSize="34sp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="154dp"
-        tools:layout_editor_absoluteY="60dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textErroreLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="I dati non sono corretti"
         android:textColor="#FF2C2C"
         android:textSize="16sp"
         android:textStyle="bold"
         android:visibility="gone"
-        tools:layout_editor_absoluteX="125dp"
-        tools:layout_editor_absoluteY="138dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTitoloLogin"
         tools:visibility="visible" />
 
     <EditText
         android:id="@+id/editUsername"
         android:layout_width="280dp"
         android:layout_height="55dp"
+        android:layout_marginTop="16dp"
         android:background="#EFEFEF"
         android:hint="Email, Telefono o Username"
         android:inputType="text"
         android:padding="12dp"
-        tools:layout_editor_absoluteX="66dp"
-        tools:layout_editor_absoluteY="167dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textErroreLogin" />
 
     <EditText
         android:id="@+id/editPassword"
         android:layout_width="280dp"
         android:layout_height="55dp"
+        android:layout_marginTop="16dp"
         android:background="#EFEFEF"
         android:hint="Password"
         android:inputType="textPassword"
         android:padding="12dp"
-        tools:layout_editor_absoluteX="66dp"
-        tools:layout_editor_absoluteY="238dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editUsername" />
 
     <Button
         android:id="@+id/btnAccedi"
         android:layout_width="280dp"
         android:layout_height="55dp"
+        android:layout_marginTop="32dp"
         android:backgroundTint="#FF2C2C"
+        android:onClick="eseguiLogin"
         android:text="Accedi"
-        tools:layout_editor_absoluteX="66dp"
-        tools:layout_editor_absoluteY="325dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editPassword" />
 
     <Button
         android:id="@+id/btnGoogle"
         android:layout_width="280dp"
         android:layout_height="55dp"
+        android:layout_marginTop="16dp"
         android:background="@android:color/transparent"
+        android:onClick="loginGoogle"
         android:text="Entra con Google"
         android:textColor="#FF2C2C"
-        tools:layout_editor_absoluteX="66dp"
-        tools:layout_editor_absoluteY="396dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAccedi" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

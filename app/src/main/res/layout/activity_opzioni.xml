@@ -12,35 +12,54 @@
         android:layout_height="wrap_content"
         android:paddingBottom="40dp">
 
+        <ImageButton
+            android:id="@+id/imageButton8"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/transparent"
+            android:onClick="tornaIndietro"
+            android:scaleType="fitCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_revert" />
+
         <TextView
             android:id="@+id/textTitoloOpzioni"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:text="Opzioni"
             android:textSize="34sp"
             android:textStyle="bold"
-            tools:layout_editor_absoluteX="148dp"
-            tools:layout_editor_absoluteY="40dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textTitoloAspetto"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:text="Aspetto"
             android:textColor="#333333"
             android:textSize="18sp"
             android:textStyle="bold"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="117dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textTitoloOpzioni" />
 
         <RadioGroup
             android:id="@+id/radioGroupAspetto"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:background="#EFEFEF"
             android:padding="8dp"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="149dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textTitoloAspetto">
 
             <RadioButton
                 android:id="@+id/radioTemaSistema"
@@ -66,21 +85,25 @@
             android:id="@+id/textTitoloLingua"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:text="Lingua"
             android:textColor="#333333"
             android:textSize="18sp"
             android:textStyle="bold"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="333dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroupAspetto" />
 
         <RadioGroup
             android:id="@+id/radioGroupLingua"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:background="#EFEFEF"
             android:padding="8dp"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="365dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textTitoloLingua">
 
             <RadioButton
                 android:id="@+id/radioLangItaliano"
@@ -100,24 +123,29 @@
             android:id="@+id/textTitoloSupporto"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:text="Supporto e Info"
             android:textColor="#333333"
             android:textSize="18sp"
             android:textStyle="bold"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="509dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroupLingua" />
 
         <Button
             android:id="@+id/btnInfo"
             android:layout_width="280dp"
             android:layout_height="50dp"
+            android:layout_marginTop="8dp"
             android:background="@android:color/transparent"
             android:gravity="center_vertical|start"
+            android:onClick="apriInfo"
             android:paddingStart="16dp"
             android:text="Info sull'App"
             android:textColor="#FF2C2C"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="541dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textTitoloSupporto" />
 
         <Button
             android:id="@+id/btnAiuto"
@@ -125,11 +153,13 @@
             android:layout_height="50dp"
             android:background="@android:color/transparent"
             android:gravity="center_vertical|start"
+            android:onClick="apriAiuto"
             android:paddingStart="16dp"
             android:text="Aiuto"
             android:textColor="#FF2C2C"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="591dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnInfo" />
 
         <Button
             android:id="@+id/btnSegnalaBug"
@@ -137,11 +167,13 @@
             android:layout_height="50dp"
             android:background="@android:color/transparent"
             android:gravity="center_vertical|start"
+            android:onClick="segnalaBug"
             android:paddingStart="16dp"
             android:text="Segnala un Bug"
             android:textColor="#FF2C2C"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="641dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnAiuto" />
 
         <Button
             android:id="@+id/btnRecensione"
@@ -149,11 +181,13 @@
             android:layout_height="50dp"
             android:background="@android:color/transparent"
             android:gravity="center_vertical|start"
+            android:onClick="lasciaRecensione"
             android:paddingStart="16dp"
             android:text="Lascia una Recensione"
             android:textColor="#FF2C2C"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="691dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnSegnalaBug" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

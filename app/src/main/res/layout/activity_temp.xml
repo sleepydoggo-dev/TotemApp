@@ -1,10 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:fillViewport="true"
     tools:context=".TempActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="32dp">
+
+        <TextView
+            android:id="@+id/textTitoloTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="Dati di Contatto"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textSottotitoloTemp"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Inserisci i tuoi dati per ricevere la ricevuta dell'ordine."
+            android:textAlignment="center"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textTitoloTemp" />
+
+        <EditText
+            android:id="@+id/editTempNome"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="32dp"
+            android:background="#EFEFEF"
+            android:hint="Nome"
+            android:inputType="textPersonName"
+            android:padding="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textSottotitoloTemp" />
+
+        <EditText
+            android:id="@+id/editTempCognome"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="#EFEFEF"
+            android:hint="Cognome"
+            android:inputType="textPersonName"
+            android:padding="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTempNome" />
+
+        <EditText
+            android:id="@+id/editTempEmail"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="#EFEFEF"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTempCognome" />
+
+        <EditText
+            android:id="@+id/editTempCell"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="#EFEFEF"
+            android:hint="Cellulare (Opzionale)"
+            android:inputType="phone"
+            android:padding="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTempEmail" />
+
+        <Button
+            android:id="@+id/btnTempProcedi"
+            android:layout_width="280dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="#FF2C2C"
+            android:onClick="procediPagamento"
+            android:text="Procedi"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTempCell" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

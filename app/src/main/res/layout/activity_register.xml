@@ -12,109 +12,142 @@
         android:layout_height="wrap_content"
         android:paddingBottom="40dp">
 
+        <ImageButton
+            android:id="@+id/imageButton9"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/transparent"
+            android:onClick="tornaIndietro"
+            android:scaleType="fitCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_revert" />
+
         <TextView
             android:id="@+id/textTitoloRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:text="Crea un Account"
             android:textSize="30sp"
             android:textStyle="bold"
-            tools:layout_editor_absoluteX="94dp"
-            tools:layout_editor_absoluteY="40dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/editUsernameReg"
             android:layout_width="280dp"
             android:layout_height="50dp"
+            android:layout_marginTop="32dp"
             android:background="#EFEFEF"
             android:hint="Nome Utente"
             android:inputType="text"
             android:padding="12dp"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="112dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textTitoloRegister" />
 
         <EditText
             android:id="@+id/editEmailReg"
             android:layout_width="280dp"
             android:layout_height="50dp"
+            android:layout_marginTop="12dp"
             android:background="#EFEFEF"
             android:hint="Indirizzo Email"
             android:inputType="textEmailAddress"
             android:padding="12dp"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="174dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editUsernameReg" />
 
         <EditText
             android:id="@+id/editNome"
             android:layout_width="280dp"
             android:layout_height="50dp"
+            android:layout_marginTop="12dp"
             android:background="#EFEFEF"
             android:hint="Nome (Opzionale)"
             android:inputType="textPersonName"
             android:padding="12dp"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="236dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editEmailReg" />
 
         <EditText
             android:id="@+id/editCognome"
             android:layout_width="280dp"
             android:layout_height="50dp"
+            android:layout_marginTop="12dp"
             android:background="#EFEFEF"
             android:hint="Cognome (Opzionale)"
             android:inputType="textPersonName"
             android:padding="12dp"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="298dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editNome" />
 
         <EditText
             android:id="@+id/editPasswordReg"
             android:layout_width="280dp"
             android:layout_height="50dp"
+            android:layout_marginTop="12dp"
             android:background="#EFEFEF"
             android:hint="Password"
             android:inputType="textPassword"
             android:padding="12dp"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="360dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editCognome" />
 
         <TextView
             android:id="@+id/textRegolePassword"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="Richiesti: 1 maiuscolo, 1 minuscolo, 1 numero, 1 simbolo"
             android:textColor="#757575"
             android:textSize="12sp"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="415dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editPasswordReg" />
 
         <EditText
             android:id="@+id/editConfermaPassword"
             android:layout_width="280dp"
             android:layout_height="50dp"
+            android:layout_marginTop="12dp"
             android:background="#EFEFEF"
             android:hint="Conferma Password"
             android:inputType="textPassword"
             android:padding="12dp"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="458dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textRegolePassword" />
 
         <TextView
             android:id="@+id/textTitoloGenere"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Genere:"
             android:textColor="#333333"
             android:textStyle="bold"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="524dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editConfermaPassword" />
 
         <RadioGroup
             android:id="@+id/radioGroupGenere"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:orientation="vertical"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="551dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textTitoloGenere">
 
             <RadioButton
                 android:id="@+id/radioUomo"
@@ -145,31 +178,39 @@
             android:id="@+id/editTelefono"
             android:layout_width="280dp"
             android:layout_height="50dp"
+            android:layout_marginTop="16dp"
             android:background="#EFEFEF"
             android:hint="Numero di Telefono (Opzionale)"
             android:inputType="phone"
             android:padding="12dp"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="759dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroupGenere" />
 
         <Button
             android:id="@+id/btnRegistratiFinale"
             android:layout_width="280dp"
             android:layout_height="55dp"
+            android:layout_marginTop="32dp"
             android:backgroundTint="#FF2C2C"
+            android:onClick="eseguiRegistrazione"
             android:text="Registrati"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="841dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTelefono" />
 
         <Button
             android:id="@+id/btnGoogleReg"
             android:layout_width="280dp"
             android:layout_height="55dp"
+            android:layout_marginTop="12dp"
             android:background="@android:color/transparent"
+            android:onClick="loginGoogle"
             android:text="Entra con Google"
             android:textColor="#FF2C2C"
-            tools:layout_editor_absoluteX="66dp"
-            tools:layout_editor_absoluteY="908dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnRegistratiFinale" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

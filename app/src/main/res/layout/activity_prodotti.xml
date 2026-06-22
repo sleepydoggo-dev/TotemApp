@@ -8,51 +8,67 @@
     tools:context=".ProdottiActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topBar"
-        android:layout_width="411dp"
-        android:layout_height="80dp"
+        android:id="@+id/topBarProdotti"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
         android:background="#FFFFFF"
-        android:elevation="4dp">
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnIndietro"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:onClick="tornaIndietro"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_revert" />
 
         <TextView
-            android:id="@+id/textLogo"
-            android:layout_width="wrap_content"
+            android:id="@+id/textNomeCategoria"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="MENU PRODOTTI"
-            android:textSize="24sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Categoria"
+            android:textAlignment="center"
+            android:textSize="20sp"
             android:textStyle="bold"
-            tools:layout_editor_absoluteX="24dp"
-            tools:layout_editor_absoluteY="24dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnCambiaVista"
+            app:layout_constraintStart_toEndOf="@+id/btnIndietro"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/btnVistaLista"
+            android:id="@+id/btnCambiaVista"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
+            android:onClick="cambiaVista"
+            android:padding="12dp"
             android:scaleType="fitCenter"
-            android:src="@android:drawable/ic_menu_sort_by_size"
-            tools:layout_editor_absoluteX="291dp"
-            tools:layout_editor_absoluteY="16dp" />
-
-        <ImageButton
-            android:id="@+id/btnVistaGriglia"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
-            android:scaleType="fitCenter"
-            android:src="@android:drawable/ic_dialog_dialer"
-            tools:layout_editor_absoluteX="347dp"
-            tools:layout_editor_absoluteY="16dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_dialog_dialer" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerProdotti"
-        android:layout_width="376dp"
-        android:layout_height="611dp"
-        tools:layout_editor_absoluteX="19dp"
-        tools:layout_editor_absoluteY="96dp" />
+        android:id="@+id/recyclerSingolaCategoria"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topBarProdotti" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
