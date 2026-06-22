@@ -1,24 +1,48 @@
 package com.example.progettototem;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
+import android.view.View;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class CarrelloActivity extends AppCompatActivity {
+    private TextView tTotale;
+    private Carrello carrello;
+    private CarrelloAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_carrello);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        carrello = Carrello.getInstance();
+        tTotale = findViewById(R.id.textTotalePrezzo);
+        RecyclerView rv = findViewById(R.id.recyclerCarrello);
+
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new CarrelloAdapter(this, carrello.getProdotti(), this::aggiornaTotale);
+        rv.setAdapter(adapter);
+
+        aggiornaTotale();
     }
+
+    private void aggiornaTotale() {
+        tTotale.setText("€ " + String.format("%.2f", carrello.getTotale()));
+    }
+
+    public void procediAlCheckout(View view) {
+        if (carrello.getProdotti().isEmpty()) return;
+        
+        boolean isGuest = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getBoolean("IS_GUEST", false);
+        if (isGuest) {
+            startActivity(new Intent(this, TempActivity.class));
+        } else {
+            startActivity(new Intent(this, PagamentoActivity.class));
+        }
+    }
+    
+    public void tornaIndietro(View view) { finish(); }
 }

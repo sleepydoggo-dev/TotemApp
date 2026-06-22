@@ -11,64 +11,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PROGETTOTOTEM">
+
         <activity
             android:name=".HomeActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".OTPActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".OpzioniActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".ProdottiActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".DettagliActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".CarrelloActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".PagamentoActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".GrazieActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".TempActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".CategorieActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".MainActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".LoginActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".RegisterActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".OTPActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".OpzioniActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ProdottiActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".DettagliActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".CarrelloActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".PagamentoActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".GrazieActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".TempActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".CategorieActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
     </application>
-
 </manifest>

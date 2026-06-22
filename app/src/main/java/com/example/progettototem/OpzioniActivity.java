@@ -1,24 +1,19 @@
 package com.example.progettototem;
 
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
+import android.view.View;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class OpzioniActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_opzioni);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
     }
+    public void tornaIndietro(View view) { finish(); }
+    public void apriInfo(View view) { Toast.makeText(this, "Info App", Toast.LENGTH_SHORT).show(); }
+    public void apriAiuto(View view) { Toast.makeText(this, "Aiuto", Toast.LENGTH_SHORT).show(); }
+    public void segnalaBug(View view) { Toast.makeText(this, "Segnalazione", Toast.LENGTH_SHORT).show(); }
+    public void lasciaRecensione(View view) { Toast.makeText(this, "Grazie!", Toast.LENGTH_SHORT).show(); }
 }
