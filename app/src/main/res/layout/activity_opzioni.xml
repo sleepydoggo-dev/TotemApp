@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".OpzioniActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="40dp">
+
+        <TextView
+            android:id="@+id/textTitoloOpzioni"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Opzioni"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="148dp"
+            tools:layout_editor_absoluteY="40dp" />
+
+        <TextView
+            android:id="@+id/textTitoloAspetto"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:text="Aspetto"
+            android:textColor="#333333"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="117dp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupAspetto"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:background="#EFEFEF"
+            android:padding="8dp"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="149dp">
+
+            <RadioButton
+                android:id="@+id/radioTemaSistema"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Predefinito di Sistema" />
+
+            <RadioButton
+                android:id="@+id/radioTemaChiaro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chiaro" />
+
+            <RadioButton
+                android:id="@+id/radioTemaScuro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Scuro" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textTitoloLingua"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:text="Lingua"
+            android:textColor="#333333"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="333dp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupLingua"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:background="#EFEFEF"
+            android:padding="8dp"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="365dp">
+
+            <RadioButton
+                android:id="@+id/radioLangItaliano"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Italiano" />
+
+            <RadioButton
+                android:id="@+id/radioLangEnglish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="English" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textTitoloSupporto"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:text="Supporto e Info"
+            android:textColor="#333333"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="509dp" />
+
+        <Button
+            android:id="@+id/btnInfo"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical|start"
+            android:paddingStart="16dp"
+            android:text="Info sull'App"
+            android:textColor="#FF2C2C"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="541dp" />
+
+        <Button
+            android:id="@+id/btnAiuto"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical|start"
+            android:paddingStart="16dp"
+            android:text="Aiuto"
+            android:textColor="#FF2C2C"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="591dp" />
+
+        <Button
+            android:id="@+id/btnSegnalaBug"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical|start"
+            android:paddingStart="16dp"
+            android:text="Segnala un Bug"
+            android:textColor="#FF2C2C"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="641dp" />
+
+        <Button
+            android:id="@+id/btnRecensione"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical|start"
+            android:paddingStart="16dp"
+            android:text="Lascia una Recensione"
+            android:textColor="#FF2C2C"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="691dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

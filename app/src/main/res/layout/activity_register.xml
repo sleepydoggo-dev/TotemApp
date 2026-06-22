@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".RegisterActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="40dp">
+
+        <TextView
+            android:id="@+id/textTitoloRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crea un Account"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="94dp"
+            tools:layout_editor_absoluteY="40dp" />
+
+        <EditText
+            android:id="@+id/editUsernameReg"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:background="#EFEFEF"
+            android:hint="Nome Utente"
+            android:inputType="text"
+            android:padding="12dp"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="112dp" />
+
+        <EditText
+            android:id="@+id/editEmailReg"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:background="#EFEFEF"
+            android:hint="Indirizzo Email"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="174dp" />
+
+        <EditText
+            android:id="@+id/editNome"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:background="#EFEFEF"
+            android:hint="Nome (Opzionale)"
+            android:inputType="textPersonName"
+            android:padding="12dp"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="236dp" />
+
+        <EditText
+            android:id="@+id/editCognome"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:background="#EFEFEF"
+            android:hint="Cognome (Opzionale)"
+            android:inputType="textPersonName"
+            android:padding="12dp"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="298dp" />
+
+        <EditText
+            android:id="@+id/editPasswordReg"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:background="#EFEFEF"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="12dp"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="360dp" />
+
+        <TextView
+            android:id="@+id/textRegolePassword"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:text="Richiesti: 1 maiuscolo, 1 minuscolo, 1 numero, 1 simbolo"
+            android:textColor="#757575"
+            android:textSize="12sp"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="415dp" />
+
+        <EditText
+            android:id="@+id/editConfermaPassword"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:background="#EFEFEF"
+            android:hint="Conferma Password"
+            android:inputType="textPassword"
+            android:padding="12dp"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="458dp" />
+
+        <TextView
+            android:id="@+id/textTitoloGenere"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:text="Genere:"
+            android:textColor="#333333"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="524dp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupGenere"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="551dp">
+
+            <RadioButton
+                android:id="@+id/radioUomo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Uomo" />
+
+            <RadioButton
+                android:id="@+id/radioDonna"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Donna" />
+
+            <RadioButton
+                android:id="@+id/radioAltro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Altro" />
+
+            <RadioButton
+                android:id="@+id/radioPreferiscoNonDirlo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Preferisco non dirlo" />
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/editTelefono"
+            android:layout_width="280dp"
+            android:layout_height="50dp"
+            android:background="#EFEFEF"
+            android:hint="Numero di Telefono (Opzionale)"
+            android:inputType="phone"
+            android:padding="12dp"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="759dp" />
+
+        <Button
+            android:id="@+id/btnRegistratiFinale"
+            android:layout_width="280dp"
+            android:layout_height="55dp"
+            android:backgroundTint="#FF2C2C"
+            android:text="Registrati"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="841dp" />
+
+        <Button
+            android:id="@+id/btnGoogleReg"
+            android:layout_width="280dp"
+            android:layout_height="55dp"
+            android:background="@android:color/transparent"
+            android:text="Entra con Google"
+            android:textColor="#FF2C2C"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="908dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
