@@ -8,13 +8,14 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="Benvenuto/a!"
         android:textSize="34sp"
-        tools:layout_editor_absoluteX="136dp"
-        tools:layout_editor_absoluteY="135dp" />
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="104dp"
+        tools:layout_editor_absoluteY="142dp" />
 
     <Button
         android:id="@+id/button"
