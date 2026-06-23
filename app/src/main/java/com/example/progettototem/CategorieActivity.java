@@ -14,16 +14,17 @@ public class CategorieActivity extends BaseActivity {
 
     public void scegliCategoria(View view) {
         Button b = (Button) view;
-        String categoria = b.getText().toString();
+        String categoriaVisualizzata = b.getText().toString();
         
+        // Passiamo il testo del bottone (che è tradotto) alla ProdottiActivity
         Intent intent = new Intent(this, ProdottiActivity.class);
-        intent.putExtra("CATEGORIA", categoria);
+        intent.putExtra("CATEGORIA", categoriaVisualizzata);
         startActivity(intent);
     }
-    
-    public void tornaIndietro(View view) { finish(); }
 
     public void apriCarrello(View view) {
         startActivity(new Intent(this, CarrelloActivity.class));
     }
+    
+    public void tornaIndietro(View view) { finish(); }
 }

@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Pagamento effettuato!"
+            android:text="@string/payment_done"
             android:textColor="@color/text_color_primary"
             android:textSize="26sp"
             android:textStyle="bold" />
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Ricevuta inviata all'indirizzo di posta elettronica"
+            android:text="@string/receipt_sent"
             android:textAlignment="center"
             android:textColor="#757575"
             android:textSize="14sp" />
@@ -62,7 +62,7 @@
         android:layout_marginBottom="32dp"
         android:backgroundTint="#FF2C2C"
         android:onClick="tornaAllaHome"
-        android:text="Finisci"
+        android:text="@string/finish"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

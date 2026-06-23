@@ -2,16 +2,22 @@ package com.example.progettototem;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ProdottiActivity extends BaseActivity {
     private RecyclerView rv;
+    private ProgressBar progressBar;
     private boolean isGridView = false;
     private List<Prodotto> lista;
     private String categoria;
@@ -28,11 +34,30 @@ public class ProdottiActivity extends BaseActivity {
         if(categoria != null) t.setText(categoria);
 
         rv = findViewById(R.id.recyclerSingolaCategoria);
-        
-        // Recupero prodotti dal database in base alla categoria
-        lista = dbHelper.getProdottiPerCategoria(categoria);
+        progressBar = findViewById(R.id.loadingProdotti);
 
-        aggiornaLayout();
+        caricaProdotti();
+    }
+
+    private void caricaProdotti() {
+        progressBar.setVisibility(View.VISIBLE);
+        rv.setVisibility(View.GONE);
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        executor.execute(() -> {
+            // Simuliamo un ritardo per far vedere la barra di caricamento (facoltativo)
+            try { Thread.sleep(800); } catch (InterruptedException e) { e.printStackTrace(); }
+            
+            lista = dbHelper.getProdottiPerCategoria(categoria);
+
+            handler.post(() -> {
+                progressBar.setVisibility(View.GONE);
+                rv.setVisibility(View.VISIBLE);
+                aggiornaLayout();
+            });
+        });
     }
 
     private void aggiornaLayout() {

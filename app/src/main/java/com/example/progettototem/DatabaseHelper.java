@@ -10,9 +10,8 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "RistoranteTotem.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3; // Aggiornato per riflettere le chiavi di traduzione
 
-    // Tabella Utenti
     public static final String TABLE_USERS = "utenti";
     public static final String COLUMN_USER_ID = "id";
     public static final String COLUMN_USERNAME = "username";
@@ -23,16 +22,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_CARD_EXPIRY = "card_expiry";
     public static final String COLUMN_CARD_CVV = "card_cvv";
 
-    // Tabella Prodotti
     public static final String TABLE_PRODUCTS = "prodotti";
     public static final String COLUMN_PROD_ID = "id";
-    public static final String COLUMN_PROD_NAME = "nome";
+    public static final String COLUMN_PROD_NAME = "nome_key"; // Usiamo chiavi di traduzione
     public static final String COLUMN_PROD_PRICE = "prezzo";
-    public static final String COLUMN_PROD_DESC = "descrizione";
+    public static final String COLUMN_PROD_DESC = "desc_key"; // Usiamo chiavi di traduzione
     public static final String COLUMN_PROD_CAT = "categoria";
+
+    private Context context;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -56,23 +57,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_PROD_CAT + " TEXT" + ")";
         db.execSQL(CREATE_PRODUCTS_TABLE);
 
-        // Inserimento prodotti iniziali
         inserisciProdottiIniziali(db);
     }
 
     private void inserisciProdottiIniziali(SQLiteDatabase db) {
         // Panini
-        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome, prezzo, descrizione, categoria) VALUES ('Hamburger Classico', 7.50, 'Manzo, insalata, pomodoro', 'Panini')");
-        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome, prezzo, descrizione, categoria) VALUES ('Cheeseburger', 8.00, 'Manzo, cheddar, cetriolini', 'Panini')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_hamburger', 7.50, 'desc_hamburger', 'Panini')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_cheeseburger', 8.00, 'desc_cheeseburger', 'Panini')");
         // Primi
-        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome, prezzo, descrizione, categoria) VALUES ('Pasta al Pomodoro', 6.00, 'Penne con sugo fresco e basilico', 'Primi')");
-        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome, prezzo, descrizione, categoria) VALUES ('Lasagna', 9.00, 'Lasagna alla bolognese fatta in casa', 'Primi')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_pasta', 6.00, 'desc_pasta', 'Primi')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_lasagna', 9.00, 'desc_lasagna', 'Primi')");
         // Secondi
-        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome, prezzo, descrizione, categoria) VALUES ('Cotoletta', 10.00, 'Cotoletta di pollo con patatine', 'Secondi')");
-        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome, prezzo, descrizione, categoria) VALUES ('Grigliata Mista', 15.00, 'Maiale, pollo e manzo alla brace', 'Secondi')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_cotoletta', 10.00, 'desc_cotoletta', 'Secondi')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_grigliata', 15.00, 'desc_grigliata', 'Secondi')");
         // Bevande
-        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome, prezzo, descrizione, categoria) VALUES ('Acqua', 1.50, 'Naturale o frizzante 50cl', 'Bevande')");
-        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome, prezzo, descrizione, categoria) VALUES ('Coca Cola', 2.50, 'Lattina 33cl', 'Bevande')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_acqua', 1.50, 'desc_acqua', 'Bevande')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_coca', 2.50, 'desc_coca', 'Bevande')");
     }
 
     @Override
@@ -82,7 +82,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // CRUD Utenti
     public long registraUtente(String user, String email, String pass, String nome) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -97,6 +96,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE (" + COLUMN_USERNAME + "=? OR " + COLUMN_EMAIL + "=?) AND " + COLUMN_PASSWORD + "=?", new String[]{identifier, identifier, password});
         boolean exists = cursor.getCount() > 0;
+        if (exists && cursor.moveToFirst()) {
+            String nome = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NOME));
+            String user = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USERNAME));
+            Carrello.getInstance().setNomeUtente((nome != null && !nome.isEmpty()) ? nome : user);
+        }
         cursor.close();
         return exists;
     }
@@ -115,18 +119,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT " + COLUMN_CARD_NUMBER + ", " + COLUMN_CARD_EXPIRY + ", " + COLUMN_CARD_CVV + " FROM " + TABLE_USERS + " WHERE " + COLUMN_USERNAME + "=? OR " + COLUMN_EMAIL + "=?", new String[]{identifier, identifier});
     }
 
-    // Recupero Prodotti
     public List<Prodotto> getProdottiPerCategoria(String categoria) {
+        String dbKey = categoria;
+        if (categoria.equals(context.getString(R.string.panini))) dbKey = "Panini";
+        else if (categoria.equals(context.getString(R.string.primi))) dbKey = "Primi";
+        else if (categoria.equals(context.getString(R.string.secondi))) dbKey = "Secondi";
+        else if (categoria.equals(context.getString(R.string.bevande))) dbKey = "Bevande";
+
         List<Prodotto> lista = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_PRODUCTS, null, COLUMN_PROD_CAT + "=?", new String[]{categoria}, null, null, null);
+        Cursor cursor = db.query(TABLE_PRODUCTS, null, COLUMN_PROD_CAT + "=?", new String[]{dbKey}, null, null, null);
         if (cursor.moveToFirst()) {
             do {
-                lista.add(new Prodotto(
-                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PROD_NAME)),
-                    cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_PROD_PRICE)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PROD_DESC))
-                ));
+                String nomeKey = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PROD_NAME));
+                String descKey = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PROD_DESC));
+                double prezzo = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_PROD_PRICE));
+                
+                // Traduzione dinamica basata sulla chiave salvata nel DB
+                int resNomeId = context.getResources().getIdentifier(nomeKey, "string", context.getPackageName());
+                int resDescId = context.getResources().getIdentifier(descKey, "string", context.getPackageName());
+                
+                String nomeTradotto = (resNomeId != 0) ? context.getString(resNomeId) : nomeKey;
+                String descTradotta = (resDescId != 0) ? context.getString(resDescId) : descKey;
+
+                lista.add(new Prodotto(nomeTradotto, prezzo, descTradotta));
             } while (cursor.moveToNext());
         }
         cursor.close();

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class GrazieActivity extends BaseActivity {
     @Override
@@ -17,13 +16,12 @@ public class GrazieActivity extends BaseActivity {
         
         if (nome == null || nome.isEmpty()) {
             boolean isGuest = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getBoolean("IS_GUEST", false);
-            if (isGuest) nome = "Ospite";
-            else nome = "Utente"; // Fallback se non salvato
+            if (isGuest) nome = getString(R.string.guest_name);
+            else nome = getString(R.string.user_name);
         }
 
-        tNome.setText("Grazie per l'acquisto, " + nome);
+        tNome.setText(getString(R.string.thanks, nome));
         
-        // Svuota carrello dopo il pagamento
         Carrello.getInstance().svuota();
     }
 

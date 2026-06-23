@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="Opzioni"
+            android:text="@string/options"
             android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Aspetto"
+            android:text="@string/appearance"
             android:textColor="@color/text_color_primary"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -66,19 +66,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Predefinito di Sistema" />
+                android:text="@string/system_default" />
 
             <RadioButton
                 android:id="@+id/radioTemaChiaro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chiaro" />
+                android:text="@string/light" />
 
             <RadioButton
                 android:id="@+id/radioTemaScuro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Scuro" />
+                android:text="@string/dark" />
         </RadioGroup>
 
         <TextView
@@ -86,7 +86,7 @@
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Lingua"
+            android:text="@string/language"
             android:textColor="@color/text_color_primary"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -110,13 +110,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Italiano" />
+                android:text="@string/italian" />
 
             <RadioButton
                 android:id="@+id/radioLangEnglish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="English" />
+                android:text="@string/english" />
         </RadioGroup>
 
         <TextView
@@ -124,7 +124,7 @@
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Supporto e Info"
+            android:text="@string/support_info"
             android:textColor="@color/text_color_primary"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -141,7 +141,7 @@
             android:gravity="center_vertical|start"
             android:onClick="apriInfo"
             android:paddingStart="16dp"
-            android:text="Info sull'App"
+            android:text="@string/app_info"
             android:textColor="#FF2C2C"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -155,7 +155,7 @@
             android:gravity="center_vertical|start"
             android:onClick="apriAiuto"
             android:paddingStart="16dp"
-            android:text="Aiuto"
+            android:text="@string/help"
             android:textColor="#FF2C2C"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -169,7 +169,7 @@
             android:gravity="center_vertical|start"
             android:onClick="segnalaBug"
             android:paddingStart="16dp"
-            android:text="Segnala un Bug"
+            android:text="@string/report_bug"
             android:textColor="#FF2C2C"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -183,7 +183,7 @@
             android:gravity="center_vertical|start"
             android:onClick="lasciaRecensione"
             android:paddingStart="16dp"
-            android:text="Lascia una Recensione"
+            android:text="@string/review"
             android:textColor="#FF2C2C"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

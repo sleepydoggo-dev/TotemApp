@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Pagamento"
+        android:text="@string/payment_title"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +49,7 @@
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Seleziona il metodo:"
+        android:text="@string/select_method"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:checked="true"
             android:paddingBottom="8dp"
-            android:text="Carta di Credito / Debito"
+            android:text="@string/credit_card"
             android:textSize="16sp" />
 
         <LinearLayout
@@ -90,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/edit_text_bg"
-                android:hint="Numero Carta"
+                android:hint="@string/card_number"
                 android:inputType="number"
                 android:padding="8dp"
                 android:textSize="14sp" />
@@ -107,7 +107,7 @@
                     android:layout_height="45dp"
                     android:layout_weight="1"
                     android:background="@color/edit_text_bg"
-                    android:hint="MM/AA"
+                    android:hint="@string/expiry"
                     android:inputType="date"
                     android:padding="8dp"
                     android:textSize="14sp" />
@@ -119,7 +119,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
                     android:background="@color/edit_text_bg"
-                    android:hint="CVV"
+                    android:hint="@string/cvv"
                     android:inputType="numberPassword"
                     android:padding="8dp"
                     android:textSize="14sp" />
@@ -139,7 +139,7 @@
             android:id="@+id/radioContanti"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Contanti alla consegna"
+            android:text="@string/cash"
             android:textSize="16sp" />
     </RadioGroup>
 
@@ -148,7 +148,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Salva carta per acquisti futuri"
+        android:text="@string/save_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroupPagamento" />
@@ -160,7 +160,7 @@
         android:layout_marginBottom="32dp"
         android:backgroundTint="#FF2C2C"
         android:onClick="confermaPagamento"
-        android:text="Conferma Ordine"
+        android:text="@string/confirm_order"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
