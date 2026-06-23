@@ -10,7 +10,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "RistoranteTotem.db";
-    private static final int DATABASE_VERSION = 3; // Aggiornato per riflettere le chiavi di traduzione
+    private static final int DATABASE_VERSION = 3;
 
     public static final String TABLE_USERS = "utenti";
     public static final String COLUMN_USER_ID = "id";
@@ -24,18 +24,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_PRODUCTS = "prodotti";
     public static final String COLUMN_PROD_ID = "id";
-    public static final String COLUMN_PROD_NAME = "nome_key"; // Usiamo chiavi di traduzione
+    public static final String COLUMN_PROD_NAME = "nome_key";
     public static final String COLUMN_PROD_PRICE = "prezzo";
-    public static final String COLUMN_PROD_DESC = "desc_key"; // Usiamo chiavi di traduzione
+    public static final String COLUMN_PROD_DESC = "desc_key";
     public static final String COLUMN_PROD_CAT = "categoria";
 
-    private Context context;
+    private final Context context;
 
+    /** Inizializza l'helper del database */
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
 
+    /** Crea le tabelle del database all'avvio */
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
@@ -60,21 +62,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         inserisciProdottiIniziali(db);
     }
 
+    /** Popola il database con i prodotti di default */
     private void inserisciProdottiIniziali(SQLiteDatabase db) {
-        // Panini
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_hamburger', 7.50, 'desc_hamburger', 'Panini')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_cheeseburger', 8.00, 'desc_cheeseburger', 'Panini')");
-        // Primi
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_pasta', 6.00, 'desc_pasta', 'Primi')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_lasagna', 9.00, 'desc_lasagna', 'Primi')");
-        // Secondi
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_cotoletta', 10.00, 'desc_cotoletta', 'Secondi')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_grigliata', 15.00, 'desc_grigliata', 'Secondi')");
-        // Bevande
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_acqua', 1.50, 'desc_acqua', 'Bevande')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_coca', 2.50, 'desc_coca', 'Bevande')");
     }
 
+    /** Gestisce l'aggiornamento della versione del database */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
@@ -82,6 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /** Registra un nuovo utente nel database */
     public long registraUtente(String user, String email, String pass, String nome) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -92,19 +93,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(TABLE_USERS, null, values);
     }
 
+    /** Verifica le credenziali per l'accesso e imposta il nome utente nella sessione */
     public boolean login(String identifier, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE (" + COLUMN_USERNAME + "=? OR " + COLUMN_EMAIL + "=?) AND " + COLUMN_PASSWORD + "=?", new String[]{identifier, identifier, password});
-        boolean exists = cursor.getCount() > 0;
-        if (exists && cursor.moveToFirst()) {
-            String nome = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NOME));
-            String user = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USERNAME));
-            Carrello.getInstance().setNomeUtente((nome != null && !nome.isEmpty()) ? nome : user);
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE (" + COLUMN_USERNAME + "=? OR " + COLUMN_EMAIL + "=?) AND " + COLUMN_PASSWORD + "=?", new String[]{identifier, identifier, password});
+            boolean exists = cursor.getCount() > 0;
+            if (exists && cursor.moveToFirst()) {
+                String nome = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NOME));
+                String user = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USERNAME));
+                Carrello.getInstance().setNomeUtente((nome != null && !nome.isEmpty()) ? nome : user);
+            }
+            return exists;
+        } finally {
+            if (cursor != null) cursor.close();
         }
-        cursor.close();
-        return exists;
     }
 
+    /** Salva o aggiorna i dati della carta di credito dell'utente */
     public void salvaCarta(String identifier, String number, String expiry, String cvv) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -114,11 +121,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update(TABLE_USERS, values, COLUMN_USERNAME + "=? OR " + COLUMN_EMAIL + "=?", new String[]{identifier, identifier});
     }
 
+    /** Recupera i dati della carta di credito associata all'utente */
     public Cursor getCarta(String identifier) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT " + COLUMN_CARD_NUMBER + ", " + COLUMN_CARD_EXPIRY + ", " + COLUMN_CARD_CVV + " FROM " + TABLE_USERS + " WHERE " + COLUMN_USERNAME + "=? OR " + COLUMN_EMAIL + "=?", new String[]{identifier, identifier});
     }
 
+    /** Restituisce la lista dei prodotti filtrata per categoria con traduzioni applicate */
     public List<Prodotto> getProdottiPerCategoria(String categoria) {
         String dbKey = categoria;
         if (categoria.equals(context.getString(R.string.panini))) dbKey = "Panini";
@@ -128,24 +137,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         List<Prodotto> lista = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_PRODUCTS, null, COLUMN_PROD_CAT + "=?", new String[]{dbKey}, null, null, null);
-        if (cursor.moveToFirst()) {
-            do {
-                String nomeKey = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PROD_NAME));
-                String descKey = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PROD_DESC));
-                double prezzo = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_PROD_PRICE));
-                
-                // Traduzione dinamica basata sulla chiave salvata nel DB
-                int resNomeId = context.getResources().getIdentifier(nomeKey, "string", context.getPackageName());
-                int resDescId = context.getResources().getIdentifier(descKey, "string", context.getPackageName());
-                
-                String nomeTradotto = (resNomeId != 0) ? context.getString(resNomeId) : nomeKey;
-                String descTradotta = (resDescId != 0) ? context.getString(resDescId) : descKey;
+        Cursor cursor = null;
+        try {
+            cursor = db.query(TABLE_PRODUCTS, null, COLUMN_PROD_CAT + "=?", new String[]{dbKey}, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    String nomeKey = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PROD_NAME));
+                    String descKey = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PROD_DESC));
+                    double prezzo = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_PROD_PRICE));
+                    
+                    int resNomeId = context.getResources().getIdentifier(nomeKey, "string", context.getPackageName());
+                    int resDescId = context.getResources().getIdentifier(descKey, "string", context.getPackageName());
+                    
+                    String nomeTradotto = (resNomeId != 0) ? context.getString(resNomeId) : nomeKey;
+                    String descTradotta = (resDescId != 0) ? context.getString(resDescId) : descKey;
 
-                lista.add(new Prodotto(nomeTradotto, prezzo, descTradotta));
-            } while (cursor.moveToNext());
+                    lista.add(new Prodotto(nomeTradotto, prezzo, descTradotta));
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            if (cursor != null) cursor.close();
         }
-        cursor.close();
         return lista;
     }
 }
