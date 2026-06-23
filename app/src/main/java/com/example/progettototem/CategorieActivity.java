@@ -16,7 +16,7 @@ public class CategorieActivity extends BaseActivity {
         Button b = (Button) view;
         String categoriaVisualizzata = b.getText().toString();
         
-        // Passiamo il testo del bottone (che è tradotto) alla ProdottiActivity
+
         Intent intent = new Intent(this, ProdottiActivity.class);
         intent.putExtra("CATEGORIA", categoriaVisualizzata);
         startActivity(intent);

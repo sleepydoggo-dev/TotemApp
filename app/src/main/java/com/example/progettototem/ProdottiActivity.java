@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,13 @@ public class ProdottiActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prodotti);
+
+
+        if (savedInstanceState != null) {
+            isGridView = savedInstanceState.getBoolean("STATO_GRIGLIA", false);
+        }
+
+
         dbHelper = new DatabaseHelper(this);
 
         TextView t = findViewById(R.id.textNomeCategoria);
@@ -47,9 +55,9 @@ public class ProdottiActivity extends BaseActivity {
         Handler handler = new Handler(Looper.getMainLooper());
 
         executor.execute(() -> {
-            // Simuliamo un ritardo per far vedere la barra di caricamento (facoltativo)
+
             try { Thread.sleep(800); } catch (InterruptedException e) { e.printStackTrace(); }
-            
+
             lista = dbHelper.getProdottiPerCategoria(categoria);
 
             handler.post(() -> {
@@ -83,4 +91,12 @@ public class ProdottiActivity extends BaseActivity {
     }
 
     public void tornaIndietro(View view) { finish(); }
+
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("STATO_GRIGLIA", isGridView);
+    }
+
 }

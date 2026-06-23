@@ -38,7 +38,7 @@ public class PagamentoActivity extends BaseActivity {
             else layoutCarta.setVisibility(View.GONE);
         });
 
-        // Caricamento carta salvata se presente
+
         caricaCartaSalvata();
     }
 

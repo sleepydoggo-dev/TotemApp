@@ -78,6 +78,7 @@
     <string name="bevande">Drinks</string>
 
     <!-- Products -->
+    <string name="storico_ordini">Last Orders</string>
     <string name="prod_hamburger">Classic Hamburger</string>
     <string name="desc_hamburger">Beef, salad, tomato</string>
     <string name="prod_cheeseburger">Cheeseburger</string>
@@ -98,4 +99,7 @@
     <string name="plus">+</string>
     <string name="minus">-</string>
     <string name="cad">ea. €</string>
+    <string name="errore_campi_vuoti">Please fill in all required fields!</string>
+    <string name="errore_email_non_valida">Please enter a valid email!</string>
+    <string name="errore_credenziali">Invalid credentials!</string>
 </resources>

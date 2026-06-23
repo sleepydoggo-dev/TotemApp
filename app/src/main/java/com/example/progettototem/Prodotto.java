@@ -10,4 +10,16 @@ public class Prodotto {
         this.prezzo = prezzo;
         this.descrizione = descrizione;
     }
+
+    public String getNome() {
+        return this.nome;
+    }
+
+    public double getPrezzo() {
+        return this.prezzo;
+    }
+
+    public String getDescrizione() {
+        return this.descrizione;
+    }
 }

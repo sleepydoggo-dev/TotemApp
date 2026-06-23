@@ -1,5 +1,6 @@
 package com.example.progettototem;
 
+import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,20 +17,35 @@ public class Carrello {
         return instance;
     }
 
-    public void aggiungiProdotto(Prodotto p, int quantita) {
-        // Verifica se il prodotto è già presente, se sì aumenta la quantità
+
+    public void aggiungiProdotto(Prodotto p, int quantita, Context context) {
+        boolean trovato = false;
         for (ProdottoOrdinato po : prodotti) {
             if (po.getProdotto().nome.equals(p.nome)) {
                 po.setQuantita(po.getQuantita() + quantita);
-                return;
+                trovato = true;
+                break;
             }
         }
-        prodotti.add(new ProdottoOrdinato(p, quantita));
+        if (!trovato) {
+            prodotti.add(new ProdottoOrdinato(p, quantita));
+        }
+
+
+        salva(context);
+        android.util.Log.d("TEST_CARRELLO", "Prodotto aggiunto. Totale elementi: " + prodotti.size());
     }
 
-    public List<ProdottoOrdinato> getProdotti() {
-        return prodotti;
+
+    public void salva(Context context) {
+        String user = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+                .getString("LOGGED_USERNAME", null);
+        if (user != null) {
+            new DatabaseHelper(context).salvaCarrello(user, this.prodotti);
+        }
     }
+
+    public List<ProdottoOrdinato> getProdotti() { return prodotti; }
 
     public double getTotale() {
         double totale = 0;
@@ -38,14 +54,17 @@ public class Carrello {
         }
         return totale;
     }
-    
-    private String nomeUtente;
 
-    public void setNomeUtente(String nome) { this.nomeUtente = nome; }
-    public String getNomeUtente() { return nomeUtente; }
+    private String nomeUtente;
+    public void setNomeUtente(String nome) {
+        this.nomeUtente = nome;
+    }
+
+    public String getNomeUtente() {
+        return nomeUtente;
+    }
 
     public void svuota() {
         prodotti.clear();
-        nomeUtente = null;
     }
 }

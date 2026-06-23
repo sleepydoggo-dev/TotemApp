@@ -7,68 +7,75 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class RegisterActivity extends BaseActivity {
+    private EditText editUsername, editEmail, editPassword, editNome;
     private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+
+
         dbHelper = new DatabaseHelper(this);
+
+
+        editUsername = findViewById(R.id.editUsernameReg);
+        editEmail = findViewById(R.id.editEmailReg);
+        editPassword = findViewById(R.id.editPasswordReg);
+        editNome = findViewById(R.id.editNome);
+
+        setupKeyboardScroll(editUsername);
+        setupKeyboardScroll(editEmail);
+        setupKeyboardScroll(editPassword);
+        setupKeyboardScroll(editNome);
     }
 
-    public void tornaIndietro(View view) { finish(); }
+    private void setupKeyboardScroll(EditText editText) {
+        editText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                android.widget.ScrollView scrollView = findViewById(R.id.myScrollView);
+
+                scrollView.postDelayed(() -> {
+                    scrollView.smoothScrollTo(0, v.getTop());
+                }, 300);
+            }
+        });
+    }
 
     public void eseguiRegistrazione(View view) {
-        EditText editUser = findViewById(R.id.editUsernameReg);
-        EditText editEmail = findViewById(R.id.editEmailReg);
-        EditText editPass = findViewById(R.id.editPasswordReg);
-        EditText editConf = findViewById(R.id.editConfermaPassword);
-        EditText editNome = findViewById(R.id.editNome);
-
-        String user = editUser.getText().toString().trim();
+        String user = editUsername.getText().toString().trim();
         String email = editEmail.getText().toString().trim();
-        String pass = editPass.getText().toString();
-        String conf = editConf.getText().toString();
+        String pass = editPassword.getText().toString().trim();
         String nome = editNome.getText().toString().trim();
 
         if (user.isEmpty() || email.isEmpty() || pass.isEmpty()) {
-            Toast.makeText(this, "Compila tutti i campi obbligatori", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.errore_campi_vuoti), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (!isValidPassword(pass)) {
-            Toast.makeText(this, "La password non rispetta i requisiti", Toast.LENGTH_LONG).show();
+        if (!email.contains("@") || !email.contains(".")) {
+            Toast.makeText(this, getString(R.string.errore_email_non_valida), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (!pass.equals(conf)) {
-            Toast.makeText(this, "Le password non coincidono", Toast.LENGTH_SHORT).show();
+
+        if (dbHelper.utenteEsiste(user)) {
+            Toast.makeText(this, "Errore: Username già in uso. Scegline un altro.", Toast.LENGTH_LONG).show();
             return;
         }
 
-        long result = dbHelper.registraUtente(user, email, pass, nome);
-        if (result > 0) {
-            Toast.makeText(this, "Registrazione completata! Accedi ora.", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, LoginActivity.class));
+        long id = dbHelper.registraUtente(user, email, pass, nome);
+        if (id > 0) {
+            Toast.makeText(this, "Registrazione completata!", Toast.LENGTH_SHORT).show();
             finish();
         } else {
-            Toast.makeText(this, "Errore nella registrazione", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Errore durante la registrazione", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private boolean isValidPassword(String password) {
-        boolean hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
-        String specialChars = "@$!%*?&._-";
-        for (char c : password.toCharArray()) {
-            if (Character.isUpperCase(c)) hasUpper = true;
-            else if (Character.isLowerCase(c)) hasLower = true;
-            else if (Character.isDigit(c)) hasDigit = true;
-            else if (specialChars.indexOf(c) != -1) hasSpecial = true;
-        }
-        return hasUpper && hasLower && hasDigit && hasSpecial && password.length() >= 4;
-    }
 
-    public void loginGoogle(View view) {
-        Toast.makeText(this, "Accesso con Google non configurato", Toast.LENGTH_SHORT).show();
+    public void tornaIndietro(View view) {
+        finish();
     }
 }

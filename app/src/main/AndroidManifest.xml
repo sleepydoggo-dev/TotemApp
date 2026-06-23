@@ -23,7 +23,7 @@
         </activity>
         <activity android:name=".MainActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".LoginActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".RegisterActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".RegisterActivity" android:exported="false" android:windowSoftInputMode="adjustPan" />
         <activity android:name=".OTPActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".OpzioniActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ProdottiActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />

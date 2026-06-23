@@ -1,53 +1,65 @@
 package com.example.progettototem;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class LoginActivity extends BaseActivity {
+    private EditText editUser, editPass;
     private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         dbHelper = new DatabaseHelper(this);
+
+
+        editUser = findViewById(R.id.editUsername);
+        editPass = findViewById(R.id.editPassword);
     }
 
-    public void tornaIndietro(View view) { finish(); }
-
     public void eseguiLogin(View view) {
-        EditText editUser = findViewById(R.id.editUsername);
-        EditText editPass = findViewById(R.id.editPassword);
-        
-        String identifier = editUser.getText().toString().trim();
-        String password = editPass.getText().toString();
-        
-        if (identifier.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Inserisci tutti i dati", Toast.LENGTH_SHORT).show();
+        String user = editUser.getText().toString().trim();
+        String pass = editPass.getText().toString().trim();
+
+        if (user.isEmpty() || pass.isEmpty()) {
+            Toast.makeText(this, getString(R.string.errore_campi_vuoti), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (dbHelper.login(identifier, password)) {
-            // Salva sessione (identifier per recupero nome/carta)
-            getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).edit()
-                    .putString("LOGGED_USER", identifier)
-                    .putBoolean("IS_GUEST", false)
+
+        String loggedUser = dbHelper.eseguiLoginERecuperaUsername(user, pass);
+
+        if (loggedUser == null) {
+            Toast.makeText(this, getString(R.string.errore_credenziali), Toast.LENGTH_SHORT).show();
+        } else {
+            getSharedPreferences("AppPrefs", MODE_PRIVATE)
+                    .edit()
+                    .putString("LOGGED_USERNAME", loggedUser)
                     .apply();
 
-            Carrello.getInstance().setNomeUtente(identifier);
+
+            Carrello.getInstance().getProdotti().clear();
+            List<ProdottoOrdinato> listaSalvata = dbHelper.caricaCarrello(loggedUser);
+            Carrello.getInstance().getProdotti().addAll(listaSalvata);
+
+            // Log di controllo
+            android.util.Log.d("TEST_CARRELLO", "Caricamento: Utente " + loggedUser + " - Prodotti recuperati: " + listaSalvata.size());
+            Toast.makeText(this, "Carrello ripristinato con " + listaSalvata.size() + " elementi", Toast.LENGTH_SHORT).show();
 
             startActivity(new Intent(this, MainActivity.class));
             finish();
-        } else {
-            findViewById(R.id.textErroreLogin).setVisibility(View.VISIBLE);
-            Toast.makeText(this, "Credenziali errate o utente non registrato", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void loginGoogle(View view) {
-        Toast.makeText(this, "Accesso con Google non configurato", Toast.LENGTH_SHORT).show();
+    public void tornaIndietro(View view) {
+        finish();
     }
 }

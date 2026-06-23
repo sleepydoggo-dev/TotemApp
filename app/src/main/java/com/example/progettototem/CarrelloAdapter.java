@@ -40,8 +40,11 @@ public class CarrelloAdapter extends RecyclerView.Adapter<CarrelloAdapter.ViewHo
         holder.tPrezzoTot.setText("€ " + String.format("%.2f", po.getPrezzoTotale()));
         holder.tQuant.setText(String.valueOf(po.getQuantita()));
 
+
+
         holder.btnPiu.setOnClickListener(v -> {
             po.setQuantita(po.getQuantita() + 1);
+            Carrello.getInstance().salva(context);
             notifyItemChanged(position);
             listener.onCartChanged();
         });
@@ -49,11 +52,11 @@ public class CarrelloAdapter extends RecyclerView.Adapter<CarrelloAdapter.ViewHo
         holder.btnMeno.setOnClickListener(v -> {
             if (po.getQuantita() > 1) {
                 po.setQuantita(po.getQuantita() - 1);
-                notifyItemChanged(position);
             } else {
                 lista.remove(position);
-                notifyDataSetChanged();
             }
+            Carrello.getInstance().salva(context);
+            notifyDataSetChanged();
             listener.onCartChanged();
         });
     }

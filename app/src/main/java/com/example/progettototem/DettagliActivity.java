@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
+
 
 public class DettagliActivity extends BaseActivity {
     private String nome;
@@ -21,12 +21,12 @@ public class DettagliActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettagli);
 
-        // Leggiamo i dati passati dall'adapter
+
         nome = getIntent().getStringExtra("NOME");
         prezzoUnitario = getIntent().getDoubleExtra("PREZZO", 0.0);
         descrizione = getIntent().getStringExtra("DESC");
 
-        // Aggiorniamo la UI
+
         TextView tNome = findViewById(R.id.textNomeDettaglio);
         TextView tDesc = findViewById(R.id.textDescrizioneDettaglio);
         tQuantita = findViewById(R.id.textQuantita);
@@ -59,8 +59,8 @@ public class DettagliActivity extends BaseActivity {
 
     public void aggiungiAlCarrello(View view) {
         Prodotto p = new Prodotto(nome, prezzoUnitario, descrizione);
-        Carrello.getInstance().aggiungiProdotto(p, quantita);
+        Carrello.getInstance().aggiungiProdotto(p, quantita, this);
         Toast.makeText(this, "Aggiunto al carrello!", Toast.LENGTH_SHORT).show();
-        finish(); // Torna alla lista prodotti dopo l'aggiunta
+        finish();
     }
 }

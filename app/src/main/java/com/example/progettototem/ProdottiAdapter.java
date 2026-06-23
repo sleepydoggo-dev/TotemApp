@@ -61,7 +61,7 @@ public class ProdottiAdapter extends RecyclerView.Adapter<ProdottiAdapter.ViewHo
 
         holder.btnAggiungi.setOnClickListener(v -> {
             int q = quantitaMap.get(position);
-            Carrello.getInstance().aggiungiProdotto(p, q);
+            Carrello.getInstance().aggiungiProdotto(p, q, context);
             Toast.makeText(context, p.nome + " aggiunto!", Toast.LENGTH_SHORT).show();
             quantitaMap.put(position, 1);
             holder.tQuant.setText("1");

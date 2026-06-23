@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
+    app:cardCornerRadius="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,7 +18,7 @@
             android:text="Nome Prodotto"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/prezzoTotaleCarrello"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="€ 0.00"
-            android:textColor="#757575"
+            android:textColor="?android:attr/textColorSecondary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nomeProdottoCarrello" />
 
@@ -46,15 +45,21 @@
 
             <Button
                 android:id="@+id/btnMenoCarrello"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:backgroundTint="#EFEFEF"
-                android:text="-"
-                android:textColor="@color/text_color_primary" />
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:backgroundTint="@color/button_quantity_bg"
+                android:text="@string/minus"
+                android:textColor="@color/text_color_primary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
 
             <TextView
                 android:id="@+id/textQuantitaCarrello"
-                android:layout_width="40dp"
+                android:layout_width="36dp"
                 android:layout_height="wrap_content"
                 android:text="1"
                 android:textAlignment="center"
@@ -63,11 +68,17 @@
 
             <Button
                 android:id="@+id/btnPiuCarrello"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:backgroundTint="#EFEFEF"
-                android:text="+"
-                android:textColor="@color/text_color_primary" />
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:backgroundTint="@color/button_quantity_bg"
+                android:text="@string/plus"
+                android:textColor="@color/text_color_primary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:padding="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
         </LinearLayout>
 
         <TextView
