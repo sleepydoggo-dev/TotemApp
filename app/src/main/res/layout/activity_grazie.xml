@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/main_bg"
     tools:context=".GrazieActivity">
 
     <LinearLayout
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Pagamento effettuato!"
-            android:textColor="#333333"
+            android:textColor="@color/text_color_primary"
             android:textSize="26sp"
             android:textStyle="bold" />
 

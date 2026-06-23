@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CarrelloActivity extends AppCompatActivity {
+public class CarrelloActivity extends BaseActivity {
     private TextView tTotale;
     private Carrello carrello;
     private CarrelloAdapter adapter;

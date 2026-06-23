@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); setContentView(R.layout.activity_home); }
 
@@ -18,6 +18,6 @@ public class HomeActivity extends AppCompatActivity {
     }
     public void vaiACategorie(View view) {
         getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).edit().putBoolean("IS_GUEST", true).apply();
-        startActivity(new Intent(this, CategorieActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

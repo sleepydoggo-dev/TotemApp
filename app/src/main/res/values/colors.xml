@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Custom colors for backgrounds and texts -->
+    <color name="edit_text_bg">#EFEFEF</color>
+    <color name="text_color_primary">#333333</color>
+    <color name="main_bg">#FFFFFF</color>
+    <color name="secondary_bg">#F5F5F5</color>
+    <color name="button_quantity_bg">#E0E0E0</color>
 </resources>

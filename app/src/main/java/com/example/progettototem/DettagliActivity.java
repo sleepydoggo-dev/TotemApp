@@ -7,7 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class DettagliActivity extends AppCompatActivity {
+public class DettagliActivity extends BaseActivity {
     private String nome;
     private double prezzoUnitario;
     private String descrizione;

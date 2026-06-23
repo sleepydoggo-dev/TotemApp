@@ -39,7 +39,13 @@ public class Carrello {
         return totale;
     }
     
+    private String nomeUtente;
+
+    public void setNomeUtente(String nome) { this.nomeUtente = nome; }
+    public String getNomeUtente() { return nomeUtente; }
+
     public void svuota() {
         prodotti.clear();
+        nomeUtente = null;
     }
 }
