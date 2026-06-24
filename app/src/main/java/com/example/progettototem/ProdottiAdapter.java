@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ProdottiAdapter extends RecyclerView.Adapter<ProdottiAdapter.ViewHolder> {
-    private List<Prodotto> listaProdotti;
-    private Context context;
-    private Map<Integer, Integer> quantitaMap = new HashMap<>();
+    private final List<Prodotto> listaProdotti;
+    private final Context context;
+    private final Map<Integer, Integer> quantitaMap = new HashMap<>();
 
     public ProdottiAdapter(Context context, List<Prodotto> lista) {
         this.context = context;

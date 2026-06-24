@@ -84,6 +84,10 @@
     <string name="prod_cheeseburger">Cheeseburger</string>
     <string name="desc_cheeseburger">Manzo, cheddar, cetriolini</string>
     <string name="prod_pasta">Pasta al Pomodoro</string>
+    <string name="prod_pizza" translatable="false">Pizza</string>"
+    <string name="desc_pizza">Pomodoro, mozzarella, funghi</string>
+    <string name="prod_pasta_al_pesto">Trofie al pesto</string>"
+    <string name="desc_pasta_al_pesto">Trofie alla genovese</string>"
     <string name="desc_pasta">Penne con sugo fresco e basilico</string>
     <string name="prod_lasagna">Lasagna</string>
     <string name="desc_lasagna">Lasagna alla bolognese fatta in casa</string>
@@ -95,6 +99,26 @@
     <string name="desc_acqua">Naturale o frizzante 50cl</string>
     <string name="prod_coca">Coca Cola</string>
     <string name="desc_coca">Lattina 33cl</string>
+    <string name="prod_fanta" translatable="false">Fanta</string>
+    <string name="desc_fanta">Lattina 33cl</string>
+    <string name="prod_sprite" translatable="false">Sprite</string>
+    <string name="desc_sprite">Lattina 33cl</string>
+    <string name="prod_fanta_zero" translatable="false">Fanta Zero</string>
+    <string name="desc_fanta_zero">Lattina 33cl</string>
+    <string name="prod_birra">Birra</string>
+    <string name="desc_birra">Lattina 33cl</string>
+    <string name="prod_chinotto" translatable="false">Chinotto</string>
+    <string name="desc_chinotto">Lattina 33cl</string>
+    <string name="prod_lemon_soda" translatable="false">Lemon Soda</string>
+    <string name="desc_lemon_soda">Lattina 33cl</string>
+    <string name="prod_oran_soda" translatable="false">Oran Soda</string>
+    <string name="desc_oran_soda">Lattina 33cl</string>
+    <string name="prod_water">Acqua Tonica</string>
+    <string name="desc_water">Lattina 33cl</string>
+    <string name="prod_the_pesca">Estathé alla pesca</string>
+    <string name="desc_the_pesca">Lattina 33cl</string>
+    <string name="prod_the_limone">Estathé al limone</string>
+    <string name="desc_the_limone">Lattina 33cl</string>"
 
     <string name="plus">+</string>
     <string name="minus">-</string>

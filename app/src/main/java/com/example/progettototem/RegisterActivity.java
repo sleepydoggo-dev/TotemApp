@@ -1,6 +1,6 @@
 package com.example.progettototem;
 
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -14,17 +14,11 @@ public class RegisterActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
-
-
         dbHelper = new DatabaseHelper(this);
-
-
         editUsername = findViewById(R.id.editUsernameReg);
         editEmail = findViewById(R.id.editEmailReg);
         editPassword = findViewById(R.id.editPasswordReg);
         editNome = findViewById(R.id.editNome);
-
         setupKeyboardScroll(editUsername);
         setupKeyboardScroll(editEmail);
         setupKeyboardScroll(editPassword);
@@ -32,13 +26,12 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void setupKeyboardScroll(EditText editText) {
+        // Gestisci il cambio di focus per lo scroll della tastiera
         editText.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 android.widget.ScrollView scrollView = findViewById(R.id.myScrollView);
 
-                scrollView.postDelayed(() -> {
-                    scrollView.smoothScrollTo(0, v.getTop());
-                }, 300);
+                scrollView.postDelayed(() -> scrollView.smoothScrollTo(0, v.getTop()), 300);
             }
         });
     }

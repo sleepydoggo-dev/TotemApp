@@ -2,23 +2,29 @@ package com.example.progettototem;
 
 import android.content.Context;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Carrello {
     private static Carrello instance;
-    private List<ProdottoOrdinato> prodotti;
+    private final List<ProdottoOrdinato> prodotti;
+
+
 
     private Carrello() {
+
         prodotti = new ArrayList<>();
     }
 
     public static synchronized Carrello getInstance() {
+        // Se l'istanza è già stata creata, la restituisce
         if (instance == null) instance = new Carrello();
         return instance;
     }
 
 
     public void aggiungiProdotto(Prodotto p, int quantita, Context context) {
+        // Cerca se il prodotto è già presente nel carrello
         boolean trovato = false;
         for (ProdottoOrdinato po : prodotti) {
             if (po.getProdotto().nome.equals(p.nome)) {
@@ -31,21 +37,29 @@ public class Carrello {
             prodotti.add(new ProdottoOrdinato(p, quantita));
         }
 
-
+        // logcat per rintracciare eventuale problema
         salva(context);
         android.util.Log.d("TEST_CARRELLO", "Prodotto aggiunto. Totale elementi: " + prodotti.size());
     }
 
 
     public void salva(Context context) {
+        // Ottiene il nome dell'utente loggato
         String user = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
                 .getString("LOGGED_USERNAME", null);
+
         if (user != null) {
-            new DatabaseHelper(context).salvaCarrello(user, this.prodotti);
+            try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
+                dbHelper.salvaCarrello(user, this.prodotti);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public List<ProdottoOrdinato> getProdotti() { return prodotti; }
+    public List<ProdottoOrdinato> getProdotti() {
+        return Collections.unmodifiableList(prodotti);
+    }
 
     public double getTotale() {
         double totale = 0;
@@ -57,14 +71,31 @@ public class Carrello {
 
     private String nomeUtente;
     public void setNomeUtente(String nome) {
+
         this.nomeUtente = nome;
     }
 
     public String getNomeUtente() {
+
         return nomeUtente;
     }
 
     public void svuota() {
+
         prodotti.clear();
+    }
+
+    public void carica(Context context, String username) {
+        prodotti.clear();
+        if (username != null) {
+            try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
+                List<ProdottoOrdinato> listaSalvata = dbHelper.caricaCarrello(username);
+                if (listaSalvata != null) {
+                    prodotti.addAll(listaSalvata);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

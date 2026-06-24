@@ -2,7 +2,6 @@ package com.example.progettototem;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class HomeActivity extends BaseActivity {
     @Override
@@ -18,6 +17,7 @@ public class HomeActivity extends BaseActivity {
     }
     public void vaiACategorie(View view) {
         getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).edit().putBoolean("IS_GUEST", true).apply();
+        Carrello.getInstance().svuota();
         startActivity(new Intent(this, MainActivity.class));
     }
 }

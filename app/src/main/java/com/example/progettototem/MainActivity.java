@@ -3,7 +3,6 @@ package com.example.progettototem;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends BaseActivity {
     @Override
@@ -18,5 +17,9 @@ public class MainActivity extends BaseActivity {
 
     public void vaiAOpzioni(View view) {
         startActivity(new Intent(this, OpzioniActivity.class));
+    }
+
+    public void vaiAStorico(View view) {
+        startActivity(new Intent(this, StoricoOrdiniActivity.class));
     }
 }

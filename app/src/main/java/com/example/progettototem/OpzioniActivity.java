@@ -15,15 +15,12 @@ public class OpzioniActivity extends BaseActivity {
         setContentView(R.layout.activity_opzioni);
 
         SharedPreferences prefs = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE);
-
-
         RadioGroup rgAspetto = findViewById(R.id.radioGroupAspetto);
+        // Setta l'aspetto corrente nella RadioGroup
         int currentTheme = prefs.getInt("THEME_MODE", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-
         if (currentTheme == AppCompatDelegate.MODE_NIGHT_NO) rgAspetto.check(R.id.radioTemaChiaro);
         else if (currentTheme == AppCompatDelegate.MODE_NIGHT_YES) rgAspetto.check(R.id.radioTemaScuro);
         else rgAspetto.check(R.id.radioTemaSistema);
-
         rgAspetto.setOnCheckedChangeListener((group, checkedId) -> {
             int mode;
             if (checkedId == R.id.radioTemaChiaro) mode = AppCompatDelegate.MODE_NIGHT_NO;
@@ -46,7 +43,7 @@ public class OpzioniActivity extends BaseActivity {
             // Salva la lingua corrente nel SharedPreferences
             if (!lang.equals(currentLang)) {
                 prefs.edit().putString("APP_LANG", lang).apply();
-                // Riavvia l'applicazione per applicare le modifiche
+                // Riavvia l'applicazione partendo dalla MainActivity per aggiornare tutto lo stack
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);

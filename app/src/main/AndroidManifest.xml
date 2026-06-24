@@ -33,5 +33,6 @@
         <activity android:name=".GrazieActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".TempActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".CategorieActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".StoricoOrdiniActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
     </application>
 </manifest>
