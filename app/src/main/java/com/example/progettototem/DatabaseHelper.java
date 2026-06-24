@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+    
+    // Database Information
     private static final String DATABASE_NAME = "RistoranteTotem.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     public static final String TABLE_USERS = "utenti";
     public static final String COLUMN_USER_ID = "id";
@@ -29,7 +31,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PROD_DESC = "desc_key";
     public static final String COLUMN_PROD_CAT = "categoria";
 
-
     public static final String TABLE_CART = "carrello_salvato";
     public static final String COLUMN_CART_ID = "id";
     public static final String COLUMN_CART_USER = "username";
@@ -37,6 +38,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_CART_PREZZO = "prodotto_prezzo";
     public static final String COLUMN_CART_DESC = "prodotto_desc";
     public static final String COLUMN_CART_QTY = "quantita";
+
+    public static final String TABLE_ORDERS = "ordini";
+    public static final String COLUMN_ORDER_ID = "id";
+    public static final String COLUMN_ORDER_USER = "username";
+    public static final String COLUMN_ORDER_DATE = "data";
+    public static final String COLUMN_ORDER_TOTAL = "totale";
+
+    public static final String TABLE_ORDER_ITEMS = "ordini_dettagli";
+    public static final String COLUMN_ITEM_ID = "id";
+    public static final String COLUMN_ITEM_ORDER_ID = "ordine_id";
+    public static final String COLUMN_ITEM_NAME = "prodotto_nome";
+    public static final String COLUMN_ITEM_PRICE = "prodotto_prezzo";
+    public static final String COLUMN_ITEM_QTY = "quantita";
 
     private Context context;
 
@@ -76,6 +90,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_CART_QTY + " INTEGER" + ")";
         db.execSQL(CREATE_CART_TABLE);
 
+        String CREATE_ORDERS_TABLE = "CREATE TABLE " + TABLE_ORDERS + "("
+                + COLUMN_ORDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_ORDER_USER + " TEXT,"
+                + COLUMN_ORDER_DATE + " TEXT,"
+                + COLUMN_ORDER_TOTAL + " REAL" + ")";
+        db.execSQL(CREATE_ORDERS_TABLE);
+
+        String CREATE_ORDER_ITEMS_TABLE = "CREATE TABLE " + TABLE_ORDER_ITEMS + "("
+                + COLUMN_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_ITEM_ORDER_ID + " INTEGER,"
+                + COLUMN_ITEM_NAME + " TEXT,"
+                + COLUMN_ITEM_PRICE + " REAL,"
+                + COLUMN_ITEM_QTY + " INTEGER,"
+                + "FOREIGN KEY(" + COLUMN_ITEM_ORDER_ID + ") REFERENCES " + TABLE_ORDERS + "(" + COLUMN_ORDER_ID + "))";
+        db.execSQL(CREATE_ORDER_ITEMS_TABLE);
+
         inserisciProdottiIniziali(db);
     }
 
@@ -89,12 +119,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_acqua', 1.50, 'desc_acqua', 'Bevande')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_coca', 2.50, 'desc_coca', 'Bevande')");
     }
-
+    
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CART);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDERS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDER_ITEMS);
         onCreate(db);
     }
 
@@ -198,12 +230,69 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return lista;
     }
 
+    public void salvaOrdine(String username, double totale, List<ProdottoOrdinato> prodotti) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues orderValues = new ContentValues();
+        orderValues.put(COLUMN_ORDER_USER, username);
+        orderValues.put(COLUMN_ORDER_TOTAL, totale);
+        orderValues.put(COLUMN_ORDER_DATE, new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault()).format(new java.util.Date()));
+
+        long orderId = db.insert(TABLE_ORDERS, null, orderValues);
+
+        if (orderId != -1) {
+            for (ProdottoOrdinato po : prodotti) {
+                ContentValues itemValues = new ContentValues();
+                itemValues.put(COLUMN_ITEM_ORDER_ID, orderId);
+                itemValues.put(COLUMN_ITEM_NAME, po.getProdotto().getNome());
+                itemValues.put(COLUMN_ITEM_PRICE, po.getProdotto().getPrezzo());
+                itemValues.put(COLUMN_ITEM_QTY, po.getQuantita());
+                db.insert(TABLE_ORDER_ITEMS, null, itemValues);
+            }
+        }
+    }
+
+    public List<Ordine> getOrdiniPerUtente(String username) {
+        List<Ordine> ordini = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_ORDERS, null, COLUMN_ORDER_USER + "=?", new String[]{username}, null, null, COLUMN_ORDER_ID + " DESC");
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ORDER_ID));
+                String data = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_DATE));
+                double totale = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ORDER_TOTAL));
+
+                List<ProdottoOrdinato> prodotti = getDettagliOrdine(id);
+                ordini.add(new Ordine(id, data, totale, prodotti));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return ordini;
+    }
+
+    private List<ProdottoOrdinato> getDettagliOrdine(int orderId) {
+        List<ProdottoOrdinato> prodotti = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_ORDER_ITEMS, null, COLUMN_ITEM_ORDER_ID + "=?", new String[]{String.valueOf(orderId)}, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                String nome = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ITEM_NAME));
+                double prezzo = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ITEM_PRICE));
+                int qty = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ITEM_QTY));
+                prodotti.add(new ProdottoOrdinato(new Prodotto(nome, prezzo, ""), qty));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return prodotti;
+    }
+
     public List<Prodotto> getProdottiPerCategoria(String categoria) {
         List<Prodotto> lista = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {COLUMN_PROD_NAME, COLUMN_PROD_PRICE, COLUMN_PROD_DESC};
         Cursor cursor = db.query(TABLE_PRODUCTS, columns, COLUMN_PROD_CAT + "=?", new String[]{categoria}, null, null, null);
-
+        
         try {
             if (cursor != null && cursor.moveToFirst()) {
                 do {

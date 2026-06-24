@@ -43,7 +43,7 @@ public class PagamentoActivity extends BaseActivity {
     }
 
     private void caricaCartaSalvata() {
-        String loggedUser = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getString("LOGGED_USER", null);
+        String loggedUser = getSharedPreferences("AppPrefs", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
         if (loggedUser != null) {
             Cursor cursor = dbHelper.getCarta(loggedUser);
             if (cursor.moveToFirst()) {
@@ -65,14 +65,12 @@ public class PagamentoActivity extends BaseActivity {
             String num = editNum.getText().toString();
             String scad = editScad.getText().toString();
             String cvv = editCvv.getText().toString();
-
             if (num.isEmpty() || scad.isEmpty() || cvv.isEmpty()) {
                 Toast.makeText(this, "Inserisci i dati della carta", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             if (checkSalva.isChecked()) {
-                String loggedUser = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getString("LOGGED_USER", null);
+                String loggedUser = getSharedPreferences("AppPrefs", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
                 if (loggedUser != null) {
                     dbHelper.salvaCarta(loggedUser, num, scad, cvv);
                 }

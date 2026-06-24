@@ -28,12 +28,14 @@ public class CarrelloAdapter extends RecyclerView.Adapter<CarrelloAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Crea un nuovo ViewHolder
         View v = LayoutInflater.from(context).inflate(R.layout.item_carrello, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        // Imposta i dati del ViewHolder
         ProdottoOrdinato po = lista.get(position);
         holder.tNome.setText(po.getProdotto().nome);
         holder.tPrezzoUnit.setText("cad. € " + String.format("%.2f", po.getProdotto().prezzo));
@@ -41,7 +43,7 @@ public class CarrelloAdapter extends RecyclerView.Adapter<CarrelloAdapter.ViewHo
         holder.tQuant.setText(String.valueOf(po.getQuantita()));
 
 
-
+        // Gestisce i click dei bottoni
         holder.btnPiu.setOnClickListener(v -> {
             po.setQuantita(po.getQuantita() + 1);
             Carrello.getInstance().salva(context);
@@ -62,7 +64,9 @@ public class CarrelloAdapter extends RecyclerView.Adapter<CarrelloAdapter.ViewHo
     }
 
     @Override
-    public int getItemCount() { return lista.size(); }
+    public int getItemCount() {
+        return lista.size();
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tNome, tPrezzoUnit, tPrezzoTot, tQuant;

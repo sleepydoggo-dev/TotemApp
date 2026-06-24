@@ -13,12 +13,15 @@ public class CategorieActivity extends BaseActivity {
     }
 
     public void scegliCategoria(View view) {
-        Button b = (Button) view;
-        String categoriaVisualizzata = b.getText().toString();
+        String catKey = "";
+        int id = view.getId();
+        if (id == R.id.btnCat1) catKey = "Panini";
+        else if (id == R.id.btnCat2) catKey = "Primi";
+        else if (id == R.id.btnCat3) catKey = "Secondi";
+        else if (id == R.id.btnCat4) catKey = "Bevande";
         
-
         Intent intent = new Intent(this, ProdottiActivity.class);
-        intent.putExtra("CATEGORIA", categoriaVisualizzata);
+        intent.putExtra("CATEGORIA", catKey);
         startActivity(intent);
     }
 

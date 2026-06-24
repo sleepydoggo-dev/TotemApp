@@ -31,6 +31,7 @@ public class ProdottiActivity extends BaseActivity {
 
 
         if (savedInstanceState != null) {
+            // Ripristina lo stato della vista se è stato salvato in onSaveInstanceState
             isGridView = savedInstanceState.getBoolean("STATO_GRIGLIA", false);
         }
 
@@ -39,7 +40,12 @@ public class ProdottiActivity extends BaseActivity {
 
         TextView t = findViewById(R.id.textNomeCategoria);
         categoria = getIntent().getStringExtra("CATEGORIA");
-        if(categoria != null) t.setText(categoria);
+        if (categoria != null) {
+            // Traduzione del titolo categoria per la visualizzazione
+            int resId = getResources().getIdentifier(categoria.toLowerCase(), "string", getPackageName());
+            if (resId != 0) t.setText(getString(resId));
+            else t.setText(categoria);
+        }
 
         rv = findViewById(R.id.recyclerSingolaCategoria);
         progressBar = findViewById(R.id.loadingProdotti);
@@ -50,13 +56,15 @@ public class ProdottiActivity extends BaseActivity {
     private void caricaProdotti() {
         progressBar.setVisibility(View.VISIBLE);
         rv.setVisibility(View.GONE);
-
+        // Esegui il caricamento in un thread separato
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 
         executor.execute(() -> {
 
-            try { Thread.sleep(800); } catch (InterruptedException e) { e.printStackTrace(); }
+            try {
+                Thread.sleep(800);
+            } catch (InterruptedException e) {e.printStackTrace();}
 
             lista = dbHelper.getProdottiPerCategoria(categoria);
 

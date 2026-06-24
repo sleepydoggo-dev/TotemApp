@@ -10,18 +10,22 @@ public class ProdottoOrdinato {
     }
 
     public Prodotto getProdotto() {
+
         return prodotto;
     }
 
     public int getQuantita() {
+
         return quantita;
     }
 
     public void setQuantita(int quantita) {
+
         this.quantita = quantita;
     }
 
     public double getPrezzoTotale() {
+
         return prodotto.prezzo * quantita;
     }
 }

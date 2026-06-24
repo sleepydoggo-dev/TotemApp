@@ -19,8 +19,6 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
 
         dbHelper = new DatabaseHelper(this);
-
-
         editUser = findViewById(R.id.editUsername);
         editPass = findViewById(R.id.editPassword);
     }
@@ -34,7 +32,7 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
-
+        // Verifica se l'utente esiste nel database
         String loggedUser = dbHelper.eseguiLoginERecuperaUsername(user, pass);
 
         if (loggedUser == null) {

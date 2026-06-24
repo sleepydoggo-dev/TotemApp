@@ -12,14 +12,17 @@ public class Prodotto {
     }
 
     public String getNome() {
+
         return this.nome;
     }
 
     public double getPrezzo() {
+
         return this.prezzo;
     }
 
     public String getDescrizione() {
+
         return this.descrizione;
     }
 }

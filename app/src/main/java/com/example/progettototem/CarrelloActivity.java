@@ -15,13 +15,15 @@ public class CarrelloActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrello);
 
+        // Ottieni l'istanza del carrello
         carrello = Carrello.getInstance();
         tTotale = findViewById(R.id.textTotalePrezzo);
         RecyclerView rv = findViewById(R.id.recyclerCarrello);
-
+        // Imposta il layout manager e l'adapter per il RecyclerView
         rv.setLayoutManager(new LinearLayoutManager(this));
         adapter = new CarrelloAdapter(this, carrello.getProdotti(), this::aggiornaTotale);
         rv.setAdapter(adapter);
@@ -35,7 +37,7 @@ public class CarrelloActivity extends BaseActivity {
 
     public void procediAlCheckout(View view) {
         if (carrello.getProdotti().isEmpty()) return;
-        
+        // Verifica se l'utente è ospite
         boolean isGuest = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getBoolean("IS_GUEST", false);
         if (isGuest) {
             startActivity(new Intent(this, TempActivity.class));
