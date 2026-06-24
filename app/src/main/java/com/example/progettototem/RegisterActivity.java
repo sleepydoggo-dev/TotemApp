@@ -37,7 +37,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     public void eseguiRegistrazione(View view) {
-        String user = editUsername.getText().toString().trim();
+        String user = editUsername.getText().toString().trim().toLowerCase(); // Se si desidera permettere di creare account con username uguali ma con maiuscole/minuscole diverse togliere toLowerCase()
         String email = editEmail.getText().toString().trim();
         String pass = editPassword.getText().toString().trim();
         String nome = editNome.getText().toString().trim();

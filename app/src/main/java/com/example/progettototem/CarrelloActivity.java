@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,8 +37,11 @@ public class CarrelloActivity extends BaseActivity {
     }
 
     public void procediAlCheckout(View view) {
-        if (carrello.getProdotti().isEmpty()) return;
-        // Verifica se l'utente è ospite
+        if (carrello.getProdotti().isEmpty()){
+            Toast.makeText(this, "Il carrello è vuoto!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         boolean isGuest = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getBoolean("IS_GUEST", false);
         if (isGuest) {
             startActivity(new Intent(this, TempActivity.class));

@@ -17,6 +17,7 @@ public class HomeActivity extends BaseActivity {
     }
     public void vaiACategorie(View view) {
         getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).edit().putBoolean("IS_GUEST", true).apply();
+        getSharedPreferences("AppPrefs", MODE_PRIVATE).edit().remove("LOGGED_USERNAME").apply();
         Carrello.getInstance().svuota();
         startActivity(new Intent(this, MainActivity.class));
     }

@@ -23,7 +23,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void eseguiLogin(View view) {
-        String user = editUser.getText().toString().trim();
+        String user = editUser.getText().toString().trim().toLowerCase();
         String pass = editPass.getText().toString().trim();
 
         if (user.isEmpty() || pass.isEmpty()) {

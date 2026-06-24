@@ -2,7 +2,6 @@ package com.example.progettototem;
 
 import android.content.Context;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Carrello {
@@ -58,7 +57,7 @@ public class Carrello {
     }
 
     public List<ProdottoOrdinato> getProdotti() {
-        return Collections.unmodifiableList(prodotti);
+        return prodotti;
     }
 
     public double getTotale() {
