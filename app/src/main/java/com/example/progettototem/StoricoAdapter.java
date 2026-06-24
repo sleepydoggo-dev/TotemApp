@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class StoricoAdapter extends RecyclerView.Adapter<StoricoAdapter.ViewHolder> {
-    private List<Ordine> lista;
+    private final List<Ordine> lista;
 
     public StoricoAdapter(List<Ordine> lista) {
         this.lista = lista;

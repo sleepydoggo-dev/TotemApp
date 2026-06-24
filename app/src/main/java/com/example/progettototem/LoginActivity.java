@@ -1,7 +1,6 @@
 package com.example.progettototem;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -43,16 +42,14 @@ public class LoginActivity extends BaseActivity {
                     .putString("LOGGED_USERNAME", loggedUser)
                     .apply();
 
+            // Carica il carrello dell'utente in modo centralizzato
+            Carrello.getInstance().carica(this, loggedUser);
 
-            Carrello.getInstance().getProdotti().clear();
-            List<ProdottoOrdinato> listaSalvata = dbHelper.caricaCarrello(loggedUser);
-            Carrello.getInstance().getProdotti().addAll(listaSalvata);
+            Toast.makeText(this, "Bentornato, " + loggedUser, Toast.LENGTH_SHORT).show();
 
-            // Log di controllo
-            android.util.Log.d("TEST_CARRELLO", "Caricamento: Utente " + loggedUser + " - Prodotti recuperati: " + listaSalvata.size());
-            Toast.makeText(this, "Carrello ripristinato con " + listaSalvata.size() + " elementi", Toast.LENGTH_SHORT).show();
-
-            startActivity(new Intent(this, MainActivity.class));
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             finish();
         }
     }

@@ -57,23 +57,28 @@ public class ProdottiActivity extends BaseActivity {
         progressBar.setVisibility(View.VISIBLE);
         rv.setVisibility(View.GONE);
         // Esegui il caricamento in un thread separato
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
+        try(ExecutorService executor = Executors.newSingleThreadExecutor()) {
+            Handler handler = new Handler(Looper.getMainLooper());
 
-        executor.execute(() -> {
+            executor.execute(() -> {
 
-            try {
-                Thread.sleep(800);
-            } catch (InterruptedException e) {e.printStackTrace();}
+                try {
+                    Thread.sleep(800);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-            lista = dbHelper.getProdottiPerCategoria(categoria);
+                lista = dbHelper.getProdottiPerCategoria(categoria);
 
-            handler.post(() -> {
-                progressBar.setVisibility(View.GONE);
-                rv.setVisibility(View.VISIBLE);
-                aggiornaLayout();
+                handler.post(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    rv.setVisibility(View.VISIBLE);
+                    aggiornaLayout();
+                });
             });
-        });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void aggiornaLayout() {

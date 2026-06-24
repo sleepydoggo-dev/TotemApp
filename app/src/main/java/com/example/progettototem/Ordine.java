@@ -3,10 +3,10 @@ package com.example.progettototem;
 import java.util.List;
 
 public class Ordine {
-    private int id;
-    private String data;
-    private double totale;
-    private List<ProdottoOrdinato> prodotti;
+    private final int id;
+    private final String data;
+    private final double totale;
+    private final List<ProdottoOrdinato> prodotti;
 
     public Ordine(int id, String data, double totale, List<ProdottoOrdinato> prodotti) {
         this.id = id;

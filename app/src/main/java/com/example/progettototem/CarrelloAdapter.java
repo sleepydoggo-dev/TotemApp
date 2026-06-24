@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class CarrelloAdapter extends RecyclerView.Adapter<CarrelloAdapter.ViewHolder> {
-    private List<ProdottoOrdinato> lista;
-    private Context context;
-    private OnCartChangedListener listener;
+    private final List<ProdottoOrdinato> lista;
+    private final Context context;
+    private final OnCartChangedListener listener;
 
     public interface OnCartChangedListener {
         void onCartChanged();

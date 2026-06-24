@@ -2,11 +2,12 @@ package com.example.progettototem;
 
 import android.content.Context;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Carrello {
     private static Carrello instance;
-    private List<ProdottoOrdinato> prodotti;
+    private final List<ProdottoOrdinato> prodotti;
 
 
 
@@ -46,13 +47,18 @@ public class Carrello {
         // Ottiene il nome dell'utente loggato
         String user = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
                 .getString("LOGGED_USERNAME", null);
+
         if (user != null) {
-            new DatabaseHelper(context).salvaCarrello(user, this.prodotti);
+            try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
+                dbHelper.salvaCarrello(user, this.prodotti);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public List<ProdottoOrdinato> getProdotti() {
-        return prodotti;
+        return Collections.unmodifiableList(prodotti);
     }
 
     public double getTotale() {
@@ -77,5 +83,19 @@ public class Carrello {
     public void svuota() {
 
         prodotti.clear();
+    }
+
+    public void carica(Context context, String username) {
+        prodotti.clear();
+        if (username != null) {
+            try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
+                List<ProdottoOrdinato> listaSalvata = dbHelper.caricaCarrello(username);
+                if (listaSalvata != null) {
+                    prodotti.addAll(listaSalvata);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

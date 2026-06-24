@@ -1,7 +1,7 @@
 package com.example.progettototem;
 
 public class ProdottoOrdinato {
-    private Prodotto prodotto;
+    private final Prodotto prodotto;
     private int quantita;
 
     public ProdottoOrdinato(Prodotto prodotto, int quantita) {

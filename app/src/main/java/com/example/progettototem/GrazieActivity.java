@@ -25,15 +25,21 @@ public class GrazieActivity extends BaseActivity {
         // Salvataggio ordine nello storico e pulizia carrello persistente
         String loggedUser = getSharedPreferences("AppPrefs", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
         if (loggedUser != null) {
-            DatabaseHelper dbHelper = new DatabaseHelper(this);
-            if (!Carrello.getInstance().getProdotti().isEmpty()) {
-                dbHelper.salvaOrdine(loggedUser, Carrello.getInstance().getTotale(), Carrello.getInstance().getProdotti());
+            try (DatabaseHelper dbHelper = new DatabaseHelper(this)) {
+                if (!Carrello.getInstance().getProdotti().isEmpty()) {
+                    dbHelper.salvaOrdine(loggedUser, Carrello.getInstance().getTotale(), Carrello.getInstance().getProdotti());
+                }
+                // Svuota il carrello anche nel database persistente
+                dbHelper.salvaCarrello(loggedUser, new java.util.ArrayList<>());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            } finally {
+
+
+                Carrello.getInstance().svuota();
+
             }
-            // Svuota il carrello anche nel database persistente
-            dbHelper.salvaCarrello(loggedUser, new java.util.ArrayList<>());
         }
-        
-        Carrello.getInstance().svuota();
     }
 
     public void tornaAllaHome(View view) {

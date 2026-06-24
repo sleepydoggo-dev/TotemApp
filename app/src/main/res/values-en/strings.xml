@@ -84,6 +84,9 @@
     <string name="prod_cheeseburger">Cheeseburger</string>
     <string name="desc_cheeseburger">Beef, cheddar, pickles</string>
     <string name="prod_pasta">Pasta with Tomato Sauce</string>
+    <string name="desc_pizza">Tomato, mozzarella, mushrooms</string>
+    <string name="prod_pasta_al_pesto">Trofie with pesto</string>
+    <string name="desc_pasta_al_pesto">Trofie with pesto alla genovese</string>
     <string name="desc_pasta">Penne with fresh sauce and basil</string>
     <string name="prod_lasagna">Lasagna</string>
     <string name="desc_lasagna">Homemade Bolognese lasagna</string>
@@ -93,13 +96,27 @@
     <string name="desc_grigliata">Grilled pork, chicken and beef</string>
     <string name="prod_acqua">Water</string>
     <string name="desc_acqua">Still or sparkling 50cl</string>
-    <string name="prod_coca">Coca Cola</string>
+    <string name="prod_coca">Coke</string>
     <string name="desc_coca">Can 33cl</string>
 
+    <string name="prod_the_limone">Lemon Estathé</string>
+    <string name="desc_the_limone">Can 33cl</string>
     <string name="plus">+</string>
     <string name="minus">-</string>
     <string name="cad">ea. €</string>
     <string name="errore_campi_vuoti">Please fill in all required fields!</string>
     <string name="errore_email_non_valida">Please enter a valid email!</string>
     <string name="errore_credenziali">Invalid credentials!</string>
+    <string name="desc_fanta">Can 33cl</string>
+    <string name="desc_sprite">Can 33cl</string>
+    <string name="desc_fanta_zero">Can 33cl</string>
+    <string name="prod_birra">Beer</string>
+    <string name="desc_birra">Can 33cl</string>
+    <string name="desc_chinotto">Can 33cl</string>
+    <string name="desc_lemon_soda">Can 33cl</string>
+    <string name="desc_oran_soda">Can 33cl</string>
+    <string name="prod_water">Tonic Water</string>
+    <string name="desc_water">Can 33cl</string>
+    <string name="prod_the_pesca">Peach Estathé</string>
+    <string name="desc_the_pesca">Can 33cl</string>
 </resources>

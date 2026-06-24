@@ -1,6 +1,6 @@
 package com.example.progettototem;
 
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -31,9 +31,7 @@ public class RegisterActivity extends BaseActivity {
             if (hasFocus) {
                 android.widget.ScrollView scrollView = findViewById(R.id.myScrollView);
 
-                scrollView.postDelayed(() -> {
-                    scrollView.smoothScrollTo(0, v.getTop());
-                }, 300);
+                scrollView.postDelayed(() -> scrollView.smoothScrollTo(0, v.getTop()), 300);
             }
         });
     }

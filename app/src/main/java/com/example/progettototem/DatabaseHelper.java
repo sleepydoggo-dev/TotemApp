@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     
     // Database Information
     private static final String DATABASE_NAME = "RistoranteTotem.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 7;
 
     public static final String TABLE_USERS = "utenti";
     public static final String COLUMN_USER_ID = "id";
@@ -52,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ITEM_PRICE = "prodotto_prezzo";
     public static final String COLUMN_ITEM_QTY = "quantita";
 
-    private Context context;
+    private final Context context;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -112,12 +112,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void inserisciProdottiIniziali(SQLiteDatabase db) {
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_hamburger', 7.50, 'desc_hamburger', 'Panini')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_cheeseburger', 8.00, 'desc_cheeseburger', 'Panini')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_pizza', 12.00, 'desc_pizza', 'Primi')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_pasta_al_pesto', 900000.00, 'desc_pasta_al_pesto', 'Primi')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_pasta', 6.00, 'desc_pasta', 'Primi')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_lasagna', 9.00, 'desc_lasagna', 'Primi')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_cotoletta', 10.00, 'desc_cotoletta', 'Secondi')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_grigliata', 15.00, 'desc_grigliata', 'Secondi')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_acqua', 1.50, 'desc_acqua', 'Bevande')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_coca', 2.50, 'desc_coca', 'Bevande')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_fanta', 2.50, 'desc_fanta', 'Bevande')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_sprite', 2.50, 'desc_sprite', 'Bevande')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_fanta_zero', 2.50, 'desc_fanta_zero', 'Bevande')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_birra', 3.00, 'desc_birra', 'Bevande')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_chinotto', 3.00, 'desc_chinotto', 'Bevande')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_lemon_soda', 3.00, 'desc_lemon_soda', 'Bevande')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_oran_soda', 3.00, 'desc_oran_soda', 'Bevande')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_water', 2.00, 'desc_water', 'Bevande')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_the_pesca', 3.00, 'desc_the_pesca', 'Bevande')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_the_limone', 3.00, 'desc_the_limone', 'Bevande')");
+
     }
     
     @Override
@@ -134,7 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean utenteEsiste(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
-        boolean exists = false;
+        boolean exists;
         try {
             cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE " + COLUMN_USERNAME + "=?", new String[]{username});
             exists = cursor.getCount() > 0;
@@ -192,17 +205,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CART, COLUMN_CART_USER + "=?", new String[]{username});
 
-        for (ProdottoOrdinato p : prodotti) {
-            ContentValues values = new ContentValues();
-            values.put(COLUMN_CART_USER, username);
-            values.put(COLUMN_CART_NOME, p.getProdotto().getNome());
-            values.put(COLUMN_CART_PREZZO, p.getProdotto().getPrezzo());
-            values.put(COLUMN_CART_DESC, p.getProdotto().getDescrizione());
-            values.put(COLUMN_CART_QTY, p.getQuantita());
-
-            long result = db.insert(TABLE_CART, null, values);
-            if (result == -1) {
-                android.util.Log.e("TEST_CARRELLO", "ERRORE INSERT: Il database non ha salvato il prodotto!");
+        if (prodotti != null) {
+            for (ProdottoOrdinato p : prodotti) {
+                ContentValues values = new ContentValues();
+                values.put(COLUMN_CART_USER, username);
+                values.put(COLUMN_CART_NOME, p.getProdotto().getNome());
+                values.put(COLUMN_CART_PREZZO, p.getProdotto().getPrezzo());
+                values.put(COLUMN_CART_DESC, p.getProdotto().getDescrizione());
+                values.put(COLUMN_CART_QTY, p.getQuantita());
+                db.insert(TABLE_CART, null, values);
             }
         }
     }
@@ -211,10 +222,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<ProdottoOrdinato> lista = new ArrayList<>();
         if (username == null) return lista;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = null;
-        try {
-            cursor = db.query(TABLE_CART, null, COLUMN_CART_USER + "=?", new String[]{username}, null, null, null);
-            if (cursor != null && cursor.moveToFirst()) {
+        try (Cursor cursor = db.query(TABLE_CART, null, COLUMN_CART_USER + "=?", new String[]{username}, null, null, null)) {
+            if (cursor.moveToFirst()) {
                 do {
                     String nome = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CART_NOME));
                     double prezzo = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_CART_PREZZO));
@@ -224,8 +233,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     lista.add(new ProdottoOrdinato(new Prodotto(nome, prezzo, desc), qty));
                 } while (cursor.moveToNext());
             }
-        } finally {
-            if (cursor != null) cursor.close();
         }
         return lista;
     }
@@ -291,10 +298,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Prodotto> lista = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {COLUMN_PROD_NAME, COLUMN_PROD_PRICE, COLUMN_PROD_DESC};
-        Cursor cursor = db.query(TABLE_PRODUCTS, columns, COLUMN_PROD_CAT + "=?", new String[]{categoria}, null, null, null);
-        
-        try {
-            if (cursor != null && cursor.moveToFirst()) {
+
+        try (Cursor cursor = db.query(TABLE_PRODUCTS, columns, COLUMN_PROD_CAT + "=?", new String[]{categoria}, null, null, null)) {
+            if (cursor.moveToFirst()) {
                 do {
                     String nomeKey = cursor.getString(0);
                     double prezzo = cursor.getDouble(1);
@@ -311,8 +317,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (cursor != null) cursor.close();
         }
         return lista;
     }
