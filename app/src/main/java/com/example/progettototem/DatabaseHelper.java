@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     
     // Database Information
     private static final String DATABASE_NAME = "RistoranteTotem.db";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
 
     public static final String TABLE_USERS = "utenti";
     public static final String COLUMN_USER_ID = "id";
@@ -51,6 +51,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ITEM_NAME = "prodotto_nome";
     public static final String COLUMN_ITEM_PRICE = "prodotto_prezzo";
     public static final String COLUMN_ITEM_QTY = "quantita";
+
+    public static final String TABLE_FAVORITES = "preferiti";
+    public static final String COLUMN_FAV_ID = "id";
+    public static final String COLUMN_FAV_USER = "username";
+    public static final String COLUMN_FAV_PROD_NAME = "prodotto_nome";
+    public static final String COLUMN_FAV_PROD_PRICE = "prodotto_prezzo";
+    public static final String COLUMN_FAV_PROD_DESC = "prodotto_desc";
 
     private final Context context;
 
@@ -106,6 +113,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + "FOREIGN KEY(" + COLUMN_ITEM_ORDER_ID + ") REFERENCES " + TABLE_ORDERS + "(" + COLUMN_ORDER_ID + "))";
         db.execSQL(CREATE_ORDER_ITEMS_TABLE);
 
+        String CREATE_FAV_TABLE = "CREATE TABLE " + TABLE_FAVORITES + "("
+                + COLUMN_FAV_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_FAV_USER + " TEXT,"
+                + COLUMN_FAV_PROD_NAME + " TEXT,"
+                + COLUMN_FAV_PROD_PRICE + " REAL,"
+                + COLUMN_FAV_PROD_DESC + " TEXT" + ")";
+        db.execSQL(CREATE_FAV_TABLE);
+
         inserisciProdottiIniziali(db);
     }
 
@@ -113,7 +128,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_hamburger', 7.50, 'desc_hamburger', 'Panini')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_cheeseburger', 8.00, 'desc_cheeseburger', 'Panini')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_pizza', 12.00, 'desc_pizza', 'Primi')");
-        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_pasta_al_pesto', 900000.00, 'desc_pasta_al_pesto', 'Primi')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_pasta_al_pesto', 900.00, 'desc_pasta_al_pesto', 'Primi')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_pasta', 6.00, 'desc_pasta', 'Primi')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_lasagna', 9.00, 'desc_lasagna', 'Primi')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_cotoletta', 10.00, 'desc_cotoletta', 'Secondi')");
@@ -140,6 +155,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CART);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDER_ITEMS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FAVORITES);
         onCreate(db);
     }
 
@@ -316,8 +332,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            android.util.Log.e("ErroreApp", "Eccezione catturata", e);
         }
+        return lista;
+    }
+
+    public void aggiungiPreferito(String user, Prodotto p) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues v = new ContentValues();
+        v.put(COLUMN_FAV_USER, user);
+        v.put(COLUMN_FAV_PROD_NAME, p.getNome());
+        v.put(COLUMN_FAV_PROD_PRICE, p.getPrezzo());
+        v.put(COLUMN_FAV_PROD_DESC, p.getDescrizione());
+        db.insert(TABLE_FAVORITES, null, v);
+    }
+
+    public void rimuoviPreferito(String user, String prodName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_FAVORITES, COLUMN_FAV_USER + "=? AND " + COLUMN_FAV_PROD_NAME + "=?", new String[]{user, prodName});
+    }
+
+    public boolean isPreferito(String user, String prodName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.query(TABLE_FAVORITES, null, COLUMN_FAV_USER + "=? AND " + COLUMN_FAV_PROD_NAME + "=?", new String[]{user, prodName}, null, null, null);
+        boolean exists = c.getCount() > 0;
+        c.close();
+        return exists;
+    }
+
+    public List<Prodotto> getPreferiti(String user) {
+        List<Prodotto> lista = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.query(TABLE_FAVORITES, null, COLUMN_FAV_USER + "=?", new String[]{user}, null, null, null);
+        if (c.moveToFirst()) {
+            do {
+                String n = c.getString(c.getColumnIndexOrThrow(COLUMN_FAV_PROD_NAME));
+                double p = c.getDouble(c.getColumnIndexOrThrow(COLUMN_FAV_PROD_PRICE));
+                String d = c.getString(c.getColumnIndexOrThrow(COLUMN_FAV_PROD_DESC));
+                lista.add(new Prodotto(n, p, d));
+            } while (c.moveToNext());
+        }
+        c.close();
         return lista;
     }
 }

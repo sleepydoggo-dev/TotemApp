@@ -38,8 +38,8 @@ public class CarrelloAdapter extends RecyclerView.Adapter<CarrelloAdapter.ViewHo
         // Imposta i dati del ViewHolder
         ProdottoOrdinato po = lista.get(position);
         holder.tNome.setText(po.getProdotto().nome);
-        holder.tPrezzoUnit.setText("cad. € " + String.format("%.2f", po.getProdotto().prezzo));
-        holder.tPrezzoTot.setText("€ " + String.format("%.2f", po.getPrezzoTotale()));
+        holder.tPrezzoUnit.setText(context.getString(R.string.unit_price_format, po.getProdotto().prezzo));
+        holder.tPrezzoTot.setText(context.getString(R.string.price_format, po.getPrezzoTotale()));
         holder.tQuant.setText(String.valueOf(po.getQuantita()));
 
 

@@ -32,6 +32,7 @@
     <string name="proceed_payment">Procedi al Pagamento</string>
     <string name="payment_title">Pagamento</string>
     <string name="amount">Importo:</string>
+    <string name="amount_format">Importo: € %.2f</string>
     <string name="select_method">Seleziona il metodo:</string>
     <string name="credit_card">Carta di Credito / Debito</string>
     <string name="cash">Contanti alla consegna</string>
@@ -60,6 +61,8 @@
     <string name="contact_desc">Inserisci i tuoi dati per ricevere la ricevuta dell\'ordine.</string>
     <string name="proceed">Procedi</string>
     <string name="add_to_cart">Aggiungi</string>
+    <string name="add_to_cart_btn_format">AGGIUNGI  € %.2f</string>
+    <string name="added_to_cart_format">%s aggiunto!</string>
     <string name="see_details">Vedi Dettagli</string>
     <string name="added_to_cart">Aggiunto al carrello!</string>
     <string name="fill_mandatory">Compila tutti i campi obbligatori</string>
@@ -77,6 +80,23 @@
     <string name="secondi">Secondi</string>
     <string name="bevande">Bevande</string>
     <string name="storico_ordini">Storico Ordini</string>
+    <string name="preferiti">Preferiti</string>
+    <string name="nessun_preferito">Nessun prodotto nei preferiti</string>
+    <string name="rimosso_preferiti">Rimosso dai preferiti</string>
+    <string name="aggiunto_preferiti">Aggiunto ai preferiti</string>
+    <string name="rifai_ordine">Rifai</string>
+    <string name="prodotti_aggiunti">Prodotti aggiunti al carrello!</string>
+    <string name="go_back">Torna Indietro</string>"
+    <string name="default_price" translatable="false">€ 0,00</string>
+    <string name="go_to_cart">Vai al Carrello</string>
+    <string name="product_name">Nome del Prodotto"</string>
+    <string name="description">Descrizione</string>
+    <string name="quantity">Quantità</string>
+    <string name="total_price">Importo: € 0,00</string>
+    <string name="alt_method" translatable="false">PayPal / Satispay</string>
+    <string name="cambia">Cambia Layout</string>
+    <string name="categoria">Categoria</string>
+    <string name="requirements">Richiesti: 1 maiuscolo, 1 minuscolo, 1 numero, 1 simbolo</string>
 
     <!-- Prodotti -->
     <string name="prod_hamburger">Hamburger Classico</string>
@@ -123,6 +143,10 @@
     <string name="plus">+</string>
     <string name="minus">-</string>
     <string name="cad">cad. €</string>
+    <string name="price_format">€ %.2f</string>
+    <string name="unit_price_format">cad. € %.2f</string>
+    <string name="order_items_format">Prodotti: %s</string>
+    <string name="order_item_qty_format">%dx %s</string>
 
     <!-- Toast -->
     <string name="errore_campi_vuoti">Compila tutti i campi obbligatori!</string>

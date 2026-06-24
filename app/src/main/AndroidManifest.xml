@@ -34,5 +34,6 @@
         <activity android:name=".TempActivity" android:exported="false" android:windowSoftInputMode="adjustResize" android:launchMode="singleTop"/>
         <activity android:name=".CategorieActivity" android:exported="false" android:windowSoftInputMode="adjustResize" android:launchMode="singleTop"/>
         <activity android:name=".StoricoOrdiniActivity" android:exported="false" android:windowSoftInputMode="adjustResize" android:launchMode="singleTop"/>
+        <activity android:name=".PreferitiActivity" android:exported="false" android:windowSoftInputMode="adjustResize" android:launchMode="singleTop"/>
     </application>
 </manifest>

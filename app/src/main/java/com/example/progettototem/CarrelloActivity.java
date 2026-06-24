@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CarrelloActivity extends BaseActivity {
     private TextView tTotale;
     private Carrello carrello;
-    private CarrelloAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +25,14 @@ public class CarrelloActivity extends BaseActivity {
         RecyclerView rv = findViewById(R.id.recyclerCarrello);
         // Imposta il layout manager e l'adapter per il RecyclerView
         rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CarrelloAdapter(this, carrello.getProdotti(), this::aggiornaTotale);
+        CarrelloAdapter adapter = new CarrelloAdapter(this, carrello.getProdotti(), this::aggiornaTotale);
         rv.setAdapter(adapter);
 
         aggiornaTotale();
     }
 
     private void aggiornaTotale() {
-        tTotale.setText("€ " + String.format("%.2f", carrello.getTotale()));
+        tTotale.setText(getString(R.string.price_format, carrello.getTotale()));
     }
 
     public void procediAlCheckout(View view) {

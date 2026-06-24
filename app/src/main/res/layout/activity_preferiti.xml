@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/secondary_bg"
-    tools:context=".ProdottiActivity">
+    tools:context=".PreferitiActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topBarProdotti"
+        android:id="@+id/topBarPreferiti"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="@color/main_bg"
@@ -18,37 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/btnIndietro"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/go_back"
-            android:onClick="tornaIndietro"
-            android:padding="12dp"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_revert" />
-
-        <TextView
-            android:id="@+id/textNomeCategoria"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/categoria"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnCambiaVista"
-            app:layout_constraintStart_toEndOf="@+id/btnIndietro"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/btnCambiaVista"
+            android:id="@+id/btnCambiaVista2"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginEnd="8dp"
@@ -63,7 +33,37 @@
             app:srcCompat="@android:drawable/ic_dialog_dialer" />
 
         <ImageButton
-            android:id="@+id/btnVaiAlCarrello"
+            android:id="@+id/btnIndietroPref"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/go_back"
+            android:onClick="tornaIndietro"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_revert" />
+
+        <TextView
+            android:id="@+id/textTitoloPreferiti"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/preferiti"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnVaiAlCarrello2"
+            app:layout_constraintStart_toEndOf="@+id/btnIndietroPref"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnVaiAlCarrello2"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginEnd="16dp"
@@ -73,29 +73,30 @@
             android:padding="8dp"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnCambiaVista"
+            app:layout_constraintEnd_toStartOf="@+id/btnCambiaVista2"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@android:drawable/ic_menu_edit" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerSingolaCategoria"
+        android:id="@+id/recyclerPreferiti"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBarProdotti" />
+        app:layout_constraintTop_toBottomOf="@+id/topBarPreferiti" />
 
-    <ProgressBar
-        android:id="@+id/loadingProdotti"
+    <TextView
+        android:id="@+id/textNessunPreferito"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/nessun_preferito"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/topBarPreferiti" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

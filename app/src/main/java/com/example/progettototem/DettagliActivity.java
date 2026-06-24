@@ -39,7 +39,7 @@ public class DettagliActivity extends BaseActivity {
 
     private void aggiornaPrezzo() {
         double totale = prezzoUnitario * quantita;
-        btnAggiungi.setText("AGGIUNGI  € " + String.format("%.2f", totale));
+        btnAggiungi.setText(getString(R.string.add_to_cart_btn_format, totale));
         tQuantita.setText(String.valueOf(quantita));
     }
 

@@ -24,7 +24,7 @@ public class PagamentoActivity extends BaseActivity {
         dbHelper = new DatabaseHelper(this);
 
         TextView tImporto = findViewById(R.id.textImportoPagamento);
-        tImporto.setText("Importo: € " + String.format("%.2f", Carrello.getInstance().getTotale()));
+        tImporto.setText(getString(R.string.amount_format, Carrello.getInstance().getTotale()));
 
         layoutCarta = findViewById(R.id.layoutDatiCarta);
         RadioGroup rg = findViewById(R.id.radioGroupPagamento);

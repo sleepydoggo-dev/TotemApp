@@ -51,7 +51,7 @@ public class Carrello {
             try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
                 dbHelper.salvaCarrello(user, this.prodotti);
             } catch (Exception e) {
-                e.printStackTrace();
+                android.util.Log.e("ErroreApp", "Eccezione catturata", e);
             }
         }
     }
@@ -93,7 +93,7 @@ public class Carrello {
                     prodotti.addAll(listaSalvata);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                android.util.Log.e("ErroreApp", "Eccezione catturata", e);
             }
         }
     }

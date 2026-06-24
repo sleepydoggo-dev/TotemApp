@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -35,23 +36,24 @@ public class ProdottiAdapter extends RecyclerView.Adapter<ProdottiAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Prodotto p = listaProdotti.get(position);
         
-        if (!quantitaMap.containsKey(position)) {
-            quantitaMap.put(position, 1);
-        }
+        Integer cachedValue = quantitaMap.get(position);
+        int currentQty = (cachedValue != null) ? cachedValue : 1;
 
         holder.tNome.setText(p.nome);
         holder.tDesc.setText(p.descrizione);
-        holder.tPrezzo.setText("€ " + String.format("%.2f", p.prezzo));
-        holder.tQuant.setText(String.valueOf(quantitaMap.get(position)));
+        holder.tPrezzo.setText(context.getString(R.string.price_format, p.prezzo));
+        holder.tQuant.setText(String.valueOf(currentQty));
 
         holder.btnPiu.setOnClickListener(v -> {
-            int q = quantitaMap.get(position) + 1;
+            Integer val = quantitaMap.get(position);
+            int q = ((val != null) ? val : 1) + 1;
             quantitaMap.put(position, q);
             holder.tQuant.setText(String.valueOf(q));
         });
 
         holder.btnMeno.setOnClickListener(v -> {
-            int q = quantitaMap.get(position);
+            Integer val = quantitaMap.get(position);
+            int q = (val != null) ? val : 1;
             if (q > 1) {
                 q--;
                 quantitaMap.put(position, q);
@@ -60,9 +62,10 @@ public class ProdottiAdapter extends RecyclerView.Adapter<ProdottiAdapter.ViewHo
         });
 
         holder.btnAggiungi.setOnClickListener(v -> {
-            int q = quantitaMap.get(position);
+            Integer val = quantitaMap.get(position);
+            int q = (val != null) ? val : 1;
             Carrello.getInstance().aggiungiProdotto(p, q, context);
-            Toast.makeText(context, p.nome + " aggiunto!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.added_to_cart_format, p.nome), Toast.LENGTH_SHORT).show();
             quantitaMap.put(position, 1);
             holder.tQuant.setText("1");
         });
@@ -74,6 +77,38 @@ public class ProdottiAdapter extends RecyclerView.Adapter<ProdottiAdapter.ViewHo
             intent.putExtra("DESC", p.descrizione);
             context.startActivity(intent);
         });
+
+        // Gestione Preferiti
+        String user = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE).getString("LOGGED_USERNAME", null);
+
+        if (user != null) {
+            // Controllo iniziale dello stato preferito
+            try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
+                boolean isFav = dbHelper.isPreferito(user, p.nome);
+                holder.btnFav.setImageResource(isFav ? android.R.drawable.btn_star_big_on : android.R.drawable.btn_star_big_off);
+            }
+
+            holder.btnFav.setOnClickListener(v -> {
+                // Nuova istanza dentro il listener per garantire la chiusura delle risorse ad ogni click
+                try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
+                    if (dbHelper.isPreferito(user, p.nome)) {
+                        dbHelper.rimuoviPreferito(user, p.nome);
+                        holder.btnFav.setImageResource(android.R.drawable.btn_star_big_off);
+                        Toast.makeText(context, context.getString(R.string.rimosso_preferiti), Toast.LENGTH_SHORT).show();
+                    } else {
+                        dbHelper.aggiungiPreferito(user, p);
+                        holder.btnFav.setImageResource(android.R.drawable.btn_star_big_on);
+                        Toast.makeText(context, context.getString(R.string.aggiunto_preferiti), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                // Se siamo nell'Activity Preferiti, potremmo voler aggiornare la lista
+                if (context instanceof PreferitiActivity) {
+                    ((PreferitiActivity) context).onResume();
+                }
+            });
+        } else {
+            holder.btnFav.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -82,6 +117,7 @@ public class ProdottiAdapter extends RecyclerView.Adapter<ProdottiAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tNome, tDesc, tPrezzo, tQuant, tDettagli;
         Button btnPiu, btnMeno, btnAggiungi;
+        ImageButton btnFav;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -93,6 +129,7 @@ public class ProdottiAdapter extends RecyclerView.Adapter<ProdottiAdapter.ViewHo
             btnPiu = itemView.findViewById(R.id.btnPiuItem);
             btnMeno = itemView.findViewById(R.id.btnMenoItem);
             btnAggiungi = itemView.findViewById(R.id.btnAggiungiItem);
+            btnFav = itemView.findViewById(R.id.btnPreferitoItem);
         }
     }
 }

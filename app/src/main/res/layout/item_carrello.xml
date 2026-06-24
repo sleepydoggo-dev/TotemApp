@@ -15,7 +15,7 @@
             android:id="@+id/nomeProdottoCarrello"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Nome Prodotto"
+            android:text="@string/product_name"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/prezzoTotaleCarrello"

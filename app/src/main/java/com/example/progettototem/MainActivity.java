@@ -22,4 +22,8 @@ public class MainActivity extends BaseActivity {
     public void vaiAStorico(View view) {
         startActivity(new Intent(this, StoricoOrdiniActivity.class));
     }
+
+    public void vaiAPreferiti(View view) {
+        startActivity(new Intent(this, PreferitiActivity.class));
+    }
 }

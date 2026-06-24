@@ -65,7 +65,7 @@ public class ProdottiActivity extends BaseActivity {
                 try {
                     Thread.sleep(800);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    android.util.Log.e("ErroreApp", "Eccezione catturata", e);
                 }
 
                 lista = dbHelper.getProdottiPerCategoria(categoria);

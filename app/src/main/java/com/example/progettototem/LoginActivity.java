@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.List;
 
 public class LoginActivity extends BaseActivity {
     private EditText editUser, editPass;
