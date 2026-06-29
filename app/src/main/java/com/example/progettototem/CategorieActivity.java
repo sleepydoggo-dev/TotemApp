@@ -25,9 +25,5 @@ public class CategorieActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    public void apriCarrello(View view) {
-        startActivity(new Intent(this, CarrelloActivity.class));
-    }
-    
     public void tornaIndietro(View view) { finish(); }
 }

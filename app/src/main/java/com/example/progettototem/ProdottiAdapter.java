@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class ProdottiAdapter extends RecyclerView.Adapter<ProdottiAdapter.ViewHolder> {
@@ -33,20 +34,23 @@ public class ProdottiAdapter extends RecyclerView.Adapter<ProdottiAdapter.ViewHo
 
         holder.tNome.setText(p.getNome());
 
-        // Caricamento dinamico tramite immagineKey definita nel DatabaseHelper
+        // Caricamento ottimizzato con Glide per eliminare il lag
         String imgKey = p.getImmagineKey();
         int imgRes = 0;
-        
         if (imgKey != null && !imgKey.isEmpty()) {
             imgRes = context.getResources().getIdentifier(imgKey, "drawable", context.getPackageName());
         }
-
+        
         // Fallback a burger se l'immagine non viene trovata
         if (imgRes == 0) {
             imgRes = R.drawable.burger;
         }
 
-        holder.imgProdotto.setImageResource(imgRes);
+        Glide.with(context)
+                .load(imgRes)
+                .placeholder(R.drawable.burger)
+                .centerCrop()
+                .into(holder.imgProdotto);
 
         // Click sull'intero blocco (Apre DettagliActivity)
         holder.itemView.setOnClickListener(v -> {

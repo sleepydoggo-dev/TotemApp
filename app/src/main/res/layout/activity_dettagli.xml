@@ -71,6 +71,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textNomeDettaglio" />
 
+            <TextView
+                android:id="@+id/labelPersonalizza"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="Personalizza il tuo ordine"
+                android:textColor="@color/text_color_primary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textDescrizioneDettaglio" />
+
+            <LinearLayout
+                android:id="@+id/containerAttributi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/labelPersonalizza" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

@@ -79,8 +79,6 @@
     <string name="primi">First Courses</string>
     <string name="secondi">Main Courses</string>
     <string name="bevande">Drinks</string>
-
-    <!-- Products -->
     <string name="storico_ordini">Last Orders</string>
     <string name="logout">Logout</string>
     <string name="preferiti">Favorites</string>
@@ -90,19 +88,18 @@
     <string name="rifai_ordine">Reorder</string>
     <string name="prodotti_aggiunti">Items added to cart!</string>
     <string name="go_back">Go back</string>
-    <string name="product_name">Product name</string>
-    <string name="description">Description</string>
-    <string name="quantity">Quantity</string>
-    <string name="total_price">Total: € 0,00</string>
     <string name="go_to_cart">Go to shopping cart</string>
     <string name="cambia">Change Layout</string>
     <string name="categoria">Category</string>
-    <string name="requirements">Required: 1 uppercase, 1 lowercase, 1 number, 1 symbol</string>
+    <string name="cad">ea. €</string>
+
+    <!-- Products -->
     <string name="prod_hamburger">Classic Hamburger</string>
     <string name="desc_hamburger">Beef, salad, tomato</string>
     <string name="prod_cheeseburger">Cheeseburger</string>
     <string name="desc_cheeseburger">Beef, cheddar, pickles</string>
     <string name="prod_pasta">Pasta with Tomato Sauce</string>
+    <string name="prod_pizza">Pizza</string>
     <string name="desc_pizza">Tomato, mozzarella, mushrooms</string>
     <string name="prod_pasta_al_pesto">Trofie with pesto</string>
     <string name="desc_pasta_al_pesto">Trofie with pesto alla genovese</string>
@@ -117,29 +114,14 @@
     <string name="desc_acqua">Still or sparkling 50cl</string>
     <string name="prod_coca">Coke</string>
     <string name="desc_coca">Can 33cl</string>
-
-    <string name="prod_the_limone">Lemon Estathé</string>
-    <string name="desc_the_limone">Can 33cl</string>
-    <string name="plus">+</string>
-    <string name="minus">-</string>
-    <string name="cad">ea. €</string>
-    <string name="price_format">€ %.2f</string>
-    <string name="unit_price_format">ea. € %.2f</string>
-    <string name="order_items_format">Products: %s</string>
-    <string name="order_item_qty_format">%dx %s</string>
-    <string name="errore_campi_vuoti">Please fill in all required fields!</string>
-    <string name="errore_email_non_valida">Please enter a valid email!</string>
-    <string name="errore_credenziali">Invalid credentials!</string>
-    <string name="desc_fanta">Can 33cl</string>
-    <string name="desc_sprite">Can 33cl</string>
-    <string name="desc_fanta_zero">Can 33cl</string>
+    <string name="prod_fanta">Fanta</string>
+    <string name="prod_sprite">Sprite</string>
+    <string name="prod_fanta_zero">Fanta Zero</string>
     <string name="prod_birra">Beer</string>
-    <string name="desc_birra">Can 33cl</string>
-    <string name="desc_chinotto">Can 33cl</string>
-    <string name="desc_lemon_soda">Can 33cl</string>
-    <string name="desc_oran_soda">Can 33cl</string>
+    <string name="prod_chinotto">Chinotto</string>
+    <string name="prod_lemon_soda">Lemon Soda</string>
+    <string name="prod_oran_soda">Oran Soda</string>
     <string name="prod_water">Tonic Water</string>
-    <string name="desc_water">Can 33cl</string>
     <string name="prod_the_pesca">Peach Estathé</string>
-    <string name="desc_the_pesca">Can 33cl</string>
+    <string name="prod_the_limone">Lemon Estathé</string>
 </resources>

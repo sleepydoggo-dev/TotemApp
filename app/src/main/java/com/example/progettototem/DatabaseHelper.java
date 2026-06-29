@@ -11,8 +11,8 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
     
     // Database Information
-    private static final String DATABASE_NAME = "RistoranteTotem.db";
-    private static final int DATABASE_VERSION = 9;
+    private static final String DATABASE_NAME = "RistoranteTotem_NEW.db";
+    private static final int DATABASE_VERSION = 1;
 
     public static final String TABLE_USERS = "utenti";
     public static final String COLUMN_USER_ID = "id";
@@ -52,6 +52,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ITEM_NAME = "prodotto_nome";
     public static final String COLUMN_ITEM_PRICE = "prodotto_prezzo";
     public static final String COLUMN_ITEM_QTY = "quantita";
+
+    public static final String TABLE_ATTRIBUTES = "attributi";
+    public static final String COLUMN_ATTR_ID = "id";
+    public static final String COLUMN_ATTR_PROD_ID = "prodotto_id";
+    public static final String COLUMN_ATTR_NAME = "nome";
+    public static final String COLUMN_ATTR_PRICE = "prezzo_extra";
 
     public static final String TABLE_FAVORITES = "preferiti";
     public static final String COLUMN_FAV_ID = "id";
@@ -125,6 +131,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_FAV_PROD_IMG + " TEXT" + ")";
         db.execSQL(CREATE_FAV_TABLE);
 
+        String CREATE_ATTRIBUTES_TABLE = "CREATE TABLE " + TABLE_ATTRIBUTES + "("
+                + COLUMN_ATTR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_ATTR_PROD_ID + " INTEGER,"
+                + COLUMN_ATTR_NAME + " TEXT,"
+                + COLUMN_ATTR_PRICE + " REAL,"
+                + "FOREIGN KEY(" + COLUMN_ATTR_PROD_ID + ") REFERENCES " + TABLE_PRODUCTS + "(" + COLUMN_PROD_ID + "))";
+        db.execSQL(CREATE_ATTRIBUTES_TABLE);
+
         inserisciProdottiIniziali(db);
     }
 
@@ -132,7 +146,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_hamburger', 7.50, 'desc_hamburger', 'Panini')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_cheeseburger', 8.00, 'desc_cheeseburger', 'Panini')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_pizza', 12.00, 'desc_pizza', 'Primi')");
-        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_pasta_al_pesto', 900.00, 'desc_pasta_al_pesto', 'Primi')");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_pasta_al_pesto', 8.50, 'desc_pasta_al_pesto', 'Primi')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_pasta', 6.00, 'desc_pasta', 'Primi')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_lasagna', 9.00, 'desc_lasagna', 'Primi')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_cotoletta', 10.00, 'desc_cotoletta', 'Secondi')");
@@ -150,6 +164,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_the_pesca', 3.00, 'desc_the_pesca', 'Bevande')");
         db.execSQL("INSERT INTO " + TABLE_PRODUCTS + " (nome_key, prezzo, desc_key, categoria) VALUES ('prod_the_limone', 3.00, 'desc_the_limone', 'Bevande')");
 
+        // Inserimento attributi per Hamburger (Assumiamo ID 1 per Hamburger)
+        db.execSQL("INSERT INTO " + TABLE_ATTRIBUTES + " (" + COLUMN_ATTR_PROD_ID + ", " + COLUMN_ATTR_NAME + ", " + COLUMN_ATTR_PRICE + ") VALUES (1, 'Cipolla extra', 0.50)");
+        db.execSQL("INSERT INTO " + TABLE_ATTRIBUTES + " (" + COLUMN_ATTR_PROD_ID + ", " + COLUMN_ATTR_NAME + ", " + COLUMN_ATTR_PRICE + ") VALUES (1, 'Bacon', 1.00)");
+        db.execSQL("INSERT INTO " + TABLE_ATTRIBUTES + " (" + COLUMN_ATTR_PROD_ID + ", " + COLUMN_ATTR_NAME + ", " + COLUMN_ATTR_PRICE + ") VALUES (1, 'Senza cetrioli', 0.00)");
+
+        // Inserimento attributi per Pasta (Assumiamo ID 4 per Trofie al pesto)
+        db.execSQL("INSERT INTO " + TABLE_ATTRIBUTES + " (" + COLUMN_ATTR_PROD_ID + ", " + COLUMN_ATTR_NAME + ", " + COLUMN_ATTR_PRICE + ") VALUES (4, 'Parmigiano extra', 0.80)");
+        db.execSQL("INSERT INTO " + TABLE_ATTRIBUTES + " (" + COLUMN_ATTR_PROD_ID + ", " + COLUMN_ATTR_NAME + ", " + COLUMN_ATTR_PRICE + ") VALUES (4, 'Pesto extra', 1.20)");
+        
+        // Bevande (es. ID 9 per Acqua)
+        db.execSQL("INSERT INTO " + TABLE_ATTRIBUTES + " (" + COLUMN_ATTR_PROD_ID + ", " + COLUMN_ATTR_NAME + ", " + COLUMN_ATTR_PRICE + ") VALUES (9, 'Senza ghiaccio', 0.00)");
+        db.execSQL("INSERT INTO " + TABLE_ATTRIBUTES + " (" + COLUMN_ATTR_PROD_ID + ", " + COLUMN_ATTR_NAME + ", " + COLUMN_ATTR_PRICE + ") VALUES (9, 'Fetta di limone', 0.20)");
+
     }
     
     @Override
@@ -160,6 +187,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDER_ITEMS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FAVORITES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ATTRIBUTES);
         onCreate(db);
     }
 
@@ -311,20 +339,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         try (Cursor cursor = db.query(TABLE_PRODUCTS, columns, COLUMN_PROD_CAT + "=?", new String[]{categoria}, null, null, null)) {
             if (cursor.moveToFirst()) {
+                String packageName = context.getPackageName();
+                android.content.res.Resources res = context.getResources();
+                
                 do {
                     String nomeKey = cursor.getString(0);
                     double prezzo = cursor.getDouble(1);
                     String descKey = cursor.getString(2);
 
-                    int resNomeId = context.getResources().getIdentifier(nomeKey, "string", context.getPackageName());
-                    int resDescId = context.getResources().getIdentifier(descKey, "string", context.getPackageName());
+                    int resNomeId = res.getIdentifier(nomeKey, "string", packageName);
+                    int resDescId = res.getIdentifier(descKey, "string", packageName);
 
                     String nomeTradotto = (resNomeId != 0) ? context.getString(resNomeId) : nomeKey;
                     String descTradotta = (resDescId != 0) ? context.getString(resDescId) : descKey;
 
                     String imgKey = nomeKey.replace("prod_", "");
                     if (imgKey.equals("hamburger")) imgKey = "burger";
-                    else if (imgKey.equals("cheeseburger")) imgKey = "cheeseburger";
                     else if (imgKey.equals("pasta_al_pesto")) imgKey = "pesto";
                     else if (imgKey.equals("pasta")) imgKey = "sugo";
                     else if (imgKey.equals("fanta_zero")) imgKey = "fantazero";
@@ -343,28 +373,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return lista;
     }
 
-    public void aggiungiPreferito(String user, Prodotto p) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues v = new ContentValues();
-        v.put(COLUMN_FAV_USER, user);
-        v.put(COLUMN_FAV_PROD_NAME, p.getNome());
-        v.put(COLUMN_FAV_PROD_PRICE, p.getPrezzo());
-        v.put(COLUMN_FAV_PROD_DESC, p.getDescrizione());
-        v.put(COLUMN_FAV_PROD_IMG, p.getImmagineKey());
-        db.insert(TABLE_FAVORITES, null, v);
-    }
 
-    public void rimuoviPreferito(String user, String prodName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_FAVORITES, COLUMN_FAV_USER + "=? AND " + COLUMN_FAV_PROD_NAME + "=?", new String[]{user, prodName});
-    }
 
-    public boolean isPreferito(String user, String prodName) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        try (Cursor c = db.query(TABLE_FAVORITES, null, COLUMN_FAV_USER + "=? AND " + COLUMN_FAV_PROD_NAME + "=?", new String[]{user, prodName}, null, null, null)) {
-            return c.getCount() > 0;
-        }
-    }
+
 
     public List<Prodotto> getPreferiti(String user) {
         List<Prodotto> lista = new ArrayList<>();
@@ -379,6 +390,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     lista.add(new Prodotto(n, p, d, img));
                 } while (c.moveToNext());
             }
+        }
+        return lista;
+    }
+
+    public List<Attributo> getAttributiPerProdotto(String nomeProdotto) {
+        List<Attributo> lista = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        
+        // Debug Log
+        android.util.Log.d("DatabaseHelper", "Cerco attributi per: " + nomeProdotto);
+
+        // Fallback: se il nome è "Hamburger Classico", vogliamo che trovi "prod_hamburger"
+        // Proviamo a cercare direttamente gli attributi associati a un prodotto il cui nome_key "assomiglia" al nome visualizzato
+        String query = "SELECT a." + COLUMN_ATTR_NAME + ", a." + COLUMN_ATTR_PRICE + 
+                " FROM " + TABLE_ATTRIBUTES + " a " +
+                " JOIN " + TABLE_PRODUCTS + " p ON a." + COLUMN_ATTR_PROD_ID + " = p." + COLUMN_PROD_ID +
+                " WHERE ? LIKE '%' || REPLACE(p." + COLUMN_PROD_NAME + ", 'prod_', '') || '%' " +
+                " OR REPLACE(p." + COLUMN_PROD_NAME + ", 'prod_', '') LIKE '%' || ? || '%'";
+        
+        try (Cursor cursor = db.rawQuery(query, new String[]{nomeProdotto, nomeProdotto})) {
+            if (cursor.moveToFirst()) {
+                do {
+                    String nome = cursor.getString(0);
+                    double prezzo = cursor.getDouble(1);
+                    lista.add(new Attributo(nome, prezzo));
+                    android.util.Log.d("DatabaseHelper", "Trovato attributo: " + nome);
+                } while (cursor.moveToNext());
+            } else {
+                android.util.Log.d("DatabaseHelper", "Nessun attributo trovato nel DB per " + nomeProdotto);
+            }
+        } catch (Exception e) {
+            android.util.Log.e("ErroreApp", "Errore recupero attributi", e);
         }
         return lista;
     }

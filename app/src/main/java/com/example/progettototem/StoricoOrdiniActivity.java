@@ -8,17 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class StoricoOrdiniActivity extends BaseActivity {
-    private RecyclerView recyclerView;
-    private StoricoAdapter adapter;
-    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storico_ordini);
 
-        dbHelper = new DatabaseHelper(this);
-        recyclerView = findViewById(R.id.recyclerStorico);
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        RecyclerView recyclerView = findViewById(R.id.recyclerStorico);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         String loggedUser = getSharedPreferences("AppPrefs", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
@@ -27,7 +24,7 @@ public class StoricoOrdiniActivity extends BaseActivity {
             if (ordini.isEmpty()) {
                 Toast.makeText(this, "Nessun ordine trovato", Toast.LENGTH_SHORT).show();
             }
-            adapter = new StoricoAdapter(ordini);
+            StoricoAdapter adapter = new StoricoAdapter(ordini);
             recyclerView.setAdapter(adapter);
         } else {
             Toast.makeText(this, "Effettua il login per vedere lo storico", Toast.LENGTH_SHORT).show();

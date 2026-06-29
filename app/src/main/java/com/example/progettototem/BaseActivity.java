@@ -25,12 +25,24 @@ public class BaseActivity extends AppCompatActivity {
     private void applyLocale() {
         SharedPreferences prefs = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE);
         String lang = prefs.getString("APP_LANG", "it");
+
+        if (lang == null || lang.isEmpty()) {
+            lang = "it";
+        }
+
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
+
         Resources res = getResources();
         Configuration config = new Configuration(res.getConfiguration());
         config.setLocale(locale);
+
+        // Aggiorna sia il contesto dell'attività che quello dell'applicazione
         res.updateConfiguration(config, res.getDisplayMetrics());
+        getApplicationContext().getResources().updateConfiguration(config, res.getDisplayMetrics());
+
+        // Forza anche la direzione del layout (LTR per italiano)
+        config.setLayoutDirection(locale);
     }
 
     // Metodi condivisi per la Top Bar

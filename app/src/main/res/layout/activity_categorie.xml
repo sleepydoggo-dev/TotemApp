@@ -50,7 +50,7 @@
         android:id="@+id/titoloCategorie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cosa vuoi mangiare?"
+        android:text="@string/what_to_order"
         android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="?android:attr/textColorPrimary"
@@ -94,7 +94,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Panini"
+                    android:text="@string/panini"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -130,7 +130,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Primi"
+                    android:text="@string/primi"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -166,7 +166,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Secondi"
+                    android:text="@string/secondi"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -202,7 +202,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Bevande"
+                    android:text="@string/bevande"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     android:gravity="center"

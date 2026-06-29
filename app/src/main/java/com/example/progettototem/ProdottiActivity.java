@@ -13,7 +13,6 @@ import java.util.List;
 
 public class ProdottiActivity extends BaseActivity {
     private RecyclerView rvProdotti;
-    private ProdottiAdapter adapter;
     private DatabaseHelper dbHelper;
     private DrawerLayout drawerLayout;
 
@@ -72,8 +71,12 @@ public class ProdottiActivity extends BaseActivity {
 
     private void caricaListaProdotti(String categoria) {
         List<Prodotto> lista = dbHelper.getProdottiPerCategoria(categoria);
-        adapter = new ProdottiAdapter(this, lista);
+        ProdottiAdapter adapter = new ProdottiAdapter(this, lista);
         rvProdotti.setAdapter(adapter);
+    }
+
+    public void tornaIndietro(View view) {
+        finish();
     }
 
     private void eseguiLogout() {

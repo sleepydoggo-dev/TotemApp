@@ -3,9 +3,13 @@ package com.example.progettototem;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class DettagliActivity extends BaseActivity {
     private String nome;
@@ -16,12 +20,16 @@ public class DettagliActivity extends BaseActivity {
 
     private TextView tQuantita;
     private Button btnAggiungi;
+    private LinearLayout containerAttributi;
+    private List<Attributo> listaAttributi = new ArrayList<>();
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettagli);
 
+        dbHelper = new DatabaseHelper(this);
 
         nome = getIntent().getStringExtra("NOME");
         prezzoUnitario = getIntent().getDoubleExtra("PREZZO", 0.0);
@@ -33,6 +41,7 @@ public class DettagliActivity extends BaseActivity {
         android.widget.ImageView imgProd = findViewById(R.id.imgProdottoDettaglio);
         tQuantita = findViewById(R.id.textQuantita);
         btnAggiungi = findViewById(R.id.btnAggiungiCarrello);
+        containerAttributi = findViewById(R.id.containerAttributi);
 
         tNome.setText(nome);
         tDesc.setText(descrizione);
@@ -42,12 +51,38 @@ public class DettagliActivity extends BaseActivity {
             if (imgResId != 0) imgProd.setImageResource(imgResId);
         }
 
+        caricaAttributi();
         aggiornaPrezzo();
     }
 
+    private void caricaAttributi() {
+        listaAttributi = dbHelper.getAttributiPerProdotto(nome);
+        if (listaAttributi.isEmpty()) {
+            findViewById(R.id.labelPersonalizza).setVisibility(View.GONE);
+        } else {
+            for (Attributo attr : listaAttributi) {
+                CheckBox cb = new CheckBox(this);
+                cb.setText(attr.toString());
+                cb.setTextSize(16);
+                cb.setPadding(0, 10, 0, 10);
+                cb.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    attr.setSelezionato(isChecked);
+                    aggiornaPrezzo();
+                });
+                containerAttributi.addView(cb);
+            }
+        }
+    }
+
     private void aggiornaPrezzo() {
-        double totale = prezzoUnitario * quantita;
-        btnAggiungi.setText(getString(R.string.add_to_cart_btn_format, totale));
+        double prezzoExtra = 0;
+        for (Attributo a : listaAttributi) {
+            if (a.isSelezionato()) {
+                prezzoExtra += a.getPrezzoExtra();
+            }
+        }
+        double totale = (prezzoUnitario + prezzoExtra) * quantita;
+        btnAggiungi.setText(String.format(Locale.getDefault(), "AGGIUNGI  € %.2f", totale));
         tQuantita.setText(String.valueOf(quantita));
     }
 
@@ -68,7 +103,25 @@ public class DettagliActivity extends BaseActivity {
     }
 
     public void aggiungiAlCarrello(View view) {
+        // In una versione più completa, ProdottoOrdinato dovrebbe salvare anche gli attributi selezionati
         Prodotto p = new Prodotto(nome, prezzoUnitario, descrizione, immagineKey);
+        
+        // Calcoliamo il prezzo finale comprensivo di extra per il carrello
+        double prezzoExtra = 0;
+        StringBuilder sbExtra = new StringBuilder();
+        for (Attributo a : listaAttributi) {
+            if (a.isSelezionato()) {
+                prezzoExtra += a.getPrezzoExtra();
+                if (sbExtra.length() > 0) sbExtra.append(", ");
+                sbExtra.append(a.getNome());
+            }
+        }
+        
+        if (sbExtra.length() > 0) {
+            p.nome += " (" + sbExtra.toString() + ")";
+        }
+        p.prezzo += prezzoExtra;
+
         Carrello.getInstance().aggiungiProdotto(p, quantita, this);
         Toast.makeText(this, R.string.added_to_cart_msg, Toast.LENGTH_SHORT).show();
         finish();
