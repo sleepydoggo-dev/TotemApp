@@ -3,15 +3,40 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_panini"
-            android:title="@string/panini" />
+            android:title="@string/panini"
+            android:icon="@drawable/burger" />
         <item
             android:id="@+id/nav_primi"
-            android:title="@string/primi" />
+            android:title="@string/primi"
+            android:icon="@drawable/sugo" />
         <item
             android:id="@+id/nav_secondi"
-            android:title="@string/secondi" />
+            android:title="@string/secondi"
+            android:icon="@drawable/cotoletta" />
         <item
             android:id="@+id/nav_bevande"
-            android:title="@string/bevande" />
+            android:title="@string/bevande"
+            android:icon="@drawable/coca" />
     </group>
+
+    <item android:title="Account">
+        <menu>
+            <item
+                android:id="@+id/nav_preferiti"
+                android:title="@string/preferiti"
+                android:icon="@android:drawable/btn_star_big_on" />
+            <item
+                android:id="@+id/nav_storico"
+                android:title="@string/storico_ordini"
+                android:icon="@android:drawable/ic_menu_myplaces" />
+            <item
+                android:id="@+id/nav_opzioni"
+                android:title="@string/options"
+                android:icon="@android:drawable/ic_menu_preferences" />
+            <item
+                android:id="@+id/nav_logout"
+                android:title="@string/logout"
+                android:icon="@android:drawable/ic_lock_power_off" />
+        </menu>
+    </item>
 </menu>

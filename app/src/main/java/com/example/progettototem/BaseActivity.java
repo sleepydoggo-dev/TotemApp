@@ -1,9 +1,11 @@
 package com.example.progettototem;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.Locale;
 
@@ -29,5 +31,18 @@ public class BaseActivity extends AppCompatActivity {
         Configuration config = new Configuration(res.getConfiguration());
         config.setLocale(locale);
         res.updateConfiguration(config, res.getDisplayMetrics());
+    }
+
+    // Metodi condivisi per la Top Bar
+    public void apriOpzioni(View view) {
+        startActivity(new Intent(this, OpzioniActivity.class));
+    }
+
+    public void apriProfilo(View view) {
+        startActivity(new Intent(this, StoricoOrdiniActivity.class));
+    }
+
+    public void apriCarrello(View view) {
+        startActivity(new Intent(this, CarrelloActivity.class));
     }
 }

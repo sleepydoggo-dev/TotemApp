@@ -43,8 +43,8 @@ public class OpzioniActivity extends BaseActivity {
             // Salva la lingua corrente nel SharedPreferences
             if (!lang.equals(currentLang)) {
                 prefs.edit().putString("APP_LANG", lang).apply();
-                // Riavvia l'applicazione partendo dalla MainActivity per aggiornare tutto lo stack
-                Intent intent = new Intent(this, MainActivity.class);
+                // Riavvia l'applicazione partendo dalla CategorieActivity per aggiornare tutto lo stack
+                Intent intent = new Intent(this, CategorieActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();

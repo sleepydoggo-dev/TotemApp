@@ -41,7 +41,7 @@ public class GrazieActivity extends BaseActivity {
     }
 
     public void tornaAllaHome(View view) {
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, CategorieActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
         finish();

@@ -5,20 +5,15 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ProdottiAdapter extends RecyclerView.Adapter<ProdottiAdapter.ViewHolder> {
     private final List<Prodotto> listaProdotti;
     private final Context context;
-    private final Map<Integer, Integer> quantitaMap = new HashMap<>();
 
     public ProdottiAdapter(Context context, List<Prodotto> lista) {
         this.context = context;
@@ -35,27 +30,29 @@ public class ProdottiAdapter extends RecyclerView.Adapter<ProdottiAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Prodotto p = listaProdotti.get(position);
-        
-        Integer cachedValue = quantitaMap.get(position);
-        int currentQty = (cachedValue != null) ? cachedValue : 1;
 
         holder.tNome.setText(p.nome);
-        holder.tDesc.setText(p.descrizione);
-        holder.tPrezzo.setText(context.getString(R.string.price_format, p.prezzo));
-        holder.tQuant.setText(String.valueOf(currentQty));
 
-        // Impostazione immagine dinamica
-        if (p.immagineKey != null) {
-            int imgResId = context.getResources().getIdentifier(p.immagineKey, "drawable", context.getPackageName());
-            if (imgResId != 0) {
-                holder.imgProdotto.setImageResource(imgResId);
-            } else {
-                holder.imgProdotto.setImageResource(android.R.drawable.ic_menu_gallery);
-            }
-        }
+        // Mappatura dinamica delle immagini (stile Totem)
+        int imgRes = R.drawable.burger; // default fallback
+        String n = p.nome.toLowerCase();
 
-        // Click sull'immagine per i dettagli
-        holder.imgProdotto.setOnClickListener(v -> {
+        if (n.contains("pizza")) imgRes = R.drawable.pizza;
+        else if (n.contains("pasta")) imgRes = R.drawable.pasta_bg;
+        else if (n.contains("lasagna")) imgRes = R.drawable.lasagna;
+        else if (n.contains("cotoletta")) imgRes = R.drawable.cotoletta;
+        else if (n.contains("grigliata")) imgRes = R.drawable.grigliata;
+        else if (n.contains("acqua") || n.contains("water")) imgRes = R.drawable.water;
+        else if (n.contains("coca")) imgRes = R.drawable.coca;
+        else if (n.contains("fanta")) imgRes = R.drawable.fanta;
+        else if (n.contains("sprite")) imgRes = R.drawable.sprite;
+        else if (n.contains("birra")) imgRes = R.drawable.birra;
+        else if (n.contains("chinotto")) imgRes = R.drawable.chinotto;
+
+        holder.imgProdotto.setImageResource(imgRes);
+
+        // Click sull'intero blocco del prodotto (Apre i dettagli)
+        holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DettagliActivity.class);
             intent.putExtra("NOME", p.nome);
             intent.putExtra("PREZZO", p.prezzo);
@@ -63,82 +60,19 @@ public class ProdottiAdapter extends RecyclerView.Adapter<ProdottiAdapter.ViewHo
             intent.putExtra("IMG", p.immagineKey);
             context.startActivity(intent);
         });
-
-        holder.btnPiu.setOnClickListener(v -> {
-            Integer val = quantitaMap.get(position);
-            int q = ((val != null) ? val : 1) + 1;
-            quantitaMap.put(position, q);
-            holder.tQuant.setText(String.valueOf(q));
-        });
-
-        holder.btnMeno.setOnClickListener(v -> {
-            Integer val = quantitaMap.get(position);
-            int q = (val != null) ? val : 1;
-            if (q > 1) {
-                q--;
-                quantitaMap.put(position, q);
-                holder.tQuant.setText(String.valueOf(q));
-            }
-        });
-
-        holder.btnAggiungi.setOnClickListener(v -> {
-            Integer val = quantitaMap.get(position);
-            int q = (val != null) ? val : 1;
-            Carrello.getInstance().aggiungiProdotto(p, q, context);
-            Toast.makeText(context, context.getString(R.string.added_to_cart_format, p.nome), Toast.LENGTH_SHORT).show();
-            quantitaMap.put(position, 1);
-            holder.tQuant.setText("1");
-        });
-
-        // Gestione Preferiti
-        String user = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE).getString("LOGGED_USERNAME", null);
-
-        if (user != null) {
-            try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
-                boolean isFav = dbHelper.isPreferito(user, p.nome);
-                holder.btnFav.setImageResource(isFav ? android.R.drawable.btn_star_big_on : android.R.drawable.btn_star_big_off);
-            }
-
-            holder.btnFav.setOnClickListener(v -> {
-                try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
-                    if (dbHelper.isPreferito(user, p.nome)) {
-                        dbHelper.rimuoviPreferito(user, p.nome);
-                        holder.btnFav.setImageResource(android.R.drawable.btn_star_big_off);
-                        Toast.makeText(context, context.getString(R.string.rimosso_preferiti), Toast.LENGTH_SHORT).show();
-                    } else {
-                        dbHelper.aggiungiPreferito(user, p);
-                        holder.btnFav.setImageResource(android.R.drawable.btn_star_big_on);
-                        Toast.makeText(context, context.getString(R.string.aggiunto_preferiti), Toast.LENGTH_SHORT).show();
-                    }
-                }
-                if (context instanceof PreferitiActivity) {
-                    ((PreferitiActivity) context).onResume();
-                }
-            });
-        } else {
-            holder.btnFav.setVisibility(View.GONE);
-        }
     }
 
     @Override
     public int getItemCount() { return listaProdotti.size(); }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tNome, tDesc, tPrezzo, tQuant;
-        Button btnPiu, btnMeno, btnAggiungi;
-        ImageButton btnFav, imgProdotto;
+        TextView tNome;
+        ImageView imgProdotto;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imgProdotto = itemView.findViewById(R.id.imgProdotto);
             tNome = itemView.findViewById(R.id.nomeProdotto);
-            tDesc = itemView.findViewById(R.id.descProdotto);
-            tPrezzo = itemView.findViewById(R.id.prezzoProdottoItem);
-            tQuant = itemView.findViewById(R.id.textQuantitaItem);
-            btnPiu = itemView.findViewById(R.id.btnPiuItem);
-            btnMeno = itemView.findViewById(R.id.btnMenoItem);
-            btnAggiungi = itemView.findViewById(R.id.btnAggiungiItem);
-            btnFav = itemView.findViewById(R.id.btnPreferitoItem);
+            imgProdotto = itemView.findViewById(R.id.imgProdottoItem);
         }
     }
 }

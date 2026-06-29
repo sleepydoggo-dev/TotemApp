@@ -11,10 +11,10 @@ public class HomeActivity extends BaseActivity {
         // Verifica se l'utente è già loggato
         String user = getSharedPreferences("AppPrefs", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
         
-        // Se l'utente è loggato, andiamo alla MainActivity
+        // Se l'utente è loggato, andiamo alla CategorieActivity
         if (user != null) {
             Carrello.getInstance().carica(this, user);
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, CategorieActivity.class));
             finish();
             return;
         }
