@@ -31,33 +31,30 @@ public class ProdottiAdapter extends RecyclerView.Adapter<ProdottiAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Prodotto p = listaProdotti.get(position);
 
-        holder.tNome.setText(p.nome);
+        holder.tNome.setText(p.getNome());
 
-        // Mappatura dinamica delle immagini (stile Totem)
-        int imgRes = R.drawable.burger; // default fallback
-        String n = p.nome.toLowerCase();
+        // Caricamento dinamico tramite immagineKey definita nel DatabaseHelper
+        String imgKey = p.getImmagineKey();
+        int imgRes = 0;
+        
+        if (imgKey != null && !imgKey.isEmpty()) {
+            imgRes = context.getResources().getIdentifier(imgKey, "drawable", context.getPackageName());
+        }
 
-        if (n.contains("pizza")) imgRes = R.drawable.pizza;
-        else if (n.contains("pasta")) imgRes = R.drawable.pasta_bg;
-        else if (n.contains("lasagna")) imgRes = R.drawable.lasagna;
-        else if (n.contains("cotoletta")) imgRes = R.drawable.cotoletta;
-        else if (n.contains("grigliata")) imgRes = R.drawable.grigliata;
-        else if (n.contains("acqua") || n.contains("water")) imgRes = R.drawable.water;
-        else if (n.contains("coca")) imgRes = R.drawable.coca;
-        else if (n.contains("fanta")) imgRes = R.drawable.fanta;
-        else if (n.contains("sprite")) imgRes = R.drawable.sprite;
-        else if (n.contains("birra")) imgRes = R.drawable.birra;
-        else if (n.contains("chinotto")) imgRes = R.drawable.chinotto;
+        // Fallback a burger se l'immagine non viene trovata
+        if (imgRes == 0) {
+            imgRes = R.drawable.burger;
+        }
 
         holder.imgProdotto.setImageResource(imgRes);
 
-        // Click sull'intero blocco del prodotto (Apre i dettagli)
+        // Click sull'intero blocco (Apre DettagliActivity)
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DettagliActivity.class);
-            intent.putExtra("NOME", p.nome);
-            intent.putExtra("PREZZO", p.prezzo);
-            intent.putExtra("DESC", p.descrizione);
-            intent.putExtra("IMG", p.immagineKey);
+            intent.putExtra("NOME", p.getNome());
+            intent.putExtra("PREZZO", p.getPrezzo());
+            intent.putExtra("DESC", p.getDescrizione());
+            intent.putExtra("IMG", p.getImmagineKey());
             context.startActivity(intent);
         });
     }

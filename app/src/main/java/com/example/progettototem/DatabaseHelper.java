@@ -323,14 +323,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     String descTradotta = (resDescId != 0) ? context.getString(resDescId) : descKey;
 
                     String imgKey = nomeKey.replace("prod_", "");
-                    if (imgKey.equals("pasta")) imgKey = "sugo";
+                    if (imgKey.equals("hamburger")) imgKey = "burger";
+                    else if (imgKey.equals("cheeseburger")) imgKey = "cheeseburger";
                     else if (imgKey.equals("pasta_al_pesto")) imgKey = "pesto";
-                    else if (imgKey.equals("acqua")) imgKey = "water";
+                    else if (imgKey.equals("pasta")) imgKey = "sugo";
                     else if (imgKey.equals("fanta_zero")) imgKey = "fantazero";
                     else if (imgKey.equals("lemon_soda")) imgKey = "lemon";
                     else if (imgKey.equals("oran_soda")) imgKey = "oran";
                     else if (imgKey.equals("the_pesca")) imgKey = "pesca";
                     else if (imgKey.equals("the_limone")) imgKey = "lemonthe";
+                    else if (imgKey.equals("acqua")) imgKey = "water";
 
                     lista.add(new Prodotto(nomeTradotto, prezzo, descTradotta, imgKey));
                 } while (cursor.moveToNext());

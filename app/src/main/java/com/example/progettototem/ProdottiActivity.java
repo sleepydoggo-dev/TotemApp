@@ -3,17 +3,19 @@ package com.example.progettototem;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.ImageButton;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.navigation.NavigationView;
 import java.util.List;
 
 public class ProdottiActivity extends BaseActivity {
     private RecyclerView rvProdotti;
     private ProdottiAdapter adapter;
     private DatabaseHelper dbHelper;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,37 +24,63 @@ public class ProdottiActivity extends BaseActivity {
 
         dbHelper = new DatabaseHelper(this);
         rvProdotti = findViewById(R.id.recyclerProdotti);
+        drawerLayout = findViewById(R.id.drawer_layout_prod);
+        NavigationView navigationView = findViewById(R.id.nav_view_prod);
+        ImageButton btnMenu = findViewById(R.id.btnMenuDrawerProd);
 
         // Layout a griglia 2 colonne come un totem
         rvProdotti.setLayoutManager(new GridLayoutManager(this, 2));
 
-        Spinner spinner = findViewById(R.id.spinnerCategorie);
-        String[] categorie = {"Panini", "Primi", "Secondi", "Bevande"};
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categorie);
-        spinner.setAdapter(spinnerAdapter);
-
-        // Capiamo da quale categoria arriviamo e selezioniamo la voce giusta nella tendina
-        String catAttuale = getIntent().getStringExtra("CATEGORIA");
-        if (catAttuale != null) {
-            int pos = java.util.Arrays.asList(categorie).indexOf(catAttuale);
-            spinner.setSelection(pos);
+        if (btnMenu != null) {
+            btnMenu.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
         }
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selezionata = categorie[position];
-                caricaListaProdotti(selezionata);
-            }
+        if (navigationView != null) {
+            navigationView.setItemIconTintList(null); // Disabilita il tint automatico per mostrare i colori originali delle icone
+            navigationView.setNavigationItemSelectedListener(item -> {
+                int id = item.getItemId();
+                String categoria = null;
+                
+                if (id == R.id.nav_panini) categoria = "Panini";
+                else if (id == R.id.nav_primi) categoria = "Primi";
+                else if (id == R.id.nav_secondi) categoria = "Secondi";
+                else if (id == R.id.nav_bevande) categoria = "Bevande";
+                else if (id == R.id.nav_opzioni) {
+                    startActivity(new Intent(this, OpzioniActivity.class));
+                } else if (id == R.id.nav_preferiti) {
+                    startActivity(new Intent(this, PreferitiActivity.class));
+                } else if (id == R.id.nav_storico) {
+                    startActivity(new Intent(this, StoricoOrdiniActivity.class));
+                } else if (id == R.id.nav_logout) {
+                    eseguiLogout();
+                }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
+                if (categoria != null) {
+                    caricaListaProdotti(categoria);
+                }
+                
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            });
+        }
+
+        // Capiamo da quale categoria arriviamo e carichiamo i prodotti
+        String catAttuale = getIntent().getStringExtra("CATEGORIA");
+        if (catAttuale == null) catAttuale = "Panini"; // Default
+        caricaListaProdotti(catAttuale);
     }
 
     private void caricaListaProdotti(String categoria) {
         List<Prodotto> lista = dbHelper.getProdottiPerCategoria(categoria);
         adapter = new ProdottiAdapter(this, lista);
         rvProdotti.setAdapter(adapter);
+    }
+
+    private void eseguiLogout() {
+        getSharedPreferences("AppPrefs", MODE_PRIVATE).edit().remove("LOGGED_USERNAME").apply();
+        Carrello.getInstance().svuota();
+        Carrello.getInstance().setNomeUtente(null);
+        startActivity(new Intent(this, MainActivity.class));
+        finishAffinity();
     }
 }
