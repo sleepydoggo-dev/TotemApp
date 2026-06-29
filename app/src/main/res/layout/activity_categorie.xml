@@ -54,62 +54,66 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btnCat1"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
-            android:backgroundTint="#FF2C2C"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/panini"
             android:onClick="scegliCategoria"
-            android:text="@string/panini"
-            android:textSize="22sp"
+            android:scaleType="centerInside"
+            android:src="@drawable/burger_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textTitoloCategorie" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btnCat2"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
-            android:backgroundTint="#FF2C2C"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/primi"
             android:onClick="scegliCategoria"
-            android:text="@string/primi"
-            android:textSize="22sp"
+            android:scaleType="centerInside"
+            android:src="@drawable/pasta_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnCat1" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btnCat3"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
-            android:backgroundTint="#FF2C2C"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/secondi"
             android:onClick="scegliCategoria"
-            android:text="@string/secondi"
-            android:textSize="22sp"
+            android:scaleType="centerInside"
+            android:src="@drawable/steak_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnCat2" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btnCat4"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
-            android:backgroundTint="#FF2C2C"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/bevande"
             android:onClick="scegliCategoria"
-            android:text="@string/bevande"
-            android:textSize="22sp"
+            android:scaleType="centerInside"
+            android:src="@drawable/drinks_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnCat3" />

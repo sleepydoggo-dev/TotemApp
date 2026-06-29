@@ -13,7 +13,13 @@ public class BaseActivity extends AppCompatActivity {
         applyLocale();
         super.onCreate(savedInstanceState);
     }
-    // Metodo per APPLICARE la lingua
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        applyLocale();
+    }
+
     private void applyLocale() {
         SharedPreferences prefs = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE);
         String lang = prefs.getString("APP_LANG", "it");

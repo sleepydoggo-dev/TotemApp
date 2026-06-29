@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     
     // Database Information
     private static final String DATABASE_NAME = "RistoranteTotem.db";
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
 
     public static final String TABLE_USERS = "utenti";
     public static final String COLUMN_USER_ID = "id";
@@ -38,6 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_CART_PREZZO = "prodotto_prezzo";
     public static final String COLUMN_CART_DESC = "prodotto_desc";
     public static final String COLUMN_CART_QTY = "quantita";
+    public static final String COLUMN_CART_IMG = "prodotto_img";
 
     public static final String TABLE_ORDERS = "ordini";
     public static final String COLUMN_ORDER_ID = "id";
@@ -58,6 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_FAV_PROD_NAME = "prodotto_nome";
     public static final String COLUMN_FAV_PROD_PRICE = "prodotto_prezzo";
     public static final String COLUMN_FAV_PROD_DESC = "prodotto_desc";
+    public static final String COLUMN_FAV_PROD_IMG = "prodotto_img";
 
     private final Context context;
 
@@ -94,7 +96,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_CART_NOME + " TEXT,"
                 + COLUMN_CART_PREZZO + " REAL,"
                 + COLUMN_CART_DESC + " TEXT,"
-                + COLUMN_CART_QTY + " INTEGER" + ")";
+                + COLUMN_CART_QTY + " INTEGER,"
+                + COLUMN_CART_IMG + " TEXT" + ")";
         db.execSQL(CREATE_CART_TABLE);
 
         String CREATE_ORDERS_TABLE = "CREATE TABLE " + TABLE_ORDERS + "("
@@ -118,7 +121,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_FAV_USER + " TEXT,"
                 + COLUMN_FAV_PROD_NAME + " TEXT,"
                 + COLUMN_FAV_PROD_PRICE + " REAL,"
-                + COLUMN_FAV_PROD_DESC + " TEXT" + ")";
+                + COLUMN_FAV_PROD_DESC + " TEXT,"
+                + COLUMN_FAV_PROD_IMG + " TEXT" + ")";
         db.execSQL(CREATE_FAV_TABLE);
 
         inserisciProdottiIniziali(db);
@@ -162,15 +166,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean utenteEsiste(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = null;
-        boolean exists;
-        try {
-            cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE " + COLUMN_USERNAME + "=?", new String[]{username});
-            exists = cursor.getCount() > 0;
-        } finally {
-            if (cursor != null) cursor.close();
+        try (Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE " + COLUMN_USERNAME + "=?", new String[]{username})) {
+            return cursor.getCount() > 0;
         }
-        return exists;
     }
 
     public long registraUtente(String user, String email, String pass, String nome) {
@@ -186,19 +184,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public String eseguiLoginERecuperaUsername(String identifier, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = null;
-        String usernameTrovato = null;
-        try {
-            cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE (" + COLUMN_USERNAME + "=? OR " + COLUMN_EMAIL + "=?) AND " + COLUMN_PASSWORD + "=?", new String[]{identifier, identifier, password});
+        try (Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE (" + COLUMN_USERNAME + "=? OR " + COLUMN_EMAIL + "=?) AND " + COLUMN_PASSWORD + "=?", new String[]{identifier, identifier, password})) {
             if (cursor.getCount() > 0 && cursor.moveToFirst()) {
-                usernameTrovato = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USERNAME));
+                String user = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USERNAME));
                 String nome = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NOME));
-                Carrello.getInstance().setNomeUtente((nome != null && !nome.isEmpty()) ? nome : usernameTrovato);
+                Carrello.getInstance().setNomeUtente((nome != null && !nome.isEmpty()) ? nome : user);
+                return user;
             }
-        } finally {
-            if (cursor != null) cursor.close();
         }
-        return usernameTrovato;
+        return null;
     }
 
     public void salvaCarta(String identifier, String number, String expiry, String cvv) {
@@ -229,6 +223,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 values.put(COLUMN_CART_PREZZO, p.getProdotto().getPrezzo());
                 values.put(COLUMN_CART_DESC, p.getProdotto().getDescrizione());
                 values.put(COLUMN_CART_QTY, p.getQuantita());
+                values.put(COLUMN_CART_IMG, p.getProdotto().getImmagineKey());
                 db.insert(TABLE_CART, null, values);
             }
         }
@@ -245,8 +240,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     double prezzo = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_CART_PREZZO));
                     String desc = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CART_DESC));
                     int qty = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_CART_QTY));
+                    String img = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CART_IMG));
 
-                    lista.add(new ProdottoOrdinato(new Prodotto(nome, prezzo, desc), qty));
+                    lista.add(new ProdottoOrdinato(new Prodotto(nome, prezzo, desc, img), qty));
                 } while (cursor.moveToNext());
             }
         }
@@ -277,36 +273,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Ordine> getOrdiniPerUtente(String username) {
         List<Ordine> ordini = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_ORDERS, null, COLUMN_ORDER_USER + "=?", new String[]{username}, null, null, COLUMN_ORDER_ID + " DESC");
+        try (Cursor cursor = db.query(TABLE_ORDERS, null, COLUMN_ORDER_USER + "=?", new String[]{username}, null, null, COLUMN_ORDER_ID + " DESC")) {
+            if (cursor.moveToFirst()) {
+                do {
+                    int id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ORDER_ID));
+                    String data = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_DATE));
+                    double totale = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ORDER_TOTAL));
 
-        if (cursor.moveToFirst()) {
-            do {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ORDER_ID));
-                String data = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ORDER_DATE));
-                double totale = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ORDER_TOTAL));
-
-                List<ProdottoOrdinato> prodotti = getDettagliOrdine(id);
-                ordini.add(new Ordine(id, data, totale, prodotti));
-            } while (cursor.moveToNext());
+                    List<ProdottoOrdinato> prodotti = getDettagliOrdine(id);
+                    ordini.add(new Ordine(id, data, totale, prodotti));
+                } while (cursor.moveToNext());
+            }
         }
-        cursor.close();
         return ordini;
     }
 
     private List<ProdottoOrdinato> getDettagliOrdine(int orderId) {
         List<ProdottoOrdinato> prodotti = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_ORDER_ITEMS, null, COLUMN_ITEM_ORDER_ID + "=?", new String[]{String.valueOf(orderId)}, null, null, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                String nome = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ITEM_NAME));
-                double prezzo = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ITEM_PRICE));
-                int qty = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ITEM_QTY));
-                prodotti.add(new ProdottoOrdinato(new Prodotto(nome, prezzo, ""), qty));
-            } while (cursor.moveToNext());
+        try (Cursor cursor = db.query(TABLE_ORDER_ITEMS, null, COLUMN_ITEM_ORDER_ID + "=?", new String[]{String.valueOf(orderId)}, null, null, null)) {
+            if (cursor.moveToFirst()) {
+                do {
+                    String nome = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_ITEM_NAME));
+                    double prezzo = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_ITEM_PRICE));
+                    int qty = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ITEM_QTY));
+                    prodotti.add(new ProdottoOrdinato(new Prodotto(nome, prezzo, "", ""), qty));
+                } while (cursor.moveToNext());
+            }
         }
-        cursor.close();
         return prodotti;
     }
 
@@ -328,7 +322,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     String nomeTradotto = (resNomeId != 0) ? context.getString(resNomeId) : nomeKey;
                     String descTradotta = (resDescId != 0) ? context.getString(resDescId) : descKey;
 
-                    lista.add(new Prodotto(nomeTradotto, prezzo, descTradotta));
+                    String imgKey = nomeKey.replace("prod_", "");
+                    if (imgKey.equals("pasta")) imgKey = "sugo";
+                    else if (imgKey.equals("pasta_al_pesto")) imgKey = "pesto";
+                    else if (imgKey.equals("acqua")) imgKey = "water";
+                    else if (imgKey.equals("fanta_zero")) imgKey = "fantazero";
+                    else if (imgKey.equals("lemon_soda")) imgKey = "lemon";
+                    else if (imgKey.equals("oran_soda")) imgKey = "oran";
+                    else if (imgKey.equals("the_pesca")) imgKey = "pesca";
+                    else if (imgKey.equals("the_limone")) imgKey = "lemonthe";
+
+                    lista.add(new Prodotto(nomeTradotto, prezzo, descTradotta, imgKey));
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
@@ -344,6 +348,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         v.put(COLUMN_FAV_PROD_NAME, p.getNome());
         v.put(COLUMN_FAV_PROD_PRICE, p.getPrezzo());
         v.put(COLUMN_FAV_PROD_DESC, p.getDescrizione());
+        v.put(COLUMN_FAV_PROD_IMG, p.getImmagineKey());
         db.insert(TABLE_FAVORITES, null, v);
     }
 
@@ -354,25 +359,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean isPreferito(String user, String prodName) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.query(TABLE_FAVORITES, null, COLUMN_FAV_USER + "=? AND " + COLUMN_FAV_PROD_NAME + "=?", new String[]{user, prodName}, null, null, null);
-        boolean exists = c.getCount() > 0;
-        c.close();
-        return exists;
+        try (Cursor c = db.query(TABLE_FAVORITES, null, COLUMN_FAV_USER + "=? AND " + COLUMN_FAV_PROD_NAME + "=?", new String[]{user, prodName}, null, null, null)) {
+            return c.getCount() > 0;
+        }
     }
 
     public List<Prodotto> getPreferiti(String user) {
         List<Prodotto> lista = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.query(TABLE_FAVORITES, null, COLUMN_FAV_USER + "=?", new String[]{user}, null, null, null);
-        if (c.moveToFirst()) {
-            do {
-                String n = c.getString(c.getColumnIndexOrThrow(COLUMN_FAV_PROD_NAME));
-                double p = c.getDouble(c.getColumnIndexOrThrow(COLUMN_FAV_PROD_PRICE));
-                String d = c.getString(c.getColumnIndexOrThrow(COLUMN_FAV_PROD_DESC));
-                lista.add(new Prodotto(n, p, d));
-            } while (c.moveToNext());
+        try (Cursor c = db.query(TABLE_FAVORITES, null, COLUMN_FAV_USER + "=?", new String[]{user}, null, null, null)) {
+            if (c.moveToFirst()) {
+                do {
+                    String n = c.getString(c.getColumnIndexOrThrow(COLUMN_FAV_PROD_NAME));
+                    double p = c.getDouble(c.getColumnIndexOrThrow(COLUMN_FAV_PROD_PRICE));
+                    String d = c.getString(c.getColumnIndexOrThrow(COLUMN_FAV_PROD_DESC));
+                    String img = c.getString(c.getColumnIndexOrThrow(COLUMN_FAV_PROD_IMG));
+                    lista.add(new Prodotto(n, p, d, img));
+                } while (c.moveToNext());
+            }
         }
-        c.close();
         return lista;
     }
 }

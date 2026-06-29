@@ -54,19 +54,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button3" />
 
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
-        android:onClick="vaiACategorie"
-        android:text="@string/guest"
-        android:textColor="#FF2C2C"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5" />
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -5,20 +5,29 @@ import android.view.View;
 
 public class HomeActivity extends BaseActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); setContentView(R.layout.activity_home); }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        // Verifica se l'utente è già loggato
+        String user = getSharedPreferences("AppPrefs", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
+        
+        // Se l'utente è loggato, andiamo alla MainActivity
+        if (user != null) {
+            Carrello.getInstance().carica(this, user);
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
+        }
+
+        // Mostriamo la Home per fare Login/Register (punto obbligato ora)
+        setContentView(R.layout.activity_home);
+    }
 
     public void vaiALogin(View view) {
-        getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).edit().putBoolean("IS_GUEST", false).apply();
         startActivity(new Intent(this, LoginActivity.class));
     }
+
     public void vaiARegistrati(View view) {
-        getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).edit().putBoolean("IS_GUEST", false).apply();
         startActivity(new Intent(this, RegisterActivity.class));
-    }
-    public void vaiACategorie(View view) {
-        getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).edit().putBoolean("IS_GUEST", true).apply();
-        getSharedPreferences("AppPrefs", MODE_PRIVATE).edit().remove("LOGGED_USERNAME").apply();
-        Carrello.getInstance().svuota();
-        startActivity(new Intent(this, MainActivity.class));
     }
 }

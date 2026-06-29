@@ -5,7 +5,6 @@
     <string name="options">Opzioni</string>
     <string name="login">Login</string>
     <string name="register">Registrati</string>
-    <string name="guest">Continua come Ospite</string>
     <string name="access_personal">Accedi al tuo account personale</string>
     <string name="username">Nome Utente</string>
     <string name="password">Password</string>
@@ -64,7 +63,7 @@
     <string name="add_to_cart_btn_format">AGGIUNGI  € %.2f</string>
     <string name="added_to_cart_format">%s aggiunto!</string>
     <string name="see_details">Vedi Dettagli</string>
-    <string name="added_to_cart">Aggiunto al carrello!</string>
+    <string name="added_to_cart_msg">Aggiunto al carrello!</string>
     <string name="fill_mandatory">Compila tutti i campi obbligatori</string>
     <string name="pass_not_valid">La password non rispetta i requisiti</string>
     <string name="pass_not_match">Le password non coincidono</string>
@@ -80,16 +79,17 @@
     <string name="secondi">Secondi</string>
     <string name="bevande">Bevande</string>
     <string name="storico_ordini">Storico Ordini</string>
+    <string name="logout">Logout</string>
     <string name="preferiti">Preferiti</string>
     <string name="nessun_preferito">Nessun prodotto nei preferiti</string>
     <string name="rimosso_preferiti">Rimosso dai preferiti</string>
     <string name="aggiunto_preferiti">Aggiunto ai preferiti</string>
     <string name="rifai_ordine">Rifai</string>
     <string name="prodotti_aggiunti">Prodotti aggiunti al carrello!</string>
-    <string name="go_back">Torna Indietro</string>"
+    <string name="go_back">Torna Indietro</string>
     <string name="default_price" translatable="false">€ 0,00</string>
     <string name="go_to_cart">Vai al Carrello</string>
-    <string name="product_name">Nome del Prodotto"</string>
+    <string name="product_name">Nome del Prodotto</string>
     <string name="description">Descrizione</string>
     <string name="quantity">Quantità</string>
     <string name="total_price">Importo: € 0,00</string>
@@ -104,10 +104,10 @@
     <string name="prod_cheeseburger">Cheeseburger</string>
     <string name="desc_cheeseburger">Manzo, cheddar, cetriolini</string>
     <string name="prod_pasta">Pasta al Pomodoro</string>
-    <string name="prod_pizza" translatable="false">Pizza</string>"
+    <string name="prod_pizza" translatable="false">Pizza</string>
     <string name="desc_pizza">Pomodoro, mozzarella, funghi</string>
-    <string name="prod_pasta_al_pesto">Trofie al pesto</string>"
-    <string name="desc_pasta_al_pesto">Trofie alla genovese</string>"
+    <string name="prod_pasta_al_pesto">Trofie al pesto</string>
+    <string name="desc_pasta_al_pesto">Trofie alla genovese</string>
     <string name="desc_pasta">Penne con sugo fresco e basilico</string>
     <string name="prod_lasagna">Lasagna</string>
     <string name="desc_lasagna">Lasagna alla bolognese fatta in casa</string>
@@ -138,7 +138,7 @@
     <string name="prod_the_pesca">Estathé alla pesca</string>
     <string name="desc_the_pesca">Lattina 33cl</string>
     <string name="prod_the_limone">Estathé al limone</string>
-    <string name="desc_the_limone">Lattina 33cl</string>"
+    <string name="desc_the_limone">Lattina 33cl</string>
 
     <string name="plus">+</string>
     <string name="minus">-</string>

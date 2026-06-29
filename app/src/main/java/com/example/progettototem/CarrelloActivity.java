@@ -41,11 +41,14 @@ public class CarrelloActivity extends BaseActivity {
             return;
         }
 
-        boolean isGuest = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getBoolean("IS_GUEST", false);
-        if (isGuest) {
-            startActivity(new Intent(this, TempActivity.class));
-        } else {
+        // Verifica se l'utente è già loggato
+        String user = getSharedPreferences("AppPrefs", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
+        if (user != null) {
+            // Se loggato, vai direttamente al pagamento
             startActivity(new Intent(this, PagamentoActivity.class));
+        } else {
+            // Altrimenti vai alla Home per fare Login/Register
+            startActivity(new Intent(this, HomeActivity.class));
         }
     }
     

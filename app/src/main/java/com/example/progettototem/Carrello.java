@@ -97,4 +97,31 @@ public class Carrello {
             }
         }
     }
+
+    public void caricaEUnisci(Context context, String username) {
+        if (username != null) {
+            try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
+                List<ProdottoOrdinato> listaSalvata = dbHelper.caricaCarrello(username);
+                if (listaSalvata != null) {
+                    for (ProdottoOrdinato salvato : listaSalvata) {
+                        boolean esiste = false;
+                        for (ProdottoOrdinato attuale : prodotti) {
+                            if (attuale.getProdotto().nome.equals(salvato.getProdotto().nome)) {
+                                attuale.setQuantita(attuale.getQuantita() + salvato.getQuantita());
+                                esiste = true;
+                                break;
+                            }
+                        }
+                        if (!esiste) {
+                            prodotti.add(salvato);
+                        }
+                    }
+                }
+                // Salva il carrello unito nel DB
+                dbHelper.salvaCarrello(username, prodotti);
+            } catch (Exception e) {
+                android.util.Log.e("ErroreApp", "Eccezione catturata", e);
+            }
+        }
+    }
 }

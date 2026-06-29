@@ -9,9 +9,12 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.navigation.NavigationView;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -23,62 +26,81 @@ public class ProdottiActivity extends BaseActivity {
     private List<Prodotto> lista;
     private String categoria;
     private DatabaseHelper dbHelper;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prodotti);
 
-
         if (savedInstanceState != null) {
-            // Ripristina lo stato della vista se è stato salvato in onSaveInstanceState
             isGridView = savedInstanceState.getBoolean("STATO_GRIGLIA", false);
         }
 
-
         dbHelper = new DatabaseHelper(this);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
 
         TextView t = findViewById(R.id.textNomeCategoria);
         categoria = getIntent().getStringExtra("CATEGORIA");
-        if (categoria != null) {
-            // Traduzione del titolo categoria per la visualizzazione
-            int resId = getResources().getIdentifier(categoria.toLowerCase(), "string", getPackageName());
-            if (resId != 0) t.setText(getString(resId));
-            else t.setText(categoria);
-        }
+        aggiornaTitoloCategoria(t);
 
         rv = findViewById(R.id.recyclerSingolaCategoria);
         progressBar = findViewById(R.id.loadingProdotti);
 
+        ImageButton btnMenu = findViewById(R.id.btnMenuDrawer);
+        if (btnMenu != null) {
+            btnMenu.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
+        }
+
+        if (navigationView != null) {
+            navigationView.setNavigationItemSelectedListener(item -> {
+                int id = item.getItemId();
+                if (id == R.id.nav_panini) categoria = "Panini";
+                else if (id == R.id.nav_primi) categoria = "Primi";
+                else if (id == R.id.nav_secondi) categoria = "Secondi";
+                else if (id == R.id.nav_bevande) categoria = "Bevande";
+
+                aggiornaTitoloCategoria(t);
+                caricaProdotti();
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            });
+        }
+
         caricaProdotti();
+    }
+
+    private void aggiornaTitoloCategoria(TextView t) {
+        if (categoria != null && t != null) {
+            int resId = getResources().getIdentifier(categoria.toLowerCase(), "string", getPackageName());
+            if (resId != 0) t.setText(getString(resId));
+            else t.setText(categoria);
+        }
     }
 
     private void caricaProdotti() {
         progressBar.setVisibility(View.VISIBLE);
         rv.setVisibility(View.GONE);
-        // Esegui il caricamento in un thread separato
-        try(ExecutorService executor = Executors.newSingleThreadExecutor()) {
-            Handler handler = new Handler(Looper.getMainLooper());
+        
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
 
-            executor.execute(() -> {
+        executor.execute(() -> {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                android.util.Log.e("ErroreApp", "Errore nel caricamento", e);
+            }
 
-                try {
-                    Thread.sleep(800);
-                } catch (InterruptedException e) {
-                    android.util.Log.e("ErroreApp", "Eccezione catturata", e);
-                }
+            lista = dbHelper.getProdottiPerCategoria(categoria);
 
-                lista = dbHelper.getProdottiPerCategoria(categoria);
-
-                handler.post(() -> {
-                    progressBar.setVisibility(View.GONE);
-                    rv.setVisibility(View.VISIBLE);
-                    aggiornaLayout();
-                });
+            handler.post(() -> {
+                progressBar.setVisibility(View.GONE);
+                rv.setVisibility(View.VISIBLE);
+                aggiornaLayout();
             });
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        });
     }
 
     private void aggiornaLayout() {
@@ -105,11 +127,9 @@ public class ProdottiActivity extends BaseActivity {
 
     public void tornaIndietro(View view) { finish(); }
 
-
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("STATO_GRIGLIA", isGridView);
     }
-
 }

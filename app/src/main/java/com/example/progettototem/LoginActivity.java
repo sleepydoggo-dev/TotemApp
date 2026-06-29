@@ -41,12 +41,13 @@ public class LoginActivity extends BaseActivity {
                     .putString("LOGGED_USERNAME", loggedUser)
                     .apply();
 
-            // Carica il carrello dell'utente in modo centralizzato
-            Carrello.getInstance().carica(this, loggedUser);
+            // Carica il carrello precedente e UNISCILO a quello appena creato
+            Carrello.getInstance().caricaEUnisci(this, loggedUser);
 
             Toast.makeText(this, "Bentornato, " + loggedUser, Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(this, MainActivity.class);
+            // Dopo il login, vai al Pagamento (per non perdere l'ordine appena fatto)
+            Intent intent = new Intent(this, PagamentoActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();

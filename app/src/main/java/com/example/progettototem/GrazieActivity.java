@@ -15,9 +15,7 @@ public class GrazieActivity extends BaseActivity {
         String nome = Carrello.getInstance().getNomeUtente();
         // Se il nome è nullo o vuoto, usa il nome di default
         if (nome == null || nome.isEmpty()) {
-            boolean isGuest = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getBoolean("IS_GUEST", false);
-            if (isGuest) nome = getString(R.string.guest_name);
-            else nome = getString(R.string.user_name);
+            nome = getString(R.string.user_name);
         }
 
         tNome.setText(getString(R.string.thanks, nome));
