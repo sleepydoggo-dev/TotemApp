@@ -18,13 +18,13 @@ public class DettagliActivity extends BaseActivity {
     private String immagineKey;
     private int quantita = 1;
 
+    private String loggedUser;
     private TextView tQuantita;
     private Button btnAggiungi;
     private android.widget.ImageButton btnPreferito;
     private LinearLayout containerAttributi;
     private List<Attributo> listaAttributi = new ArrayList<>();
     private DatabaseHelper dbHelper;
-    private String loggedUser;
     private boolean isPreferito = false;
 
     @Override

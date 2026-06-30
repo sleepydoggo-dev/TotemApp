@@ -399,7 +399,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<Prodotto> getPreferiti(String user) {
         List<Prodotto> lista = new ArrayList<>();
-        if (user == null) return lista;
         SQLiteDatabase db = this.getReadableDatabase();
         try (Cursor c = db.query(TABLE_FAVORITES, null, COLUMN_FAV_USER + "=?", new String[]{user}, null, null, null)) {
             if (c.moveToFirst()) {

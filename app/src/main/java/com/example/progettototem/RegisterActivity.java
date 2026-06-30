@@ -1,7 +1,6 @@
 package com.example.progettototem;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -61,19 +60,7 @@ public class RegisterActivity extends BaseActivity {
 
         long id = dbHelper.registraUtente(user, email, pass, nome);
         if (id > 0) {
-            getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE)
-                    .edit()
-                    .putString("LOGGED_USERNAME", user)
-                    .apply();
-            
-            Carrello.getInstance().setNomeUtente(nome != null && !nome.isEmpty() ? nome : user);
-            
             Toast.makeText(this, "Registrazione completata!", Toast.LENGTH_SHORT).show();
-            
-            // Vai alle Categorie dopo la registrazione
-            Intent intent = new Intent(this, CategorieActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
             finish();
         } else {
             Toast.makeText(this, "Errore durante la registrazione", Toast.LENGTH_SHORT).show();

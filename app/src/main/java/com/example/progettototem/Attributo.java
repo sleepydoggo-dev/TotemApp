@@ -1,5 +1,6 @@
 package com.example.progettototem;
 
+
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
@@ -24,7 +25,7 @@ public class Attributo implements Serializable {
     @Override
     public String toString() {
         if (prezzoExtra > 0) {
-            return nome + " (+€" + String.format("@string/price_format", prezzoExtra) + ")";
+            return nome + " (+€" + String.format("%.2f", prezzoExtra) + ")";
         }
         return nome;
     }

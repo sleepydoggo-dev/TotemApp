@@ -36,7 +36,7 @@ public class LoginActivity extends BaseActivity {
         if (loggedUser == null) {
             Toast.makeText(this, getString(R.string.errore_credenziali), Toast.LENGTH_SHORT).show();
         } else {
-            getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE)
+            getSharedPreferences("AppPrefs", MODE_PRIVATE)
                     .edit()
                     .putString("LOGGED_USERNAME", loggedUser)
                     .apply();
@@ -46,8 +46,8 @@ public class LoginActivity extends BaseActivity {
 
             Toast.makeText(this, "Bentornato, " + loggedUser, Toast.LENGTH_SHORT).show();
 
-            // Dopo il login, vai alle Categorie (da lì l'utente potrà tornare al carrello)
-            Intent intent = new Intent(this, CategorieActivity.class);
+            // Dopo il login, vai al Pagamento (per non perdere l'ordine appena fatto)
+            Intent intent = new Intent(this, PagamentoActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();

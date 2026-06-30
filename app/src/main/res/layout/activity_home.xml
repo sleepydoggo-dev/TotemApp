@@ -1,73 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_bg">
-
-    <ImageButton
-        android:id="@+id/btnIndietroHome"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:onClick="tornaIndietro"
-        android:contentDescription="@string/go_back"
-        android:padding="12dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_revert" />
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="?android:attr/colorBackground"
+    android:padding="24dp">
 
     <ImageView
-        android:id="@+id/imgLogo"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="80dp"
-        android:src="@mipmap/ic_launcher_round"
-        android:contentDescription="App Logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:src="@drawable/burger"
+        android:layout_marginBottom="24dp"
+        android:contentDescription="Logo" />
 
     <TextView
-        android:id="@+id/textWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/welcome"
-        android:textSize="32sp"
+        android:text="Identificati per continuare"
+        android:textSize="28sp"
         android:textStyle="bold"
-        android:textColor="@color/text_color_primary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgLogo" />
+        android:textColor="?android:attr/textColorPrimary"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Per completare l'ordine o vedere il tuo storico, devi accedere al tuo account Totem."
+        android:textSize="16sp"
+        android:textColor="#6b7280"
+        android:gravity="center"
+        android:layout_marginBottom="40dp" />
 
     <Button
-        android:id="@+id/btnGoLogin"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="60dp"
-        android:backgroundTint="#FF2C2C"
-        android:onClick="vaiALogin"
-        android:text="@string/login"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text="ACCEDI"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textWelcome" />
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"
+        app:cornerRadius="16dp"
+        android:onClick="vaiALogin" />
 
     <Button
-        android:id="@+id/btnGoRegister"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#FF2C2C"
-        android:onClick="vaiARegistrati"
-        android:text="@string/register"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text="REGISTRATI"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnGoLogin" />
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"
+        app:cornerRadius="16dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:onClick="vaiARegister" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Annulla e Torna indietro"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:textColor="#FF5252"
+        android:onClick="chiudiHome" />
+
+</LinearLayout>

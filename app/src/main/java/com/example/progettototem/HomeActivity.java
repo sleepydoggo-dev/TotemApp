@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 public class HomeActivity extends BaseActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,11 +16,11 @@ public class HomeActivity extends BaseActivity {
         startActivity(new Intent(this, LoginActivity.class));
     }
 
-    public void vaiARegistrati(View view) {
+    public void vaiARegister(View view) {
         startActivity(new Intent(this, RegisterActivity.class));
     }
-    
-    public void tornaIndietro(View view) {
-        finish();
+
+    public void chiudiHome(View view) {
+        finish(); // Torna semplicemente al Carrello (o da dove è arrivato)
     }
 }
