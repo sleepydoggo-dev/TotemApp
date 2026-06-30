@@ -42,9 +42,11 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void apriProfilo(View view) {
-        SharedPreferences prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
+        // [QoL] Uso del file di preferenze unificato "TOTEM_PREFS" per coerenza in tutta l'app
+        SharedPreferences prefs = getSharedPreferences("TOTEM_PREFS", Context.MODE_PRIVATE);
         if (prefs.getString("LOGGED_USERNAME", null) == null) {
             Toast.makeText(this, "Devi accedere per vedere il tuo profilo", Toast.LENGTH_SHORT).show();
+            // [BUGFIX] Reindirizzamento alla HomeActivity (gateway login) come richiesto dal flusso
             startActivity(new Intent(this, HomeActivity.class));
         } else {
             startActivity(new Intent(this, StoricoOrdiniActivity.class));
@@ -56,14 +58,15 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void eseguiLogout(View view) {
-        getSharedPreferences("AppPrefs", MODE_PRIVATE).edit().remove("LOGGED_USERNAME").apply();
+        // [BUGFIX] Pulizia sessione su file unificato "TOTEM_PREFS"
+        getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).edit().remove("LOGGED_USERNAME").apply();
+        // [QoL] Svuotamento carrello e reset nome utente per evitare residui di sessione
         Carrello.getInstance().svuota();
+        Carrello.getInstance().setNomeUtente(null);
+        
         Toast.makeText(this, "Logout effettuato", Toast.LENGTH_SHORT).show();
 
-        // Ricarica la pagina iniziale fresca
-        Intent intent = new Intent(this, CategorieActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
+        // [QoL] Ricarica l'attività corrente per aggiornare dinamicamente la UI (es. sparizione tasto logout)
+        recreate();
     }
 }

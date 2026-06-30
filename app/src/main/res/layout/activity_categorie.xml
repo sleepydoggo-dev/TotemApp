@@ -17,8 +17,21 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
+            android:id="@+id/btnLogout"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:src="@android:drawable/ic_lock_power_off"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Logout"
+            android:onClick="eseguiLogout"
+            android:visibility="gone"
+            app:tint="#FF2C2C"/>
+
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
             android:src="@android:drawable/ic_menu_myplaces"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Profilo"

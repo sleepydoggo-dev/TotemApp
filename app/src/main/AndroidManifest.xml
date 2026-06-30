@@ -13,7 +13,7 @@
         android:theme="@style/Theme.PROGETTOTOTEM">
 
         <activity
-            android:name=".HomeActivity"
+            android:name=".CategorieActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize"
             android:launchMode="singleTop">
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CategorieActivity" android:exported="false" android:windowSoftInputMode="adjustResize" android:launchMode="singleTop" />
+        <activity android:name=".HomeActivity" android:exported="false" android:windowSoftInputMode="adjustResize" android:launchMode="singleTop" />
         <activity android:name=".LoginActivity" android:exported="false" android:windowSoftInputMode="adjustResize" android:launchMode="singleTop"/>
         <activity android:name=".RegisterActivity" android:exported="false" android:windowSoftInputMode="adjustPan" android:launchMode="singleTop"/>
         <activity android:name=".OTPActivity" android:exported="false" android:windowSoftInputMode="adjustResize" android:launchMode="singleTop"/>

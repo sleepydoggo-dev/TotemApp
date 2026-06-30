@@ -43,8 +43,9 @@ public class Carrello {
 
 
     public void salva(Context context) {
-        // Ottiene il nome dell'utente loggato
-        String user = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        // [BUGFIX] Utilizzo di "TOTEM_PREFS" per la persistenza del carrello
+        // Questo assicura che il carrello venga salvato correttamente nel DB associato all'utente
+        String user = context.getSharedPreferences("TOTEM_PREFS", Context.MODE_PRIVATE)
                 .getString("LOGGED_USERNAME", null);
 
         if (user != null) {

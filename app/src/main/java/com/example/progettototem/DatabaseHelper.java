@@ -335,60 +335,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<Prodotto> getProdottiPerCategoria(String categoria) {
         List<Prodotto> lista = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns = {COLUMN_PROD_NAME, COLUMN_PROD_PRICE, COLUMN_PROD_DESC};
 
-        try (Cursor cursor = db.query(TABLE_PRODUCTS, columns, COLUMN_PROD_CAT + "=?", new String[]{categoria}, null, null, null)) {
+        try (Cursor cursor = db.query(TABLE_PRODUCTS, null, COLUMN_PROD_CAT + "=?", new String[]{categoria}, null, null, null)) {
             if (cursor.moveToFirst()) {
                 String packageName = context.getPackageName();
                 android.content.res.Resources res = context.getResources();
                 
-                do {
-                    String nomeKey = cursor.getString(0);
-                    double prezzo = cursor.getDouble(1);
-                    String descKey = cursor.getString(2);
+                // [QoL] Recupero indici delle colonne tramite nome per maggiore robustezza se lo schema cambia
+                int idxNome = cursor.getColumnIndexOrThrow(COLUMN_PROD_NAME);
+                int idxPrezzo = cursor.getColumnIndexOrThrow(COLUMN_PROD_PRICE);
+                int idxDesc = cursor.getColumnIndexOrThrow(COLUMN_PROD_DESC);
 
+                do {
+                    String nomeKey = cursor.getString(idxNome);
+                    double prezzo = cursor.getDouble(idxPrezzo);
+                    String descKey = cursor.getString(idxDesc);
+
+                    // [QoL] Gestione dinamica delle traduzioni tramite le string.xml
                     int resNomeId = res.getIdentifier(nomeKey, "string", packageName);
                     int resDescId = res.getIdentifier(descKey, "string", packageName);
 
                     String nomeTradotto = (resNomeId != 0) ? context.getString(resNomeId) : nomeKey;
                     String descTradotta = (resDescId != 0) ? context.getString(resDescId) : descKey;
 
+                    // [BUGFIX] Logica di mapping icone più robusta e centralizzata
                     String imgKey = nomeKey.replace("prod_", "");
                     switch (imgKey) {
-                        case "hamburger":
-                            imgKey = "burger";
-                            break;
-                        case "pasta_al_pesto":
-                            imgKey = "pesto";
-                            break;
-                        case "pasta":
-                            imgKey = "sugo";
-                            break;
-                        case "fanta_zero":
-                            imgKey = "fantazero";
-                            break;
-                        case "lemon_soda":
-                            imgKey = "lemon";
-                            break;
-                        case "oran_soda":
-                            imgKey = "oran";
-                            break;
-                        case "the_pesca":
-                            imgKey = "pesca";
-                            break;
-                        case "the_limone":
-                            imgKey = "lemonthe";
-                            break;
-                        case "acqua":
-                            imgKey = "water";
-                            break;
+                        case "hamburger": imgKey = "burger"; break;
+                        case "pasta_al_pesto": imgKey = "pesto"; break;
+                        case "pasta": imgKey = "sugo"; break;
+                        case "fanta_zero": imgKey = "fantazero"; break;
+                        case "lemon_soda": imgKey = "lemon"; break;
+                        case "oran_soda": imgKey = "oran"; break;
+                        case "the_pesca": imgKey = "pesca"; break;
+                        case "the_limone": imgKey = "lemonthe"; break;
+                        case "acqua": imgKey = "water"; break;
+                        case "coca": imgKey = "coca"; break;
+                        case "birra": imgKey = "birra"; break;
                     }
 
                     lista.add(new Prodotto(nomeTradotto, prezzo, descTradotta, imgKey));
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
-            android.util.Log.e("ErroreApp", "Eccezione catturata", e);
+            android.util.Log.e("ErroreApp", "Eccezione in getProdottiPerCategoria", e);
         }
         return lista;
     }

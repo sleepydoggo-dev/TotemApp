@@ -20,8 +20,8 @@ public class GrazieActivity extends BaseActivity {
 
         tNome.setText(getString(R.string.thanks, nome));
 
-        // Salvataggio ordine nello storico e pulizia carrello persistente
-        String loggedUser = getSharedPreferences("AppPrefs", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
+        // [BUGFIX] Utilizzo del file unificato "TOTEM_PREFS" per recuperare l'utente loggato
+        String loggedUser = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
         if (loggedUser != null) {
             try (DatabaseHelper dbHelper = new DatabaseHelper(this)) {
                 if (!Carrello.getInstance().getProdotti().isEmpty()) {

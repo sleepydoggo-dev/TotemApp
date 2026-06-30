@@ -80,9 +80,11 @@ public class ProdottiActivity extends BaseActivity {
     }
 
     private void eseguiLogout() {
-        getSharedPreferences("AppPrefs", MODE_PRIVATE).edit().remove("LOGGED_USERNAME").apply();
+        // [BUGFIX] Utilizzo di "TOTEM_PREFS" per il logout nel drawer
+        getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).edit().remove("LOGGED_USERNAME").apply();
         Carrello.getInstance().svuota();
         Carrello.getInstance().setNomeUtente(null);
-        finishAffinity();
+        // [QoL] Invece di chiudere l'app, ricarichiamo per mostrare lo stato non loggato
+        recreate();
     }
 }

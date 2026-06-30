@@ -60,7 +60,9 @@ public class DettagliActivity extends BaseActivity {
             isPreferito = dbHelper.isPreferito(loggedUser, nome);
             aggiornaIconaPreferito();
         } else {
-            if (btnPreferito != null) btnPreferito.setVisibility(View.GONE);
+            // [QoL] Invece di nasconderlo, lo lasciamo visibile ma con feedback al click
+            isPreferito = false;
+            aggiornaIconaPreferito();
         }
 
         caricaAttributi();
@@ -74,7 +76,11 @@ public class DettagliActivity extends BaseActivity {
     }
 
     public void gestisciPreferito(View view) {
-        if (loggedUser == null) return;
+        if (loggedUser == null) {
+            // [QoL] Feedback immediato se l'utente tenta di usare i preferiti senza login
+            Toast.makeText(this, "Accedi per salvare questo prodotto nei preferiti", Toast.LENGTH_SHORT).show();
+            return;
+        }
         
         if (isPreferito) {
             dbHelper.rimuoviPreferito(loggedUser, nome);

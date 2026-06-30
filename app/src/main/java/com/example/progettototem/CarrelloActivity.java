@@ -23,10 +23,11 @@ public class CarrelloActivity extends BaseActivity {
         RecyclerView rv = findViewById(R.id.recyclerCarrello);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        tTotale = findViewById(R.id.textTotaleCarrello);
+        tTotale = findViewById(R.id.textTotalePrezzo);
 
         Carrello carrello = Carrello.getInstance();
-        adapter = new CarrelloAdapter(this, carrello.getProdotti());
+        // [QoL] Passiamo il listener all'adapter per aggiornare il totale in tempo reale quando cambiano le quantità
+        adapter = new CarrelloAdapter(this, carrello.getProdotti(), this::aggiornaTotale);
         rv.setAdapter(adapter);
 
         aggiornaTotale();
@@ -45,8 +46,9 @@ public class CarrelloActivity extends BaseActivity {
             return;
         }
 
-        // Controllo Login
-        SharedPreferences prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
+        // [BUGFIX] Utilizzo del file di preferenze unificato "TOTEM_PREFS"
+        // Precedentemente usava "AppPrefs", causando mancate rilevazioni del logout
+        SharedPreferences prefs = getSharedPreferences("TOTEM_PREFS", Context.MODE_PRIVATE);
         String user = prefs.getString("LOGGED_USERNAME", null);
 
         if (user != null) {
@@ -54,7 +56,8 @@ public class CarrelloActivity extends BaseActivity {
             startActivity(new Intent(this, PagamentoActivity.class));
         } else {
             // NON Loggato -> Vai alla Barriera di Autenticazione (HomeActivity)
-            Toast.makeText(this, "Devi accedere per completare l'ordine", Toast.LENGTH_SHORT).show();
+            // [QoL] Messaggio più chiaro per l'utente
+            Toast.makeText(this, "Accedi o Registrati per completare l'ordine", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, HomeActivity.class));
         }
     }

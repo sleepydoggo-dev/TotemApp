@@ -13,6 +13,7 @@ import java.util.List;
 public class CarrelloAdapter extends RecyclerView.Adapter<CarrelloAdapter.ViewHolder> {
     private final List<ProdottoOrdinato> lista;
     private final Context context;
+    // [BUGFIX] listener non era inizializzato, causava NullPointerException al click dei tasti +/-
     private final OnCartChangedListener listener;
 
     public interface OnCartChangedListener {
@@ -82,3 +83,4 @@ public class CarrelloAdapter extends RecyclerView.Adapter<CarrelloAdapter.ViewHo
         }
     }
 }
+

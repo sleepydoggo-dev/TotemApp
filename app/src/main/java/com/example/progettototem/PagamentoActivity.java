@@ -43,7 +43,8 @@ public class PagamentoActivity extends BaseActivity {
     }
 
     private void caricaCartaSalvata() {
-        String loggedUser = getSharedPreferences("AppPrefs", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
+        // [BUGFIX] Utilizzo di "TOTEM_PREFS" per recuperare i dati della carta dell'utente
+        String loggedUser = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
         if (loggedUser != null) {
             Cursor cursor = dbHelper.getCarta(loggedUser);
             if (cursor.moveToFirst()) {
@@ -70,7 +71,8 @@ public class PagamentoActivity extends BaseActivity {
                 return;
             }
             if (checkSalva.isChecked()) {
-                String loggedUser = getSharedPreferences("AppPrefs", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
+                // [BUGFIX] Utilizzo di "TOTEM_PREFS" per salvare i dati della carta
+                String loggedUser = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
                 if (loggedUser != null) {
                     dbHelper.salvaCarta(loggedUser, num, scad, cvv);
                 }

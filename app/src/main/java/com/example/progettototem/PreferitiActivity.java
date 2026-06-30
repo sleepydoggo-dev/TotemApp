@@ -36,7 +36,8 @@ public class PreferitiActivity extends BaseActivity {
     }
 
     private void caricaPreferiti() {
-        String user = getSharedPreferences("AppPrefs", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
+        // [BUGFIX] Utilizzo di "TOTEM_PREFS" per recuperare i preferiti dell'utente
+        String user = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
         if (user != null) {
             lista = dbHelper.getPreferiti(user);
             if (lista.isEmpty()) {

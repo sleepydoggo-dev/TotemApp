@@ -18,7 +18,8 @@ public class StoricoOrdiniActivity extends BaseActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerStorico);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        String loggedUser = getSharedPreferences("AppPrefs", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
+        // [BUGFIX] Utilizzo di "TOTEM_PREFS" per recuperare lo storico ordini dell'utente corretto
+        String loggedUser = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
         if (loggedUser != null) {
             List<Ordine> ordini = dbHelper.getOrdiniPerUtente(loggedUser);
             if (ordini.isEmpty()) {

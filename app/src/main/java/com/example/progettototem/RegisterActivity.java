@@ -60,7 +60,21 @@ public class RegisterActivity extends BaseActivity {
 
         long id = dbHelper.registraUtente(user, email, pass, nome);
         if (id > 0) {
-            Toast.makeText(this, "Registrazione completata!", Toast.LENGTH_SHORT).show();
+            // [QoL] Auto-login dopo la registrazione: salva la sessione immediatamente
+            getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE)
+                    .edit()
+                    .putString("LOGGED_USERNAME", user)
+                    .apply();
+            
+            // Imposta il nome nel carrello per la ricevuta
+            Carrello.getInstance().setNomeUtente(nome != null && !nome.isEmpty() ? nome : user);
+
+            Toast.makeText(this, "Registrazione completata e accesso eseguito!", Toast.LENGTH_SHORT).show();
+            
+            // [QoL] Reindirizzamento al pagamento (assumendo che arrivi dal checkout del carrello)
+            android.content.Intent intent = new android.content.Intent(this, PagamentoActivity.class);
+            intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             finish();
         } else {
             Toast.makeText(this, "Errore durante la registrazione", Toast.LENGTH_SHORT).show();
