@@ -98,6 +98,7 @@
     <string name="categoria">Categoria</string>
     <string name="requirements">Richiesti: 1 maiuscolo, 1 minuscolo, 1 numero, 1 simbolo</string>
 
+
     <!-- Prodotti -->
     <string name="prod_hamburger">Hamburger Classico</string>
     <string name="desc_hamburger">Manzo, insalata, pomodoro</string>
@@ -140,10 +141,10 @@
     <string name="prod_the_limone">Estathé al limone</string>
     <string name="desc_the_limone">Lattina 33cl</string>
 
-    <string name="plus">+</string>
-    <string name="minus">-</string>
+    <string name="plus" translatable="false">+</string>
+    <string name="minus" translatable="false">-</string>
     <string name="cad">cad. €</string>
-    <string name="price_format">€ %.2f</string>
+    <string name="price_format" translatable="false">€ %.2f</string>
     <string name="unit_price_format">cad. € %.2f</string>
     <string name="order_items_format">Prodotti: %s</string>
     <string name="order_item_qty_format">%dx %s</string>
@@ -152,4 +153,5 @@
     <string name="errore_campi_vuoti">Compila tutti i campi obbligatori!</string>
     <string name="errore_email_non_valida">Inserisci un\'email valida!</string>
     <string name="errore_credenziali">Credenziali non valide!</string>
+    <string name="added_to_cart">Aggiunto al carrello!</string>
 </resources>

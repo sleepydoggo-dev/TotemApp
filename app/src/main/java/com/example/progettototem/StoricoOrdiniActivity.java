@@ -14,7 +14,7 @@ public class StoricoOrdiniActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storico_ordini);
 
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        try (DatabaseHelper dbHelper = new DatabaseHelper(this)){
         RecyclerView recyclerView = findViewById(R.id.recyclerStorico);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -30,6 +30,10 @@ public class StoricoOrdiniActivity extends BaseActivity {
             Toast.makeText(this, "Effettua il login per vedere lo storico", Toast.LENGTH_SHORT).show();
             finish();
         }
+    }catch(Exception e) {
+            Toast.makeText(this, "Errore durante il recupero dei dati: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void tornaIndietro(View view) {

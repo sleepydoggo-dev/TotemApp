@@ -26,7 +26,7 @@ public class BaseActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE);
         String lang = prefs.getString("APP_LANG", "it");
 
-        if (lang == null || lang.isEmpty()) {
+        if (lang.isEmpty()) {
             lang = "it";
         }
 
@@ -56,5 +56,20 @@ public class BaseActivity extends AppCompatActivity {
 
     public void apriCarrello(View view) {
         startActivity(new Intent(this, CarrelloActivity.class));
+    }
+
+    public void eseguiLogout(View view) {
+        // Rimuove l'utente loggato dal file di preferenze unificato
+        getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).edit().remove("LOGGED_USERNAME").apply();
+        
+        // Svuota il carrello in memoria e il nome utente
+        Carrello.getInstance().svuota();
+        Carrello.getInstance().setNomeUtente(null);
+        
+        // Messaggio di feedback
+        android.widget.Toast.makeText(this, getString(R.string.logout) + " effettuato", android.widget.Toast.LENGTH_SHORT).show();
+
+        // Ricarica l'attività corrente per aggiornare la UI (il tasto logout sparirà)
+        recreate();
     }
 }

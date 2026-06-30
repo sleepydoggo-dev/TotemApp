@@ -83,7 +83,6 @@ public class ProdottiActivity extends BaseActivity {
         getSharedPreferences("AppPrefs", MODE_PRIVATE).edit().remove("LOGGED_USERNAME").apply();
         Carrello.getInstance().svuota();
         Carrello.getInstance().setNomeUtente(null);
-        startActivity(new Intent(this, MainActivity.class));
         finishAffinity();
     }
 }

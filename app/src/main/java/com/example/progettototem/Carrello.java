@@ -43,8 +43,8 @@ public class Carrello {
 
 
     public void salva(Context context) {
-        // Ottiene il nome dell'utente loggato
-        String user = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        // Ottiene il nome dell'utente loggato dal file unificato
+        String user = context.getSharedPreferences("TOTEM_PREFS", Context.MODE_PRIVATE)
                 .getString("LOGGED_USERNAME", null);
 
         if (user != null) {

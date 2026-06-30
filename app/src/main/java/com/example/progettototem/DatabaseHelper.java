@@ -354,15 +354,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     String descTradotta = (resDescId != 0) ? context.getString(resDescId) : descKey;
 
                     String imgKey = nomeKey.replace("prod_", "");
-                    if (imgKey.equals("hamburger")) imgKey = "burger";
-                    else if (imgKey.equals("pasta_al_pesto")) imgKey = "pesto";
-                    else if (imgKey.equals("pasta")) imgKey = "sugo";
-                    else if (imgKey.equals("fanta_zero")) imgKey = "fantazero";
-                    else if (imgKey.equals("lemon_soda")) imgKey = "lemon";
-                    else if (imgKey.equals("oran_soda")) imgKey = "oran";
-                    else if (imgKey.equals("the_pesca")) imgKey = "pesca";
-                    else if (imgKey.equals("the_limone")) imgKey = "lemonthe";
-                    else if (imgKey.equals("acqua")) imgKey = "water";
+                    switch (imgKey) {
+                        case "hamburger":
+                            imgKey = "burger";
+                            break;
+                        case "pasta_al_pesto":
+                            imgKey = "pesto";
+                            break;
+                        case "pasta":
+                            imgKey = "sugo";
+                            break;
+                        case "fanta_zero":
+                            imgKey = "fantazero";
+                            break;
+                        case "lemon_soda":
+                            imgKey = "lemon";
+                            break;
+                        case "oran_soda":
+                            imgKey = "oran";
+                            break;
+                        case "the_pesca":
+                            imgKey = "pesca";
+                            break;
+                        case "the_limone":
+                            imgKey = "lemonthe";
+                            break;
+                        case "acqua":
+                            imgKey = "water";
+                            break;
+                    }
 
                     lista.add(new Prodotto(nomeTradotto, prezzo, descTradotta, imgKey));
                 } while (cursor.moveToNext());
@@ -379,6 +399,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public List<Prodotto> getPreferiti(String user) {
         List<Prodotto> lista = new ArrayList<>();
+        if (user == null) return lista;
         SQLiteDatabase db = this.getReadableDatabase();
         try (Cursor c = db.query(TABLE_FAVORITES, null, COLUMN_FAV_USER + "=?", new String[]{user}, null, null, null)) {
             if (c.moveToFirst()) {
@@ -392,6 +413,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
         return lista;
+    }
+
+    public void aggiungiPreferito(String user, Prodotto p) {
+        if (user == null || p == null) return;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues v = new ContentValues();
+        v.put(COLUMN_FAV_USER, user);
+        v.put(COLUMN_FAV_PROD_NAME, p.getNome());
+        v.put(COLUMN_FAV_PROD_PRICE, p.getPrezzo());
+        v.put(COLUMN_FAV_PROD_DESC, p.getDescrizione());
+        v.put(COLUMN_FAV_PROD_IMG, p.getImmagineKey());
+        db.insert(TABLE_FAVORITES, null, v);
+    }
+
+    public void rimuoviPreferito(String user, String nomeProdotto) {
+        if (user == null) return;
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_FAVORITES, COLUMN_FAV_USER + "=? AND " + COLUMN_FAV_PROD_NAME + "=?", new String[]{user, nomeProdotto});
+    }
+
+    public boolean isPreferito(String user, String nomeProdotto) {
+        if (user == null) return false;
+        SQLiteDatabase db = this.getReadableDatabase();
+        try (Cursor c = db.query(TABLE_FAVORITES, null, COLUMN_FAV_USER + "=? AND " + COLUMN_FAV_PROD_NAME + "=?", new String[]{user, nomeProdotto}, null, null, null)) {
+            return c.getCount() > 0;
+        }
     }
 
     public List<Attributo> getAttributiPerProdotto(String nomeProdotto) {

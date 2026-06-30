@@ -20,9 +20,12 @@ public class DettagliActivity extends BaseActivity {
 
     private TextView tQuantita;
     private Button btnAggiungi;
+    private android.widget.ImageButton btnPreferito;
     private LinearLayout containerAttributi;
     private List<Attributo> listaAttributi = new ArrayList<>();
     private DatabaseHelper dbHelper;
+    private String loggedUser;
+    private boolean isPreferito = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class DettagliActivity extends BaseActivity {
         setContentView(R.layout.activity_dettagli);
 
         dbHelper = new DatabaseHelper(this);
+        loggedUser = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
 
         nome = getIntent().getStringExtra("NOME");
         prezzoUnitario = getIntent().getDoubleExtra("PREZZO", 0.0);
@@ -41,6 +45,7 @@ public class DettagliActivity extends BaseActivity {
         android.widget.ImageView imgProd = findViewById(R.id.imgProdottoDettaglio);
         tQuantita = findViewById(R.id.textQuantita);
         btnAggiungi = findViewById(R.id.btnAggiungiCarrello);
+        btnPreferito = findViewById(R.id.btnPreferitiDettaglio);
         containerAttributi = findViewById(R.id.containerAttributi);
 
         tNome.setText(nome);
@@ -51,8 +56,35 @@ public class DettagliActivity extends BaseActivity {
             if (imgResId != 0) imgProd.setImageResource(imgResId);
         }
 
+        if (loggedUser != null) {
+            isPreferito = dbHelper.isPreferito(loggedUser, nome);
+            aggiornaIconaPreferito();
+        } else {
+            if (btnPreferito != null) btnPreferito.setVisibility(View.GONE);
+        }
+
         caricaAttributi();
         aggiornaPrezzo();
+    }
+
+    private void aggiornaIconaPreferito() {
+        if (btnPreferito != null) {
+            btnPreferito.setImageResource(isPreferito ? android.R.drawable.btn_star_big_on : android.R.drawable.btn_star_big_off);
+        }
+    }
+
+    public void gestisciPreferito(View view) {
+        if (loggedUser == null) return;
+        
+        if (isPreferito) {
+            dbHelper.rimuoviPreferito(loggedUser, nome);
+            Toast.makeText(this, R.string.rimosso_preferiti, Toast.LENGTH_SHORT).show();
+        } else {
+            dbHelper.aggiungiPreferito(loggedUser, new Prodotto(nome, prezzoUnitario, descrizione, immagineKey));
+            Toast.makeText(this, R.string.aggiunto_preferiti, Toast.LENGTH_SHORT).show();
+        }
+        isPreferito = !isPreferito;
+        aggiornaIconaPreferito();
     }
 
     private void caricaAttributi() {
@@ -118,7 +150,7 @@ public class DettagliActivity extends BaseActivity {
         }
         
         if (sbExtra.length() > 0) {
-            p.nome += " (" + sbExtra.toString() + ")";
+            p.nome += " (" + sbExtra + ")";
         }
         p.prezzo += prezzoExtra;
 

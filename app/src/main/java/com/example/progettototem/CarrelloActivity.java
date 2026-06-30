@@ -41,8 +41,8 @@ public class CarrelloActivity extends BaseActivity {
             return;
         }
 
-        // Verifica se l'utente è già loggato
-        String user = getSharedPreferences("AppPrefs", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
+        // Verifica se l'utente è già loggato tramite il file unificato
+        String user = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
         if (user != null) {
             // Se loggato, vai direttamente al pagamento
             startActivity(new Intent(this, PagamentoActivity.class));
