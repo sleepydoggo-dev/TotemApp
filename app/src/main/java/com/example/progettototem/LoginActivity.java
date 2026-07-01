@@ -1,6 +1,5 @@
 package com.example.progettototem;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -67,15 +66,11 @@ public class LoginActivity extends BaseActivity {
 
             Toast.makeText(this, "Bentornato, " + loggedUser, Toast.LENGTH_SHORT).show();
 
-            // [QoL] Redirezione intelligente: se l'utente era nel carrello, lo rimandiamo al pagamento
-            Intent intent = new Intent(this, PagamentoActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+            // [BUGFIX] Navigazione Back: Invece di usare CLEAR_TASK (che rompe la cronologia), 
+            // torniamo semplicemente indietro o andiamo alle categorie. 
+            // finish() chiude il LoginActivity e torna alla HomeActivity o CarrelloActivity.
             finish();
         }
     }
 
-    public void tornaIndietro(View view) {
-        finish();
-    }
 }

@@ -21,6 +21,5 @@ public class TempActivity extends BaseActivity {
         
         startActivity(new Intent(this, PagamentoActivity.class));
     }
-    
-    public void tornaIndietro(View view) { finish(); }
+
 }

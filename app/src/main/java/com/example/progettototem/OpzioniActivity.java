@@ -52,7 +52,6 @@ public class OpzioniActivity extends BaseActivity {
         });
     }
 
-    public void tornaIndietro(View view) { finish(); }
     public void apriInfo(View view) { Toast.makeText(this, getString(R.string.app_info), Toast.LENGTH_SHORT).show(); }
     public void apriAiuto(View view) { Toast.makeText(this, getString(R.string.help), Toast.LENGTH_SHORT).show(); }
     public void segnalaBug(View view) { Toast.makeText(this, getString(R.string.report_bug), Toast.LENGTH_SHORT).show(); }

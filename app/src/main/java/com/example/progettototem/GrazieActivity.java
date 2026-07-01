@@ -20,22 +20,18 @@ public class GrazieActivity extends BaseActivity {
 
         tNome.setText(getString(R.string.thanks, nome));
 
-        // [BUGFIX] Utilizzo del file unificato "TOTEM_PREFS" per recuperare l'utente loggato
+        // [BUGFIX] Utilizzo del metodo centralizzato per svuotare il carrello in memoria e nel DB
         String loggedUser = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
         if (loggedUser != null) {
             try (DatabaseHelper dbHelper = new DatabaseHelper(this)) {
                 if (!Carrello.getInstance().getProdotti().isEmpty()) {
                     dbHelper.salvaOrdine(loggedUser, Carrello.getInstance().getTotale(), Carrello.getInstance().getProdotti());
                 }
-                // Svuota il carrello anche nel database persistente
-                dbHelper.salvaCarrello(loggedUser, new java.util.ArrayList<>());
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                android.util.Log.e("ErroreApp", "Errore salvataggio ordine", e);
             } finally {
-
-
-                Carrello.getInstance().svuota();
-
+                // Svuota in memoria e pulisce il DB per l'utente corrente
+                Carrello.getInstance().svuotaEPulisciDB(this, loggedUser);
             }
         }
     }

@@ -81,8 +81,18 @@ public class Carrello {
     }
 
     public void svuota() {
-
         prodotti.clear();
+    }
+
+    public void svuotaEPulisciDB(Context context, String username) {
+        prodotti.clear();
+        if (username != null) {
+            try (DatabaseHelper dbHelper = new DatabaseHelper(context)) {
+                dbHelper.salvaCarrello(username, new ArrayList<>());
+            } catch (Exception e) {
+                android.util.Log.e("ErroreApp", "Eccezione durante svuotamento carrello DB", e);
+            }
+        }
     }
 
     public void carica(Context context, String username) {

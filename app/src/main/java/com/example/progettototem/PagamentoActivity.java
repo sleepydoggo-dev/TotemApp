@@ -80,6 +80,5 @@ public class PagamentoActivity extends BaseActivity {
         }
         startActivity(new Intent(this, GrazieActivity.class));
     }
-    
-    public void tornaIndietro(View view) { finish(); }
+
 }

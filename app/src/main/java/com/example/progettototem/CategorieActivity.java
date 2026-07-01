@@ -11,22 +11,10 @@ public class CategorieActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categorie);
         
-        // [QoL] Gestione dinamica della visibilità del tasto logout nella Top Bar
-        aggiornaStatoLogout();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // [QoL] Ricarichiamo lo stato al ritorno da altre activity (es. dopo il login)
-        aggiornaStatoLogout();
-    }
-
-    private void aggiornaStatoLogout() {
-        View btnLogout = findViewById(R.id.btnLogout);
-        if (btnLogout != null) {
-            String user = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
-            btnLogout.setVisibility(user != null ? View.VISIBLE : View.GONE);
+        // [BUGFIX] Persistenza Carrello all'avvio: carichiamo i dati dal DB se l'utente è loggato
+        String user = getSharedPreferences("TOTEM_PREFS", MODE_PRIVATE).getString("LOGGED_USERNAME", null);
+        if (user != null) {
+            Carrello.getInstance().carica(this, user);
         }
     }
 
@@ -43,5 +31,4 @@ public class CategorieActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    public void tornaIndietro(View view) { finish(); }
 }

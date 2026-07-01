@@ -88,7 +88,7 @@
     <string name="rifai_ordine">Reorder</string>
     <string name="prodotti_aggiunti">Items added to cart!</string>
     <string name="go_back">Go back</string>
-    <string name="go_to_cart">Go to shopping cart</string>
+    <string name="go_to_cart">Shopping Cart</string>
     <string name="cambia">Change Layout</string>
     <string name="categoria">Category</string>
     <string name="cad">ea. €</string>
@@ -138,4 +138,5 @@
     <string name="errore_campi_vuoti">Fill in all required fields!</string>
     <string name="errore_email_non_valida">Email must be valid!</string>
     <string name="errore_credenziali">Incorrect credentials!</string>
+    <string name="errore_password_non_uguali">Passwords are not the same!</string>
 </resources>

@@ -6,10 +6,6 @@ public class Prodotto {
     public String descrizione;
     public String immagineKey;
 
-    /* public Prodotto(String nome, double prezzo, String descrizione) {
-        this(nome, prezzo, descrizione, null);
-    } */
-
     public Prodotto(String nome, double prezzo, String descrizione, String immagineKey) {
         this.nome = nome;
         this.prezzo = prezzo;

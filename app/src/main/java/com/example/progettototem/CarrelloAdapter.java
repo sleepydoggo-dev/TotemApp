@@ -47,9 +47,10 @@ public class CarrelloAdapter extends RecyclerView.Adapter<CarrelloAdapter.ViewHo
         // Gestisce i click dei bottoni
         holder.btnPiu.setOnClickListener(v -> {
             po.setQuantita(po.getQuantita() + 1);
+            // [BUGFIX] Assicuriamoci che il carrello venga salvato nel DB ad ogni modifica della quantità
             Carrello.getInstance().salva(context);
             notifyItemChanged(position);
-            listener.onCartChanged();
+            if (listener != null) listener.onCartChanged();
         });
 
         holder.btnMeno.setOnClickListener(v -> {
@@ -58,9 +59,10 @@ public class CarrelloAdapter extends RecyclerView.Adapter<CarrelloAdapter.ViewHo
             } else {
                 lista.remove(position);
             }
+            // [BUGFIX] Salvataggio persistente dopo la rimozione o decremento
             Carrello.getInstance().salva(context);
             notifyDataSetChanged();
-            listener.onCartChanged();
+            if (listener != null) listener.onCartChanged();
         });
     }
 

@@ -71,8 +71,6 @@ public class PreferitiActivity extends BaseActivity {
         aggiornaLayout();
     }
 
-    public void tornaIndietro(View view) { finish(); }
-    
     @Override
     protected void onResume() {
         super.onResume();

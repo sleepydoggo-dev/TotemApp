@@ -124,10 +124,6 @@ public class DettagliActivity extends BaseActivity {
         tQuantita.setText(String.valueOf(quantita));
     }
 
-    public void tornaIndietro(View view) {
-        finish();
-    }
-
     public void aumentaQuantita(View view) {
         quantita++;
         aggiornaPrezzo();

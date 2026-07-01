@@ -88,7 +88,7 @@
     <string name="prodotti_aggiunti">Prodotti aggiunti al carrello!</string>
     <string name="go_back">Torna Indietro</string>
     <string name="default_price" translatable="false">€ 0,00</string>
-    <string name="go_to_cart">Vai al Carrello</string>
+    <string name="go_to_cart">Carrello</string>
     <string name="product_name">Nome del Prodotto</string>
     <string name="description">Descrizione</string>
     <string name="quantity">Quantità</string>
@@ -154,4 +154,5 @@
     <string name="errore_email_non_valida">Inserisci un\'email valida!</string>
     <string name="errore_credenziali">Credenziali non valide!</string>
     <string name="added_to_cart">Aggiunto al carrello!</string>
+    <string name="errore_password_non_uguali">Le password non coincidono!</string>"
 </resources>

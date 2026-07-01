@@ -1,219 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/myScrollView"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout_global"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:fitsSystemWindows="true"
-    tools:context=".RegisterActivity">
+    android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="40dp">
+        android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/imageButton9"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/go_back"
-            android:onClick="tornaIndietro"
-            android:scaleType="fitCenter"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_revert" />
-
-        <TextView
-            android:id="@+id/textTitoloRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="@string/create_account"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+        <include
+            android:id="@+id/topBar"
+            layout="@layout/partial_top_bar"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/editUsernameReg"
-            android:layout_width="280dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="32dp"
-            android:background="@color/edit_text_bg"
-            android:hint="@string/username"
-            android:inputType="text"
-            android:padding="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textTitoloRegister" />
+        <ScrollView
+            android:id="@+id/myScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/topBar"
+            tools:context=".RegisterActivity">
 
-        <EditText
-            android:id="@+id/editEmailReg"
-            android:layout_width="280dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="12dp"
-            android:background="@color/edit_text_bg"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:padding="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editUsernameReg" />
-
-        <EditText
-            android:id="@+id/editNome"
-            android:layout_width="280dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="12dp"
-            android:background="@color/edit_text_bg"
-            android:hint="@string/name_optional"
-            android:inputType="textPersonName"
-            android:padding="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editEmailReg" />
-
-        <EditText
-            android:id="@+id/editCognome"
-            android:layout_width="280dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="12dp"
-            android:background="@color/edit_text_bg"
-            android:hint="@string/surname_optional"
-            android:inputType="textPersonName"
-            android:padding="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editNome" />
-
-        <EditText
-            android:id="@+id/editPasswordReg"
-            android:layout_width="280dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="12dp"
-            android:background="@color/edit_text_bg"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:padding="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editCognome" />
-
-        <TextView
-            android:id="@+id/textRegolePassword"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/requirements"
-            android:textColor="#757575"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editPasswordReg" />
-
-        <EditText
-            android:id="@+id/editConfermaPassword"
-            android:layout_width="280dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="12dp"
-            android:background="@color/edit_text_bg"
-            android:hint="@string/confirm_password"
-            android:inputType="textPassword"
-            android:padding="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textRegolePassword" />
-
-        <TextView
-            android:id="@+id/textTitoloGenere"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/gender"
-            android:textColor="@color/text_color_primary"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editConfermaPassword" />
-
-        <RadioGroup
-            android:id="@+id/radioGroupGenere"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textTitoloGenere">
-
-            <RadioButton
-                android:id="@+id/radioUomo"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/man" />
+                android:paddingBottom="40dp">
 
-            <RadioButton
-                android:id="@+id/radioDonna"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/woman" />
+                <TextView
+                    android:id="@+id/textTitoloRegister"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/create_account"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioButton
-                android:id="@+id/radioAltro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/other" />
+                <EditText
+                    android:id="@+id/editUsernameReg"
+                    android:layout_width="280dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="32dp"
+                    android:background="@color/edit_text_bg"
+                    android:hint="@string/username"
+                    android:inputType="text"
+                    android:padding="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textTitoloRegister" />
 
-            <RadioButton
-                android:id="@+id/radioPreferiscoNonDirlo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/prefer_not_to_say" />
-        </RadioGroup>
+                <EditText
+                    android:id="@+id/editEmailReg"
+                    android:layout_width="280dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/edit_text_bg"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:padding="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editUsernameReg" />
 
-        <EditText
-            android:id="@+id/editTelefono"
-            android:layout_width="280dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/edit_text_bg"
-            android:hint="@string/phone_optional"
-            android:inputType="phone"
-            android:padding="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioGroupGenere" />
+                <EditText
+                    android:id="@+id/editNome"
+                    android:layout_width="280dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/edit_text_bg"
+                    android:hint="@string/name_optional"
+                    android:inputType="textPersonName"
+                    android:padding="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editEmailReg" />
 
-        <Button
-            android:id="@+id/btnRegistratiFinale"
-            android:layout_width="280dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="32dp"
-            android:backgroundTint="#FF2C2C"
-            android:onClick="eseguiRegistrazione"
-            android:text="@string/register"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTelefono" />
+                <EditText
+                    android:id="@+id/editCognome"
+                    android:layout_width="280dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/edit_text_bg"
+                    android:hint="@string/surname_optional"
+                    android:inputType="textPersonName"
+                    android:padding="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editNome" />
 
-        <Button
-            android:id="@+id/btnGoogleReg"
-            android:layout_width="280dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="12dp"
-            android:background="@android:color/transparent"
-            android:onClick="loginGoogle"
-            android:text="@string/enter_with_google"
-            android:textColor="#FF2C2C"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnRegistratiFinale" />
+                <EditText
+                    android:id="@+id/editPasswordReg"
+                    android:layout_width="280dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/edit_text_bg"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:padding="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editCognome" />
 
+                <TextView
+                    android:id="@+id/textRegolePassword"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/requirements"
+                    android:textColor="#757575"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editPasswordReg" />
+
+                <EditText
+                    android:id="@+id/editConfermaPassword"
+                    android:layout_width="280dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/edit_text_bg"
+                    android:hint="@string/confirm_password"
+                    android:inputType="textPassword"
+                    android:padding="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textRegolePassword" />
+
+                <TextView
+                    android:id="@+id/textTitoloGenere"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/gender"
+                    android:textColor="@color/text_color_primary"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editConfermaPassword" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroupGenere"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textTitoloGenere">
+
+                    <RadioButton
+                        android:id="@+id/radioUomo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/man" />
+
+                    <RadioButton
+                        android:id="@+id/radioDonna"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/woman" />
+
+                    <RadioButton
+                        android:id="@+id/radioAltro"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/other" />
+
+                    <RadioButton
+                        android:id="@+id/radioPreferiscoNonDirlo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prefer_not_to_say" />
+                </RadioGroup>
+
+                <EditText
+                    android:id="@+id/editTelefono"
+                    android:layout_width="280dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/edit_text_bg"
+                    android:hint="@string/phone_optional"
+                    android:inputType="phone"
+                    android:padding="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroupGenere" />
+
+                <Button
+                    android:id="@+id/btnRegistratiFinale"
+                    android:layout_width="280dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="32dp"
+                    android:backgroundTint="#FF2C2C"
+                    android:onClick="eseguiRegistrazione"
+                    android:text="@string/register"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editTelefono" />
+
+                <Button
+                    android:id="@+id/btnGoogleReg"
+                    android:layout_width="280dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@android:color/transparent"
+                    android:onClick="loginGoogle"
+                    android:text="@string/enter_with_google"
+                    android:textColor="#FF2C2C"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btnRegistratiFinale" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view_global"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/header_drawer"
+        app:menu="@menu/drawer_menu_standard" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

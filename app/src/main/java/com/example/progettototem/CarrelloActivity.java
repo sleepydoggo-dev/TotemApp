@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Locale;
 
 public class CarrelloActivity extends BaseActivity {
-    private CarrelloAdapter adapter;
     private TextView tTotale;
 
     @Override
@@ -27,7 +26,7 @@ public class CarrelloActivity extends BaseActivity {
 
         Carrello carrello = Carrello.getInstance();
         // [QoL] Passiamo il listener all'adapter per aggiornare il totale in tempo reale quando cambiano le quantità
-        adapter = new CarrelloAdapter(this, carrello.getProdotti(), this::aggiornaTotale);
+        CarrelloAdapter adapter = new CarrelloAdapter(this, carrello.getProdotti(), this::aggiornaTotale);
         rv.setAdapter(adapter);
 
         aggiornaTotale();
@@ -58,11 +57,9 @@ public class CarrelloActivity extends BaseActivity {
             // NON Loggato -> Vai alla Barriera di Autenticazione (HomeActivity)
             // [QoL] Messaggio più chiaro per l'utente
             Toast.makeText(this, "Accedi o Registrati per completare l'ordine", Toast.LENGTH_SHORT).show();
+            // [BUGFIX] Non usiamo Intent.FLAG_ACTIVITY_NO_HISTORY per permettere il back corretto
             startActivity(new Intent(this, HomeActivity.class));
         }
     }
 
-    public void tornaIndietro(View view) {
-        finish();
-    }
 }

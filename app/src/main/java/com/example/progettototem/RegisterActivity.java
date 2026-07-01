@@ -7,7 +7,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class RegisterActivity extends BaseActivity {
-    private EditText editUsername, editEmail, editPassword, editNome;
+    private EditText editUsername, editEmail, editPassword, editConfermaPassword, editNome;
     private DatabaseHelper dbHelper;
 
     @Override
@@ -18,6 +18,7 @@ public class RegisterActivity extends BaseActivity {
         editUsername = findViewById(R.id.editUsernameReg);
         editEmail = findViewById(R.id.editEmailReg);
         editPassword = findViewById(R.id.editPasswordReg);
+        editConfermaPassword = findViewById(R.id.editConfermaPassword);
         editNome = findViewById(R.id.editNome);
         setupKeyboardScroll(editUsername);
         setupKeyboardScroll(editEmail);
@@ -40,9 +41,10 @@ public class RegisterActivity extends BaseActivity {
         String user = editUsername.getText().toString().trim().toLowerCase(); // Se si desidera permettere di creare account con username uguali ma con maiuscole/minuscole diverse togliere toLowerCase()
         String email = editEmail.getText().toString().trim();
         String pass = editPassword.getText().toString().trim();
+        String confermaPass = editConfermaPassword.getText().toString().trim();
         String nome = editNome.getText().toString().trim();
 
-        if (user.isEmpty() || email.isEmpty() || pass.isEmpty()) {
+        if (user.isEmpty() || email.isEmpty() || pass.isEmpty() || confermaPass.isEmpty()) {
             Toast.makeText(this, getString(R.string.errore_campi_vuoti), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -50,6 +52,10 @@ public class RegisterActivity extends BaseActivity {
         if (!email.contains("@") || !email.contains(".")) {
             Toast.makeText(this, getString(R.string.errore_email_non_valida), Toast.LENGTH_SHORT).show();
             return;
+        }
+
+        if(!pass.equals(confermaPass)) {
+            Toast.makeText(this, getString(R.string.errore_password_non_uguali), Toast.LENGTH_SHORT).show();
         }
 
 
@@ -67,14 +73,12 @@ public class RegisterActivity extends BaseActivity {
                     .apply();
             
             // Imposta il nome nel carrello per la ricevuta
-            Carrello.getInstance().setNomeUtente(nome != null && !nome.isEmpty() ? nome : user);
+            Carrello.getInstance().setNomeUtente(!nome.isEmpty() ? nome : user);
 
             Toast.makeText(this, "Registrazione completata e accesso eseguito!", Toast.LENGTH_SHORT).show();
             
-            // [QoL] Reindirizzamento al pagamento (assumendo che arrivi dal checkout del carrello)
-            android.content.Intent intent = new android.content.Intent(this, PagamentoActivity.class);
-            intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+            // [BUGFIX] Navigazione Back: Chiudiamo semplicemente l'attività di registrazione.
+            // Invece di usare CLEAR_TASK (che rompe la cronologia e fa uscire l'app), torniamo indietro.
             finish();
         } else {
             Toast.makeText(this, "Errore durante la registrazione", Toast.LENGTH_SHORT).show();
@@ -82,7 +86,4 @@ public class RegisterActivity extends BaseActivity {
     }
 
 
-    public void tornaIndietro(View view) {
-        finish();
-    }
 }

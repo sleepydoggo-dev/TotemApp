@@ -37,7 +37,4 @@ public class StoricoOrdiniActivity extends BaseActivity {
 
     }
 
-    public void tornaIndietro(View view) {
-        finish();
-    }
 }
